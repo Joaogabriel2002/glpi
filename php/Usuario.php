@@ -87,4 +87,19 @@ require_once 'Conexao.php';
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+
+        public function listarUsuarios(){
+            $sql = "SELECT *FROM usuarios";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        }
+
+        public function excluir(){
+            $sql="DELETE FROM usuarios WHERE id=:id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':id',$this->id);
+            return $stmt->execute();
+        }
     }

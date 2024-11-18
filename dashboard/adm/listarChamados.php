@@ -8,7 +8,7 @@
     }if($_SESSION['setor'] === "TI"){  
         
     }else{
-        header ('Location: ..\telaInicial\dashboard.php');
+        header ('Location: ..\..\php/validacao.php');
     }
 
     $chamado = new Chamado();
@@ -52,6 +52,8 @@
         <input type="number" name="chamadoId" value="<?php echo isset($_GET['chamadoId']) ? $_GET['chamadoId'] : ''; ?>">
         <button type="submit">Filtrar</button>
     </form>
+
+    <a href="adm.php">Voltar</a>
 
     <br><br>
 

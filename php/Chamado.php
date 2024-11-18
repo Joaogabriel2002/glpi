@@ -145,23 +145,14 @@
                 $condicoes[] = "chamadoId = :chamadoId";
                 $parametros[':chamadoId'] = $chamadoId;
             }
-        
-            // Concatena as condições à query, se existirem
             if (!empty($condicoes)) {
                 $sql .= " WHERE " . implode(" AND ", $condicoes);
             }
-        
-            // Prepara e executa a query
             $stmt = $this->conn->prepare($sql);
-        
-            // Associa os parâmetros às condições
             foreach ($parametros as $chave => $valor) {
                 $stmt->bindValue($chave, $valor);
             }
-        
             $stmt->execute();
-        
-            // Retorna os resultados
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         

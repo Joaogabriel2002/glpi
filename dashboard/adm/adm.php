@@ -20,9 +20,11 @@
 </head>
 <body>
     <h1> PAINEL DO ADM</h1>
-    <a href="">Listar Usuarios</a>
+    <a href="..\..\chamado/indexChamado.php">Abrir um Chamado</a>
     <br>
-    <a href=listarChamados.php"">Visualizar Chamados</a>
+    <a href="listarUsuario.php">Listar Usuarios</a>
+    <br>
+    <a href="listarChamados.php">Visualizar Chamados</a>
     <br>
     <a href="..\..\login\logoff.php">Sair</a>
 </body>

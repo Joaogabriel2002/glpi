@@ -53,6 +53,7 @@
         <br><br>
         <button type="submit"> Abrir um Chamado</button>
     </form>
+    <a href="..\php\validacao.php">Voltar</a>
     
 </body>
 </html>
