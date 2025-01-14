@@ -121,40 +121,60 @@
                 return false;
             }
         }
-        // public function listarChamados(){
-        //     $sql="SELECT * FROM chamados";
-        //     $stmt = $this->conn->prepare($sql);
-        //     $stmt->execute();
-        //     return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        // }
 
-        public function listarChamados($status = '', $chamadoId = '') {
-            // Inicializa a query básica
+        public function listarChamados($status = '') {
             $sql = "SELECT * FROM chamados";
-            $condicoes = [];
-            $parametros = [];
-        
-            // Adiciona condição para o filtro de status
-            if (!empty($status)) {
-                $condicoes[] = "status = :status";
-                $parametros[':status'] = $status;
+            
+            if ($status) {
+                $sql .= " WHERE status = :status";
+            } else {
+                $sql .= " WHERE status != 'Cancelado' AND status != 'Fechado'" ;
             }
         
-            // Adiciona condição para o filtro de chamadoId
-            if (!empty($chamadoId)) {
-                $condicoes[] = "chamadoId = :chamadoId";
-                $parametros[':chamadoId'] = $chamadoId;
-            }
-            if (!empty($condicoes)) {
-                $sql .= " WHERE " . implode(" AND ", $condicoes);
-            }
             $stmt = $this->conn->prepare($sql);
-            foreach ($parametros as $chave => $valor) {
-                $stmt->bindValue($chave, $valor);
+            
+            if ($status) {
+                $stmt->bindParam(':status', $status, PDO::PARAM_STR);
             }
+            
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         
         
+        public function listarChamadosporId($chamadoId) {
+            $sql="SELECT * FROM chamados WHERE chamadoId = :chamadoId";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':chamadoId',$chamadoId);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+    
+        }
+        public function cancelarChamado($chamadoId) {
+            $sql = "UPDATE chamados SET status='Cancelado' WHERE chamadoId = :chamadoId"; 
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':chamadoId', $chamadoId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->rowCount();
+        }
+        
+        public function verificarStatus($chamadoId) {
+            $sql = "SELECT status FROM chamados WHERE chamadoId = :chamadoId";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':chamadoId', $chamadoId, PDO::PARAM_INT);
+            $stmt->execute();
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);                 
+        }
+
+        public function listarAtualizacoesPorChamado($chamadoId) {
+            $sql = "SELECT id_atualizacao, dt_atualizacao, tecnico, comentario 
+                    FROM atualizacoes 
+                    WHERE chamadoId = :chamadoId";
+         $stmt = $this->conn->prepare($sql);
+         $stmt->bindParam(':chamadoId',$chamadoId);
+         $stmt->execute();
+         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
     }
+
+    
