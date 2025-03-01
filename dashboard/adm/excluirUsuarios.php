@@ -21,7 +21,7 @@ if(!isset($_SESSION['usuario_id'])){
 </head>
 <body>
     <br>
-    <a href="listarUsuario.php">Voltar</a>
+    <a href="listarUsuario.php?id=">Voltar</a>
     
 </body>
 </html>

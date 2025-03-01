@@ -14,6 +14,9 @@
         private $autorNome;
         private $autorEmail;
         private $autorSetor;
+        private $comentario;
+        private $tecnico;
+        private $idAtualizacao;
 
         public function setChamadoId($chamadoId){
             $this->chamadoId=$chamadoId;
@@ -103,6 +106,31 @@
             return $this->autorSetor;
         }
 
+        public function setComentario($comentario){
+            $this->comentario=$comentario;
+        }
+
+        public function getComentario(){
+            return $this->comentario;
+        }
+
+        public function setTecnico($tecnico){
+            $this->tecnico=$tecnico;
+        }
+
+        public function getTecnico(){
+            return $this->tecnico;
+        }
+
+        public function setIdAtualizacao($idAtualizacao){
+            $this->idAtualizacao=$idAtualizacao;
+        }
+
+        public function getIdAtualizacao(){
+            return $this->IdAtualizacao;
+        }
+
+
         public function abrirChamado(){
             $sql= "INSERT INTO chamados(status,tipoChamado,tituloChamado,descricaoChamado,autorId,autorNome,autorEmail,autorSetor)
             VALUES (:status,:tipoChamado,:tituloChamado,:descricaoChamado,:autorId,:autorNome,:autorEmail,:autorSetor)";
@@ -121,7 +149,6 @@
                 return false;
             }
         }
-
         public function listarChamados($status = '') {
             $sql = "SELECT * FROM chamados";
             
@@ -141,6 +168,25 @@
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         
+        public function listarChamadoPorTicket($idFiltro) {
+            $sql = "SELECT * FROM chamados WHERE chamadoId = :chamadoId";
+        
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':chamadoId', $idFiltro, PDO::PARAM_INT);
+        
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        
+        public function listarTodosChamados() {
+            $sql = "SELECT * FROM chamados";
+        
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+        
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        
         
         public function listarChamadosporId($chamadoId) {
             $sql="SELECT * FROM chamados WHERE chamadoId = :chamadoId";
@@ -150,13 +196,39 @@
             return $stmt->fetch(PDO::FETCH_ASSOC);
     
         }
-        public function cancelarChamado($chamadoId) {
-            $sql = "UPDATE chamados SET status='Cancelado' WHERE chamadoId = :chamadoId"; 
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':chamadoId', $chamadoId, PDO::PARAM_INT);
-            $stmt->execute();
-            return $stmt->rowCount();
+        public function atualizarStatus($status, $chamadoId) {
+            try {
+                $sql = "UPDATE chamados SET status = :status WHERE chamadoId = :chamadoId"; 
+                $stmt = $this->conn->prepare($sql);
+                $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+                $stmt->bindParam(':chamadoId', $chamadoId, PDO::PARAM_INT);
+                $stmt->execute();
+                return $stmt->rowCount();
+
+            } catch (PDOException $e) {
+                // Log de erro ou mensagem para depuração
+                echo "Erro ao atualizar status: " . $e->getMessage();
+                return false;
+            }
+
+    
         }
+
+        public function atualizarPrioridade($tipoChamado, $chamadoId) {
+            try {
+                $sql = "UPDATE chamados SET tipoChamado = :tipoChamado WHERE chamadoId = :chamadoId"; 
+                $stmt = $this->conn->prepare($sql);
+                $stmt->bindParam(':tipoChamado', $tipoChamado, PDO::PARAM_STR);
+                $stmt->bindParam(':chamadoId', $chamadoId, PDO::PARAM_INT);
+                $stmt->execute();
+                return $stmt->rowCount();
+            } catch (PDOException $e) {
+                // Log de erro ou mensagem para depuração
+                echo "Erro ao atualizar status: " . $e->getMessage();
+                return false;
+            }
+        }
+        
         
         public function verificarStatus($chamadoId) {
             $sql = "SELECT status FROM chamados WHERE chamadoId = :chamadoId";
@@ -175,6 +247,23 @@
          $stmt->execute();
          return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+
+       public function atualizarChamado(){
+        $sql = "INSERT INTO atualizacoes (chamadoId, tecnico, comentario) VALUES (:chamadoId,:tecnico,:comentario)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':chamadoId',$this->chamadoId);
+        $stmt->bindParam(':tecnico', $this->tecnico);
+        $stmt->bindParam(':comentario', $this->comentario);
+        return $stmt->execute();
+       }
+
+       public function excluirAtualizacao(){
+        $sql="DELETE FROM atualizacoes WHERE id_atualizacao=:idAtualizacao";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':idAtualizacao',$this->idAtualizacao);
+        return $stmt->execute();
+       }
     }
+
 
     

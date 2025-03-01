@@ -19,16 +19,16 @@ $statusFiltro = isset($_GET['status']) ? $_GET['status'] : '';
 $idFiltro = isset($_GET['chamadoId']) ? $_GET['chamadoId'] : '';
 
 
-if (empty($statusFiltro)) {
-    $statusFiltro = 'FiltroPadrão'; 
-}
-if (!empty($statusFiltro) && $statusFiltro != 'FiltroPadrão') {
+if (!empty($idFiltro)) {
+    $chamados = $chamado->listarChamadoPorTicket($idFiltro);
+} elseif (!empty($statusFiltro) && $statusFiltro == 'Todos') {
+    $chamados = $chamado->listarTodosChamados(); // Novo método para listar todos os chamados
+} elseif (!empty($statusFiltro) && $statusFiltro != 'FiltroPadrão') {
     $chamados = $chamado->listarChamados($statusFiltro);
-} elseif (!empty($idFiltro)) {
-    $chamados = $chamado->listarChamadoS('', $idFiltro);
 } else {
-    $chamados = $chamado->listarChamadoS(); 
+    $chamados = $chamado->listarChamados();
 }
+
 
 ?>
 
@@ -46,11 +46,12 @@ if (!empty($statusFiltro) && $statusFiltro != 'FiltroPadrão') {
 <form action="listarChamados.php" method="GET">
     <label for="status">Filtrar por Status:</label>
     <select name="status" id="status">
-        <option value="">Todos</option>
-        <option value="Aberto" <?php echo isset($_GET['status']) && $_GET['status'] == 'Aberto' ? 'selected' : ''; ?>>Aberto</option>
-        <option value="Fechado" <?php echo isset($_GET['status']) && $_GET['status'] == 'Fechado' ? 'selected' : ''; ?>>Fechado</option>
+        <option value="">Pendentes</option>
+        <option value="Todos" <?php echo isset($_GET['status']) && $_GET['status'] == 'Todos' ? 'selected' : ''; ?>>Todos</option>
+        <option value="Aberto" <?php echo isset($_GET['status']) && $_GET['status'] == 'Aberto' ? 'selected' : ''; ?>>Abertos</option>
+        <option value="Fechado" <?php echo isset($_GET['status']) && $_GET['status'] == 'Fechado' ? 'selected' : ''; ?>>Fechados</option>
         <option value="Em Andamento" <?php echo isset($_GET['status']) && $_GET['status'] == 'Em Andamento' ? 'selected' : ''; ?>>Em andamento</option>
-        <option value="Cancelado" <?php echo isset($_GET['status']) && $_GET['status'] == 'Cancelado' ? 'selected' : ''; ?>>Cancelado</option>
+        <option value="Cancelado" <?php echo isset($_GET['status']) && $_GET['status'] == 'Cancelado' ? 'selected' : ''; ?>>Cancelados</option>
     </select>
     <button type="submit">Filtrar</button>
 </form>
@@ -70,12 +71,9 @@ if (!empty($statusFiltro) && $statusFiltro != 'FiltroPadrão') {
         <th>Ticket</th>
         <th>Status</th>
         <th>Data de Abertura</th>
-        <th>Tipo Chamado</th>
+        <th>Prioridade</th>
         <th>Titulo</th>
-        <th>Descrição</th>
         <th>Usuario</th>
-        <th>Email</th>
-        <th>Setor</th>
     </tr>
 
     <?php
@@ -88,11 +86,8 @@ if (!empty($statusFiltro) && $statusFiltro != 'FiltroPadrão') {
         <td><?php echo $chamados['dtAbertura']; ?></td>
         <td><?php echo $chamados['tipoChamado']; ?></td>
         <td><?php echo $chamados['tituloChamado']; ?></td>
-        <td><?php echo $chamados['descricaoChamado']; ?></td>
         <td><?php echo $chamados['autorNome']; ?></td>
-        <td><?php echo $chamados['autorEmail']; ?></td>
-        <td><?php echo $chamados['autorSetor']; ?></td>
-        <td><a href="atualizarChamados.php?id=<?=$chamados['chamadoId']; ?>">Selecionar</a></td>
+        <td><a href="detalhesChamados.php?id=<?=$chamados['chamadoId']; ?>">Selecionar</a></td>
     </tr>
     <?php
     }

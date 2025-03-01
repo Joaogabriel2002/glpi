@@ -1,27 +1,42 @@
 <?php
 require_once '../../php/Chamado.php';
-
-
-// Inicia a sessão e verifica autenticação
 session_start();
-if (!isset($_SESSION['usuario_id'])) {
-    header('Location: ../../index.php');
-    exit;
-}
 
-// Verifica se o ID foi recebido via GET
+
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $chamadoId = $_GET['id'];
-}    
 
 
-$chamado = new Chamado();
-$detalhesChamado = $chamado->listarChamadosporId($chamadoId);
+    $chamado = new Chamado();
+    $detalhesChamado = $chamado->listarChamadosporId($chamadoId); 
+    $statusAtual = $detalhesChamado['status']; 
+    $prioridade = $detalhesChamado['tipoChamado'];
+} else {
+    die('ID do chamado inválido ou não fornecido.');
+}
 
-$atualizacoesChamado = $chamado->listarAtualizacoesPorChamado($chamadoId);
-var_dump($atualizacoesChamado);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['atualizarChamado'])) {
+        
+        $chamado = new Chamado();
+        $chamado->setChamadoId($_POST['chamadoId']);
+        $chamado->setTecnico($_SESSION['usuario']);
+        $chamado->setComentario($_POST['comentario']);
+        $novaAtualizacao = $chamado->atualizarChamado();
+    } elseif (isset($_POST['atualizarStatus'])) {
+       
+        $chamado = new Chamado();
+        $chamado->setChamadoId($_POST['chamadoId']);
+        $chamado->setStatus($_POST['status']);
+        $novoStatus = $chamado->atualizarStatus($_POST['status'], $chamadoId);
+    }elseif (isset($_POST['atualizarPrioridade'])){
 
-
+        $chamado = new Chamado();
+        $chamado->setChamadoId($_POST['chamadoId']);
+        $chamado->setTipoChamado($_POST['tipoChamado']);
+        $novaPrioridade = $chamado->atualizarPrioridade($_POST['tipoChamado'],$chamadoId);
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -29,75 +44,56 @@ var_dump($atualizacoesChamado);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalhes do Chamado</title>
+    <title>Atualizar Chamado</title>
 </head>
 <body>
 
-    <h1>Detalhes do Chamado:</h1>
+<?php
+    if($detalhesChamado['status'] == "Fechado" || $detalhesChamado['status']== "Cancelado"){
+        echo "Impossivel alterar as informaçoes desse Chamado";
+    }else{ ?>
+<h3>Adicionar Nova Atualização</h3>
 
-    <a href="adm.php">Voltar</a>
+<!-- ATUALIZAR STATUS -->
+<form action="atualizarChamados.php?id=<?php echo $_GET['id']; ?>" method="POST">
+    <input type="hidden" name="chamadoId" value="<?php echo $_GET['id']; ?>">
+    <label for="status"> Alterar status do Chamado:</label>
+    <select name="status">
+        <option value="Aberto" <?php echo ($statusAtual == 'Aberto') ? 'selected' : ''; ?>>Aberto</option>
+        <option value="Em Andamento" <?php echo ($statusAtual == 'Em Andamento') ? 'selected' : ''; ?>>Em Andamento</option>
+        <option value="Fechado" <?php echo ($statusAtual == 'Fechado') ? 'selected' : ''; ?>>Fechado</option>
+        <option value="Cancelado" <?php echo ($statusAtual == 'Cancelado') ? 'selected' : ''; ?>>Cancelado</option>
+    </select>
+    <button type="submit" name="atualizarStatus">Atualizar</button>
+</form>
 
-    <br><br>
+<!-- ATUALIZAR TIPO DO CHAMADO -->
+<form action="atualizarChamados.php?id=<?php echo $_GET['id']; ?>" method="POST">
+    <input type="hidden" name="chamadoId" value="<?php echo $_GET['id']; ?>">
+    <label for="prioridade"> Definir Prioridade:</label>
+    <select name="tipoChamado">
+        <option value="Baixa" <?php echo ($prioridade == 'Baixa') ? 'selected' : ''; ?>>Baixa</option>
+        <option value="Média" <?php echo ($prioridade == 'Média') ? 'selected' : ''; ?>>Média</option>
+        <option value="Alta" <?php echo ($prioridade == 'Alta') ? 'selected' : ''; ?>>Alta</option>
+    </select>
+    <button type="submit" name="atualizarPrioridade">Atualizar</button>
+</form>
 
-    <table border="1">
-        <tr>
-            <th>ID do Chamado</th>
-            <th>Status</th>
-            <th>Data de Abertura</th>
-            <th>Usuario</th>
-            <th>Título</th>
-            <th>Descrição</th>
-            
-        </tr>
-
-        <tr>
-            <td><?php echo $detalhesChamado['chamadoId']; ?></td>
-            <td><?php echo $detalhesChamado['status']; ?></td>
-            <td><?php echo $detalhesChamado['dtAbertura']; ?></td>
-            <td><a href="detalhesUsuario.php?id=<?php echo $detalhesChamado['autorId']; ?>"><?php echo $detalhesChamado['autorNome']; ?></a></td>
-            <td><?php echo $detalhesChamado['tituloChamado']; ?></td>
-            <td><?php echo $detalhesChamado['descricaoChamado']; ?></td>
-            <td><a href="cancelarChamado.php?id=<?php echo $detalhesChamado['chamadoId']; ?>">Cancelar</a></td>
-
-        </tr>
-
-    </table>
-
-    <h2>Atualizações do Chamado</h2>
-
-    <?php
-
-// Validar se há atualizações
-if (!empty($atualizacoesChamado)) {
-    foreach ($atualizacoesChamado as $atualizacao) {
-        ?>
-        <tr>
-            <td><?php echo $atualizacao['id_atualizacao']; ?></td>
-            <td><?php echo $atualizacao['dt_atualizacao']; ?></td>
-            <td><?php echo $atualizacao['tecnico']; ?></td>
-            <td><?php echo $atualizacao['comentario']; ?></td>
-        </tr>
-        <?php
-    }
-} else {
-    echo "<tr><td colspan='4'>Nenhuma atualização encontrada para este chamado.</td></tr>";
-}
-?>
+<br>
 
 
-
-<!-- <h3>Adicionar Nova Atualização</h3>
-<form action="adicionarAtualizacao.php" method="POST">
-    <input type="hidden" name="id_chamado" value="<?php echo $chamadoId; ?>">
-    <label for="tecnico_responsavel">Técnico Responsável:</label>
-    <input type="text" name="tecnico_responsavel" id="tecnico_responsavel" required>
-    <br>
+<!-- ADICIONAR COMENTARIO -->
+<form action="atualizarChamados.php?id=<?php echo $_GET['id']; ?>" method="POST">
+    <input type="hidden" name="chamadoId" value="<?php echo $_GET['id']; ?>">
+    <input type="hidden" name="tecnico" id="tecnico" value="<?php echo $_SESSION['usuario']; ?>" disabled>
+    
     <label for="comentario">Comentário:</label>
     <textarea name="comentario" id="comentario" required></textarea>
-    <br>
-    <button type="submit">Adicionar Atualização</button>
-</form> -->
-
-
+    <br><br>
+    <button type="submit" name="atualizarChamado">Adicionar Atualização</button>
+</form> 
+   <?php } ?>
+   
+<a href="detalhesChamados.php?id=<?php echo $_GET['id']; ?>">Voltar</a>
 </body>
 </html>
