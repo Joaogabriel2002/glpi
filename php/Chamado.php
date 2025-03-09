@@ -206,6 +206,19 @@
             return $stmt->fetch(PDO::FETCH_ASSOC); // Retorna um array associativo ou false se não encontrar
         }
         
+        public function atualizarStatus($status,$chamadoId){
+            try{
+                $sql="UPDATE chamados SET status = :status WHERE chamadoId = :chamadoId";
+                $stmt = $this->conn->prepare($sql);
+                $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+                $stmt->bindParam(':chamadoId',$chamadoId, PDO::PARAM_INT);
+                $stmt->execute();
+                return $stmt->rowCount();
+            } catch (PDOException $e){
+                echo "Erro ao atualizar Status: " . $e->getMessage();
+                return false;
+            }
+        }
         
         public function atualizarPrioridade($tipoChamado, $chamadoId) {
             try {

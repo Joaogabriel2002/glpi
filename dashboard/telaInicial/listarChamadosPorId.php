@@ -8,7 +8,25 @@ if (!isset($_SESSION['usuario_id'])) {
     exit;
 }
     $chamado = new Chamado();
-    $chamados = $chamado->listarTodosChamadosPorId($_SESSION['usuario_id']);
+
+    
+$statusFiltro = isset($_GET['status']) ? $_GET['status'] : '';
+$idFiltro = isset($_GET['chamadoId']) ? $_GET['chamadoId'] : '';
+
+
+    if (!empty($idFiltro)) {
+        $chamados = $chamado->listarChamadoPorTicket($idFiltro);
+    } elseif (!empty($statusFiltro) && $statusFiltro == 'Todos') {
+        $chamados = $chamado->listarTodosChamados(); // Novo método para listar todos os chamados
+    } elseif (!empty($statusFiltro) && $statusFiltro != 'FiltroPadrão') {
+        $chamados = $chamado->listarChamados($statusFiltro);
+    } else {
+        $chamados = $chamado->listarChamados();
+}
+        $chamados = $chamado->listarTodosChamadosPorId($_SESSION['usuario_id']);
+
+
+
 
 ?>
 
@@ -22,7 +40,24 @@ if (!isset($_SESSION['usuario_id'])) {
 <body>
 
 <h1>Lista de Chamados:</h1>
+<form action="listarChamados.php" method="GET">
+    <label for="status">Filtrar por Status:</label>
+    <select name="status" id="status">
+        <option value="">Pendentes</option>
+        <option value="Todos" <?php echo isset($_GET['status']) && $_GET['status'] == 'Todos' ? 'selected' : ''; ?>>Todos</option>
+        <option value="Aberto" <?php echo isset($_GET['status']) && $_GET['status'] == 'Aberto' ? 'selected' : ''; ?>>Abertos</option>
+        <option value="Fechado" <?php echo isset($_GET['status']) && $_GET['status'] == 'Fechado' ? 'selected' : ''; ?>>Fechados</option>
+        <option value="Em Andamento" <?php echo isset($_GET['status']) && $_GET['status'] == 'Em Andamento' ? 'selected' : ''; ?>>Em andamento</option>
+        <option value="Cancelado" <?php echo isset($_GET['status']) && $_GET['status'] == 'Cancelado' ? 'selected' : ''; ?>>Cancelados</option>
+    </select>
+    <button type="submit">Filtrar</button>
+</form>
 
+<form action="listarChamados.php" method="GET">
+    <label for="chamadoId">Filtrar por Ticket:</label>
+    <input type="number" name="chamadoId" value="<?php echo isset($_GET['chamadoId']) ? $_GET['chamadoId'] : ''; ?>">
+    <button type="submit">Filtrar</button>
+</form>
 
 <a href="dashboard.php">Voltar</a>
 

@@ -18,7 +18,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
 $idAtual= $_GET['id'];
 $chamado = new Chamado();
-$detalhesChamado = $chamado->listarChamadosporId($chamadoId);
+$detalhesChamado = $chamado->listarChamadosporId2($chamadoId);
 
 
 
