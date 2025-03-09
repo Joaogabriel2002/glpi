@@ -149,6 +149,8 @@
                 return false;
             }
         }
+
+        //LISTAR CHAMADOS ADM
         public function listarChamados($status = '') {
             $sql = "SELECT * FROM chamados";
             
@@ -187,33 +189,6 @@
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         
-        
-        public function listarChamadosporId($chamadoId) {
-            $sql="SELECT * FROM chamados WHERE chamadoId = :chamadoId";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':chamadoId',$chamadoId);
-            $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-    
-        }
-        public function atualizarStatus($status, $chamadoId) {
-            try {
-                $sql = "UPDATE chamados SET status = :status WHERE chamadoId = :chamadoId"; 
-                $stmt = $this->conn->prepare($sql);
-                $stmt->bindParam(':status', $status, PDO::PARAM_STR);
-                $stmt->bindParam(':chamadoId', $chamadoId, PDO::PARAM_INT);
-                $stmt->execute();
-                return $stmt->rowCount();
-
-            } catch (PDOException $e) {
-                // Log de erro ou mensagem para depuração
-                echo "Erro ao atualizar status: " . $e->getMessage();
-                return false;
-            }
-
-    
-        }
-
         public function atualizarPrioridade($tipoChamado, $chamadoId) {
             try {
                 $sql = "UPDATE chamados SET tipoChamado = :tipoChamado WHERE chamadoId = :chamadoId"; 
