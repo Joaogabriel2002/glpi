@@ -7,6 +7,8 @@ if (!isset($_SESSION['usuario_id'])) {
     header('Location:../../index.php');
     exit;
 }
+    $chamado = new Chamado();
+    $chamados = $chamado->listarTodosChamadosPorId($_SESSION['usuario_id']);
 
 ?>
 
@@ -22,7 +24,7 @@ if (!isset($_SESSION['usuario_id'])) {
 <h1>Lista de Chamados:</h1>
 
 
-<a href="adm.php">Voltar</a>
+<a href="dashboard.php">Voltar</a>
 
 <br><br>
 
@@ -47,7 +49,7 @@ if (!isset($_SESSION['usuario_id'])) {
         <td><?php echo $chamados['tipoChamado']; ?></td>
         <td><?php echo $chamados['tituloChamado']; ?></td>
         <td><?php echo $chamados['autorNome']; ?></td>
-        <td><a href="detalhesChamados.php?id=<?=$chamados['chamadoId']; ?>">Selecionar</a></td>
+        <td><a href="detalhesChamadosUsuario.php?id=<?=$chamados['chamadoId']; ?>">Selecionar</a></td>
     </tr>
     <?php
     }

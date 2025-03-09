@@ -188,6 +188,24 @@
         
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+
+        public function listarTodosChamadosPorId($autorId) {
+            $sql = "SELECT * FROM chamados WHERE autorId=:autorId";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':autorId',$autorId);
+            $stmt->execute();
+        
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function listarChamadosporId2($idAtual) {
+            $sql = "SELECT * FROM chamados WHERE chamadoId = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':id', $idAtual, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC); // Retorna um array associativo ou false se não encontrar
+        }
+        
         
         public function atualizarPrioridade($tipoChamado, $chamadoId) {
             try {
