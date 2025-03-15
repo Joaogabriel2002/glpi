@@ -14,6 +14,7 @@
         private $autorEmail;
         private $autorSetor;
         private $situacao;
+        private $tecnico;
 
 
         public function setTonnerId($tonnerId){
@@ -104,6 +105,14 @@
             return $this->situacao;
         }
 
+        public function setTecnico($tecnico){
+            $this->tecnico=$tecnico;
+        }
+
+        public function getTecnico(){
+            return $this->tecnico;
+        }
+
 
         public function solicitarTonner(){
             $sql= "INSERT INTO tonnerSolicitacao (status, modeloTonner,corTonner,autorId, autorNome,autorEmail, autorSetor)
@@ -140,4 +149,33 @@
             return $stmt->fetch(PDO::FETCH_ASSOC); // Retorna um array associativo ou false se não encontrar
         }
         
+        public function atualizarSolicitacao($status, $situacao, $idAtual) {
+            $sql = "UPDATE tonnerSolicitacao SET status = :status, situacao = :situacao WHERE tonnerId = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+            $stmt->bindParam(':situacao', $situacao, PDO::PARAM_STR);
+            $stmt->bindParam(':id', $idAtual, PDO::PARAM_INT); // Melhor usar INT, se for numérico
+            $stmt->execute();
+            return $stmt->rowCount();
+        }
+        
+
+        public function adicionarAtualizacao(){
+            $sql = "INSERT INTO tonneratualizacao (tonnerId,tecnico,situacao) VALUES (:tonnerId,:tecnico,:situacao)";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':tonnerId',$this->tonnerId);
+            $stmt->bindParam(':tecnico', $this->tecnico);
+            $stmt->bindParam(':situacao', $this->situacao);
+            return $stmt->execute();
+           }
+
+        public function listarAtualizacoesPorSolicitacao($tonnerId) {
+            $sql = "SELECT id_atualizacao, dtAtualizacao, tecnico, situacao 
+                    FROM tonneratualizacao 
+                    WHERE tonnerId = :tonnerId";
+         $stmt = $this->conn->prepare($sql);
+         $stmt->bindParam(':tonnerId',$tonnerId);
+         $stmt->execute();
+         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
     }

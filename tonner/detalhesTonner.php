@@ -21,7 +21,7 @@ $tonner = new Tonner();
 $detalhesTonner = $tonner->listarTonnerPorId($tonnerId);
 
 
-
+$atualizacoesTonner = $tonner->listarAtualizacoesPorSolicitacao($tonnerId);
 
 
 //var_dump($atualizacoesChamado);
@@ -38,18 +38,19 @@ $detalhesTonner = $tonner->listarTonnerPorId($tonnerId);
 </head>
 <body>
 
-    <h1>Detalhes do Chamado:</h1>
+    <h1>Detalhes da Solicitação:</h1>
     <br><br>
 
     <table border="1">
         <tr>
-            <th>ID da Solicitação</th>
+            <th>Id da Solicitação</th>
             <th>Status</th>
+            <th>Situação</th>
             <th>Data de Abertura</th>
-            <th>Data de Fechamento</th>
+            <th>Modelo</th>
             <th>Cor</th>
             <th>Solicitante</th>
-            <th>Email</th>
+            <th>E-mail</th>
             <th>Setor</th>
 
          
@@ -58,33 +59,33 @@ $detalhesTonner = $tonner->listarTonnerPorId($tonnerId);
         <tr>
             <td><?php echo $detalhesTonner['tonnerId']; ?></td>
             <td><?php echo $detalhesTonner['status']; ?></td>
+            <td><?php echo $detalhesTonner['situacao'];?></td>
             <td><?php echo $detalhesTonner['dtAbertura']; ?></td>
             <td><?php echo $detalhesTonner['modeloTonner']; ?></td>
             <td><?php echo $detalhesTonner['corTonner']; ?></td>
             <td><a href="detalhesUsuario.php?id=<?php echo $detalhesTonner['autorId']; ?>"><?php echo $detalhesTonner['autorNome']; ?></a></td>
             <td><?php echo $detalhesTonner['autorEmail']; ?></td>
             <td><?php echo $detalhesTonner['autorSetor']; ?></td>
-            <!-- <td><a href="detalhesChamados.php?id=<?=$chamados['chamadoId']; ?>">Selecionar</a></td> -->
 
         </tr>
 
     </table>
 
-    <h2>Atualizações do Chamado</h2>
+    <h2>Atualizações da Solicitação</h2>
 
     <?php
 
 // Validar se há atualizações
-if (!empty($atualizacoesChamado)) {
-    foreach ($atualizacoesChamado as $atualizacao) {
+if (!empty($atualizacoesTonner)) {
+    foreach ($atualizacoesTonner as $atualizacao) {
         ?>
         <tr>
            <!-- <td><?php echo $atualizacao['id_atualizacao']; ?></td> -->
-            <td><?php echo $atualizacao['dt_atualizacao']; ?></td>
+            <td><?php echo $atualizacao['dtAtualizacao']; ?></td>
             <td><?php echo $atualizacao['tecnico']; ?></td>
-            <td><?php echo $atualizacao['comentario']; ?></td>
-            <td><?php echo 
-            <td><a href="excluirAtualizacao.php?id=<?=$atualizacao['id_atualizacao']; ?>">Selecionar</a></td>
+            <td><?php echo $atualizacao['situacao']; ?></td>
+            <td><a href="excluirAtualizacao2.php?id=<?=$atualizacao['id_atualizacao']; ?>">Selecionar</a></td>
+
         </tr><br>
         <?php
     }
@@ -92,7 +93,7 @@ if (!empty($atualizacoesChamado)) {
     echo "<tr><td colspan='4'>Nenhuma atualização encontrada para este chamado.</td></tr>";
 }
 echo "<br>";
-echo "<a href=\"atualizarChamados.php?id=$idAtual&status=" . $detalhesChamado['status'] . " .&tipo=". $detalhesChamado['tipoChamado']."\"> Atualizar</a>";
+echo "<a href=\"atualizarTonner.php?id=$idAtual&status=" . $detalhesTonner['status'] . "\"> Atualizar</a>";
 echo "<br>";
 echo "<a href=\"listarChamados.php\">Voltar</a>";
 ?>
