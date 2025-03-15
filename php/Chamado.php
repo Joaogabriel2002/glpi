@@ -179,6 +179,7 @@
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+
         
         public function listarTodosChamados() {
             $sql = "SELECT * FROM chamados";
@@ -189,14 +190,37 @@
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        public function listarTodosChamadosPorId($autorId) {
-            $sql = "SELECT * FROM chamados WHERE autorId=:autorId";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':autorId',$autorId);
-            $stmt->execute();
+        public function listarTodosChamadosPorId($autorId, $status = '', $chamadoId = '') {
+            $sql = "SELECT * FROM chamados WHERE autorId = :autorId";
         
+            if (!empty($status) && $status !== 'Todos') {
+                $sql .= " AND status = :status";
+            } elseif (empty($status)) {
+                // Se não houver filtro de status, buscar chamados "Aberto" e "Pendente"
+                $sql .= " AND (status = 'Aberto' OR status = 'Em andamento')";
+            }
+        
+            if (!empty($chamadoId)) {
+                $sql .= " AND chamadoId = :chamadoId";
+            }
+        
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':autorId', $autorId, PDO::PARAM_INT);
+        
+            if (!empty($status) && $status !== 'Todos') {
+                $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+            }
+        
+            if (!empty($chamadoId)) {
+                $stmt->bindParam(':chamadoId', $chamadoId, PDO::PARAM_INT);
+            }
+        
+            $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+        
+        
+
 
         public function listarChamadosporId2($idAtual) {
             $sql = "SELECT * FROM chamados WHERE chamadoId = :id";

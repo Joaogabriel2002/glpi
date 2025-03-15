@@ -7,26 +7,15 @@ if (!isset($_SESSION['usuario_id'])) {
     header('Location:../../index.php');
     exit;
 }
-    $chamado = new Chamado();
 
-    
+$chamado = new Chamado();
+
+// Captura os filtros da URL
 $statusFiltro = isset($_GET['status']) ? $_GET['status'] : '';
 $idFiltro = isset($_GET['chamadoId']) ? $_GET['chamadoId'] : '';
 
-
-    if (!empty($idFiltro)) {
-        $chamados = $chamado->listarChamadoPorTicket($idFiltro);
-    } elseif (!empty($statusFiltro) && $statusFiltro == 'Todos') {
-        $chamados = $chamado->listarTodosChamados(); // Novo método para listar todos os chamados
-    } elseif (!empty($statusFiltro) && $statusFiltro != 'FiltroPadrão') {
-        $chamados = $chamado->listarChamados($statusFiltro);
-    } else {
-        $chamados = $chamado->listarChamados();
-}
-        $chamados = $chamado->listarTodosChamadosPorId($_SESSION['usuario_id']);
-
-
-
+// Busca chamados aplicando filtros
+$chamados = $chamado->listarTodosChamadosPorId($_SESSION['usuario_id'], $statusFiltro, $idFiltro);
 
 ?>
 
@@ -40,7 +29,7 @@ $idFiltro = isset($_GET['chamadoId']) ? $_GET['chamadoId'] : '';
 <body>
 
 <h1>Lista de Chamados:</h1>
-<form action="listarChamados.php" method="GET">
+<form action="listarChamadosPorId.php" method="GET">
     <label for="status">Filtrar por Status:</label>
     <select name="status" id="status">
         <option value="">Pendentes</option>
@@ -53,7 +42,7 @@ $idFiltro = isset($_GET['chamadoId']) ? $_GET['chamadoId'] : '';
     <button type="submit">Filtrar</button>
 </form>
 
-<form action="listarChamados.php" method="GET">
+<form action="listarChamadosPorId.php" method="GET">
     <label for="chamadoId">Filtrar por Ticket:</label>
     <input type="number" name="chamadoId" value="<?php echo isset($_GET['chamadoId']) ? $_GET['chamadoId'] : ''; ?>">
     <button type="submit">Filtrar</button>
