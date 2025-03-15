@@ -15,6 +15,7 @@
         private $autorSetor;
         private $situacao;
         private $tecnico;
+        private $idAtualizacao;
 
 
         public function setTonnerId($tonnerId){
@@ -113,6 +114,13 @@
             return $this->tecnico;
         }
 
+        public function setIdAtualizacao($idAtualizacao){
+            $this->idAtualizacao=$idAtualizacao;
+        }
+
+        public function getIdAtualizacao(){
+            return $this->IdAtualizacao;
+        }
 
         public function solicitarTonner(){
             $sql= "INSERT INTO tonnerSolicitacao (status, modeloTonner,corTonner,autorId, autorNome,autorEmail, autorSetor)
@@ -178,4 +186,12 @@
          $stmt->execute();
          return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+
+        public function excluirAtualizacao(){
+            $sql="DELETE FROM tonneratualizacao WHERE id_atualizacao=:idAtualizacao";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':idAtualizacao',$this->idAtualizacao);
+            return $stmt->execute();
+           }
+    
     }

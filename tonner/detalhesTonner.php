@@ -84,7 +84,12 @@ if (!empty($atualizacoesTonner)) {
             <td><?php echo $atualizacao['dtAtualizacao']; ?></td>
             <td><?php echo $atualizacao['tecnico']; ?></td>
             <td><?php echo $atualizacao['situacao']; ?></td>
-            <td><a href="excluirAtualizacao2.php?id=<?=$atualizacao['id_atualizacao']; ?>">Selecionar</a></td>
+            <td>
+    <a href="excluirAtualizacao2.php?id_atualizacao=<?= $atualizacao['id_atualizacao']; ?>&id_chamado=<?= $tonnerId; ?>">
+        Selecionar
+    </a>
+</td>
+        
 
         </tr><br>
         <?php

@@ -9,7 +9,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $detalhesTonner = $tonner->listarTonnerPorId($tonnerId);
     
     if (!$detalhesTonner) {
-        die('ID do toner inválido ou não encontrado.');
+        die('ID do tonner inválido ou não encontrado.');
     }
     
     $statusAtual = $detalhesTonner['status']; 
