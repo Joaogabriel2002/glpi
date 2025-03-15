@@ -52,7 +52,7 @@ $tonners = $tonner->listarTodasSolicitacoes();
     <button type="submit">Filtrar</button>
 </form> -->
 
-<a href="..\adm/adm.php">Voltar</a>
+<a href="..\dashboard/adm/adm.php">Voltar</a>
 
 <br><br>
 

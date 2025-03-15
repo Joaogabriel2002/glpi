@@ -85,11 +85,13 @@ if (!empty($atualizacoesTonner)) {
             <td><?php echo $atualizacao['tecnico']; ?></td>
             <td><?php echo $atualizacao['situacao']; ?></td>
             <td>
-    <a href="excluirAtualizacao2.php?id_atualizacao=<?= $atualizacao['id_atualizacao']; ?>&id_chamado=<?= $tonnerId; ?>">
+    <a href="excluirAtualizacao2.php?id_atualizacao=<?= $atualizacao['id_atualizacao']; ?>&id_chamado=<?= $tonnerId; ?>&status=<?= urlencode($detalhesTonner['status']); ?>">
         Selecionar
     </a>
 </td>
-        
+
+</td>
+
 
         </tr><br>
         <?php
@@ -100,7 +102,7 @@ if (!empty($atualizacoesTonner)) {
 echo "<br>";
 echo "<a href=\"atualizarTonner.php?id=$idAtual&status=" . $detalhesTonner['status'] . "\"> Atualizar</a>";
 echo "<br>";
-echo "<a href=\"listarChamados.php\">Voltar</a>";
+echo "<a href=\"listarTonner.php\">Voltar</a>";
 ?>
 
 </body>
