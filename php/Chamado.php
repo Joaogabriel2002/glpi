@@ -180,16 +180,6 @@
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        
-        public function listarTodosChamados() {
-            $sql = "SELECT * FROM chamados";
-        
-            $stmt = $this->conn->prepare($sql);
-            $stmt->execute();
-        
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
-
         public function listarTodosChamadosPorId($autorId, $status = '', $chamadoId = '') {
             $sql = "SELECT * FROM chamados WHERE autorId = :autorId";
         
@@ -243,6 +233,44 @@
                 return false;
             }
         }
+
+        public function listarTodosChamadosPorId3($status = '', $chamadoId = '') {
+            // Acondicionando a consulta para permitir filtros de forma flexível
+            $sql = "SELECT * FROM chamados WHERE 1=1"; // Usamos "WHERE 1=1" como base para todos os filtros
+        
+            // Filtro para status, se fornecido
+            if (!empty($status) && $status !== 'Todos') {
+                $sql .= " AND status = :status";
+            } elseif (empty($status)) {
+                // Se não houver filtro de status, buscar chamados "Aberto" e "Em andamento"
+                $sql .= " AND (status = 'Aberto' OR status = 'Em andamento')";
+            }
+        
+            // Filtro para chamadoId, se fornecido
+            if (!empty($chamadoId)) {
+                $sql .= " AND chamadoId = :chamadoId";
+            }
+        
+            // Preparando a consulta SQL
+            $stmt = $this->conn->prepare($sql);
+        
+            // Vinculando os parâmetros de acordo com a condição de status
+            if (!empty($status) && $status !== 'Todos') {
+                $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+            }
+        
+            // Vinculando o parâmetro de chamadoId
+            if (!empty($chamadoId)) {
+                $stmt->bindParam(':chamadoId', $chamadoId, PDO::PARAM_INT);
+            }
+        
+            // Executando a consulta
+            $stmt->execute();
+        
+            // Retornando os resultados como um array associativo
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        
         
         public function atualizarPrioridade($tipoChamado, $chamadoId) {
             try {

@@ -8,27 +8,14 @@ if (!isset($_SESSION['usuario_id'])) {
     exit;
 }
 
-if ($_SESSION['setor'] !== "TI") {
-    header('Location:../../php/validacao.php');
-    exit;
-}
-
 $chamado = new Chamado();
 
+// Captura os filtros da URL
 $statusFiltro = isset($_GET['status']) ? $_GET['status'] : '';
 $idFiltro = isset($_GET['chamadoId']) ? $_GET['chamadoId'] : '';
 
-
-if (!empty($idFiltro)) {
-    $chamados = $chamado->listarChamadoPorTicket($idFiltro);
-} elseif (!empty($statusFiltro) && $statusFiltro == 'Todos') {
-    $chamados = $chamado->listarTodosChamados(); // Novo método para listar todos os chamados
-} elseif (!empty($statusFiltro) && $statusFiltro != 'FiltroPadrão') {
-    $chamados = $chamado->listarChamados($statusFiltro);
-} else {
-    $chamados = $chamado->listarChamados();
-}
-
+// Busca chamados aplicando filtros
+$chamados = $chamado->listarTodosChamadosPorId3($statusFiltro, $idFiltro);
 
 ?>
 
