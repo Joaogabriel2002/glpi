@@ -22,6 +22,8 @@
     <br>
     <a href="..\..\tonner\indexChamadoTonner.php"> Solicitar Tonner</a>
     <br>
+    <a href="..\..\tonner\listarTonner.php">Listar Solicitações de Tonner</a>
+    <br>
     <a href="listarChamadosPorId.php">Listar meu Chamado</a>
     <br>
     <a href="..\..\login/logoff.php">Sair</a>

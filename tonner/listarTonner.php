@@ -1,5 +1,5 @@
 <?php
-require_once '../../php/Chamado.php';
+require_once '..\php/Tonner.php';
 
 session_start();
 
@@ -7,25 +7,17 @@ if (!isset($_SESSION['usuario_id'])) {
     header('Location:../../index.php');
     exit;
 }
-    $chamado = new Chamado();
 
-    
-$statusFiltro = isset($_GET['status']) ? $_GET['status'] : '';
-$idFiltro = isset($_GET['chamadoId']) ? $_GET['chamadoId'] : '';
+// if ($_SESSION['setor'] !== "TI") {
+//     header('Location:../../php/validacao.php');
+//     exit;
+// }
 
+$tonner= new Tonner();
 
-    if (!empty($idFiltro)) {
-        $chamados = $chamado->listarChamadoPorTicket($idFiltro);
-    } elseif (!empty($statusFiltro) && $statusFiltro == 'Todos') {
-        $chamados = $chamado->listarTodosChamados(); // Novo método para listar todos os chamados
-    } elseif (!empty($statusFiltro) && $statusFiltro != 'FiltroPadrão') {
-        $chamados = $chamado->listarChamados($statusFiltro);
-    } else {
-        $chamados = $chamado->listarChamados();
-}
-        $chamados = $chamado->listarTodosChamadosPorId($_SESSION['usuario_id']);
+$tonners = $tonner->listarTodasSolicitacoes();
 
-
+// var_dump ($tonners);
 
 
 ?>
@@ -40,7 +32,8 @@ $idFiltro = isset($_GET['chamadoId']) ? $_GET['chamadoId'] : '';
 <body>
 
 <h1>Lista de Chamados:</h1>
-<form action="listarChamados.php" method="GET">
+
+<!-- <form action="listarChamados.php" method="GET">
     <label for="status">Filtrar por Status:</label>
     <select name="status" id="status">
         <option value="">Pendentes</option>
@@ -57,34 +50,36 @@ $idFiltro = isset($_GET['chamadoId']) ? $_GET['chamadoId'] : '';
     <label for="chamadoId">Filtrar por Ticket:</label>
     <input type="number" name="chamadoId" value="<?php echo isset($_GET['chamadoId']) ? $_GET['chamadoId'] : ''; ?>">
     <button type="submit">Filtrar</button>
-</form>
+</form> -->
 
-<a href="dashboard.php">Voltar</a>
+<a href="..\adm/adm.php">Voltar</a>
 
 <br><br>
 
 <table border="1">
     <tr>
-        <th>Ticket</th>
+        <th>Nº Solicitação</th>
         <th>Status</th>
         <th>Data de Abertura</th>
-        <th>Prioridade</th>
-        <th>Titulo</th>
+        <th>Modelo</th>
+        <th>Cor</th>
         <th>Usuario</th>
+        <th>Situação</th>
     </tr>
 
     <?php
     // Exibe os chamados com base no filtro
-    foreach ($chamados as $chamados) {
+    foreach ($tonners as $tonner) {
     ?>
     <tr>
-        <td><?php echo $chamados['chamadoId']; ?></td>
-        <td><?php echo $chamados['status']; ?></td>
-        <td><?php echo $chamados['dtAbertura']; ?></td>
-        <td><?php echo $chamados['tipoChamado']; ?></td>
-        <td><?php echo $chamados['tituloChamado']; ?></td>
-        <td><?php echo $chamados['autorNome']; ?></td>
-        <td><a href="detalhesChamadosUsuario.php?id=<?=$chamados['chamadoId']; ?>">Selecionar</a></td>
+        <td><?php echo $tonner['tonnerId']; ?></td>
+        <td><?php echo $tonner['status']; ?></td>
+        <td><?php echo $tonner['dtAbertura']; ?></td>
+        <td><?php echo $tonner['modeloTonner']; ?></td>
+        <td><?php echo $tonner['corTonner'];?></td>
+        <td><?php echo $tonner['autorNome']; ?></td>
+        <td><?php echo $tonner['situacao']; ?></td>
+        <td><a href="detalhesTonner.php?id=<?=$tonner['tonnerId']; ?>">Selecionar</a></td>
     </tr>
     <?php
     }

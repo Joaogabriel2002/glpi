@@ -269,6 +269,7 @@
         $stmt->bindParam(':idAtualizacao',$this->idAtualizacao);
         return $stmt->execute();
        }
+
     }
 
 

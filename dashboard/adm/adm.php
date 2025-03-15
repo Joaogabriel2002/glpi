@@ -26,6 +26,8 @@
     <br>
     <a href="listarChamados.php">Visualizar Chamados</a>
     <br>
+    <a href="..\..\tonner\listarTonner.php">Listar Solicitações de Tonner</a>
+    <br>
     <a href="..\..\login\logoff.php">Sair</a>
     <br>
     <img src="..\..\img/vaultboy.gif">

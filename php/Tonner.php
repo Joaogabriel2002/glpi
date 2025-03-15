@@ -13,6 +13,7 @@
         private $autorNome;
         private $autorEmail;
         private $autorSetor;
+        private $situacao;
 
 
         public function setTonnerId($tonnerId){
@@ -95,6 +96,14 @@
             return $this->autorSetor;
         }
 
+        public function setSituacao($situacao){
+            $this->situacao=$situacao;
+        }
+
+        public function getSituacao(){
+            return $this->situacao;
+        }
+
 
         public function solicitarTonner(){
             $sql= "INSERT INTO tonnerSolicitacao (status, modeloTonner,corTonner,autorId, autorNome,autorEmail, autorSetor)
@@ -113,4 +122,22 @@
                 return false;
             }
         }
+
+        public function listarTodasSolicitacoes() {
+            $sql = "SELECT * FROM tonnersolicitacao";
+        
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute();
+        
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function listarTonnerPorId($idAtual) {
+            $sql = "SELECT * FROM tonnerSolicitacao WHERE tonnerId = :id";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':id', $idAtual, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC); // Retorna um array associativo ou false se não encontrar
+        }
+        
     }
