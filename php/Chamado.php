@@ -180,6 +180,26 @@
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        public function listarChamadoPorTicket2($autorId, $idFiltro = '') {
+            $sql = "SELECT * FROM chamados WHERE autorId = :autorId";
+        
+            if (!empty($idFiltro)) {
+                $sql .= " AND chamadoId = :chamadoId";
+            }
+        
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':autorId', $autorId, PDO::PARAM_INT); // Corrigido aqui
+        
+            if (!empty($idFiltro)) {
+                $stmt->bindParam(':chamadoId', $idFiltro, PDO::PARAM_INT);
+            }
+        
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        }
+
+
         public function listarTodosChamadosPorId($autorId, $status = '', $chamadoId = '') {
             $sql = "SELECT * FROM chamados WHERE autorId = :autorId";
         

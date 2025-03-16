@@ -15,7 +15,12 @@ $statusFiltro = isset($_GET['status']) ? $_GET['status'] : '';
 $idFiltro = isset($_GET['chamadoId']) ? $_GET['chamadoId'] : '';
 
 // Busca chamados aplicando filtros
-$chamados = $chamado->listarTodosChamadosPorId($_SESSION['usuario_id'], $statusFiltro, $idFiltro);
+if(empty($idFiltro)){
+    $chamados = $chamado->listarTodosChamadosPorId($_SESSION['usuario_id'], $statusFiltro, $idFiltro);
+    }else{
+        $chamados = $chamado->listarChamadoPorTicket2($_SESSION['usuario_id'],$idFiltro);
+    }
+
 
 ?>
 
