@@ -169,12 +169,12 @@
                 $sql .= " AND (status = 'Aberto' OR status = 'Em andamento')";
             }
         
-            // Filtro para chamadoId, se fornecido
+            
             if (!empty($tonnerId)) {
                 $sql .= " AND tonnerId = :tonnerId";
             }
         
-            // Preparando a consulta SQL
+            
             $stmt = $this->conn->prepare($sql);
         
             // Vinculando os parâmetros de acordo com a condição de status
@@ -182,7 +182,6 @@
                 $stmt->bindParam(':status', $status, PDO::PARAM_STR);
             }
         
-            // Vinculando o parâmetro de chamadoId
             if (!empty($tonnerId)) {
                 $stmt->bindParam(':tonnerId', $tonnerId, PDO::PARAM_INT);
             }
@@ -193,6 +192,35 @@
             // Retornando os resultados como um array associativo
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+
+        public function listarTodosTonnerPorId($autorId, $status = '', $tonnerId = '') {
+            $sql = "SELECT * FROM tonnersolicitacao WHERE autorId = :autorId";
+        
+            if (!empty($status) && $status !== 'Todos') {
+                $sql .= " AND status = :status";
+            } elseif (empty($status)) {
+                $sql .= " AND (status = 'Aberto' OR status = 'Em andamento')";
+            }
+        
+            if (!empty($tonnerId)) {
+                $sql .= " AND tonnerId = :tonnerId";
+            }
+        
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':autorId', $autorId, PDO::PARAM_INT);
+        
+            if (!empty($status) && $status !== 'Todos') {
+                $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+            }
+        
+            if (!empty($tonnerId)) {
+                $stmt->bindParam(':tonnerId', $tonnerId, PDO::PARAM_INT);
+            }
+        
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        
 
         public function listarTonnerPorTicket($idFiltro) {
             $sql = "SELECT * FROM tonnersolicitacao WHERE tonnerId = :tonnerId";
