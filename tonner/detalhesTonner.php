@@ -102,7 +102,7 @@ if (!empty($atualizacoesTonner)) {
 echo "<br>";
 echo "<a href=\"atualizarTonner.php?id=$idAtual&status=" . $detalhesTonner['status'] . "\"> Atualizar</a>";
 echo "<br>";
-echo "<a href=\"listarTonner.php\">Voltar</a>";
+echo "<a href=\"listarTonnerPorId.php\">Voltar</a>";
 ?>
 
 </body>

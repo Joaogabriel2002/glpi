@@ -88,7 +88,7 @@ if (!empty($atualizacoesChamado)) {
             <td><?php echo $atualizacao['dt_atualizacao']; ?></td>
             <td><?php echo $atualizacao['tecnico']; ?></td>
             <td><?php echo $atualizacao['comentario']; ?></td>
-            <td><a href="excluirAtualizacao.php?id=<?=$atualizacao['id_atualizacao']; ?>">Selecionar</a></td>
+            <!-- <td><a href="excluirAtualizacao.php?id=<?=$atualizacao['id_atualizacao']; ?>">Selecionar</a></td> -->
         </tr><br>
         <?php
     }
