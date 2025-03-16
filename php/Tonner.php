@@ -156,6 +156,74 @@
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC); // Retorna um array associativo ou false se não encontrar
         }
+
+        public function listarTonnerPorId2($status = '', $tonnerId = '') {
+            
+            $sql = "SELECT * FROM tonnersolicitacao WHERE 1=1"; 
+        
+            // Filtro para status, se fornecido
+            if (!empty($status) && $status !== 'Todos') {
+                $sql .= " AND status = :status";
+            } elseif (empty($status)) {
+                // Se não houver filtro de status, buscar chamados "Aberto" e "Em andamento"
+                $sql .= " AND (status = 'Aberto' OR status = 'Em andamento')";
+            }
+        
+            // Filtro para chamadoId, se fornecido
+            if (!empty($tonnerId)) {
+                $sql .= " AND tonnerId = :tonnerId";
+            }
+        
+            // Preparando a consulta SQL
+            $stmt = $this->conn->prepare($sql);
+        
+            // Vinculando os parâmetros de acordo com a condição de status
+            if (!empty($status) && $status !== 'Todos') {
+                $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+            }
+        
+            // Vinculando o parâmetro de chamadoId
+            if (!empty($tonnerId)) {
+                $stmt->bindParam(':tonnerId', $tonnerId, PDO::PARAM_INT);
+            }
+        
+            // Executando a consulta
+            $stmt->execute();
+        
+            // Retornando os resultados como um array associativo
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function listarTonnerPorTicket($idFiltro) {
+            $sql = "SELECT * FROM tonnersolicitacao WHERE tonnerId = :tonnerId";
+        
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':tonnerId', $idFiltro, PDO::PARAM_INT);
+        
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
+        public function listarTonnerPorTicket2($autorId, $idFiltro = '') {
+            $sql = "SELECT * FROM tonnersolicitacao WHERE autorId = :autorId";
+        
+            if (!empty($idFiltro)) {
+                $sql .= " AND tonnerId = :tonnerId";
+            }
+        
+            $stmt = $this->conn->prepare($sql);
+            $stmt->bindParam(':autorId', $autorId, PDO::PARAM_INT); // Corrigido aqui
+        
+            if (!empty($idFiltro)) {
+                $stmt->bindParam(':tonnerId', $idFiltro, PDO::PARAM_INT);
+            }
+        
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        }
+
+        
         
         public function atualizarSolicitacao($status, $situacao, $idAtual) {
             $sql = "UPDATE tonnerSolicitacao SET status = :status, situacao = :situacao WHERE tonnerId = :id";

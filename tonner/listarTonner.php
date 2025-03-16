@@ -1,6 +1,8 @@
 <?php
 require_once '..\php/Tonner.php';
 
+
+
 session_start();
 
 if (!isset($_SESSION['usuario_id'])) {
@@ -8,17 +10,25 @@ if (!isset($_SESSION['usuario_id'])) {
     exit;
 }
 
-// if ($_SESSION['setor'] !== "TI") {
-//     header('Location:../../php/validacao.php');
-//     exit;
-// }
+if ($_SESSION['setor'] !== "TI") {
+    header('Location:../../php/validacao.php');
+    exit;
+}
+
+$statusFiltro = isset($_GET['status']) ? $_GET['status'] : '';
+$idFiltro = isset($_GET['tonnerId']) ? $_GET['tonnerId'] : '';
+
 
 $tonner= new Tonner();
 
-$tonners = $tonner->listarTodasSolicitacoes();
+
 
 // var_dump ($tonners);
-
+if(empty($idFiltro)){
+    $tonners = $tonner->listarTonnerPorId2($statusFiltro, $idFiltro);
+    }else{
+        $tonners = $tonner->listarTonnerPorTicket($idFiltro);
+    }
 
 ?>
 
@@ -33,7 +43,7 @@ $tonners = $tonner->listarTodasSolicitacoes();
 
 <h1>Lista de Chamados:</h1>
 
-<!-- <form action="listarChamados.php" method="GET">
+<form action="listarTonner.php" method="GET">
     <label for="status">Filtrar por Status:</label>
     <select name="status" id="status">
         <option value="">Pendentes</option>
@@ -46,11 +56,11 @@ $tonners = $tonner->listarTodasSolicitacoes();
     <button type="submit">Filtrar</button>
 </form>
 
-<form action="listarChamados.php" method="GET">
-    <label for="chamadoId">Filtrar por Ticket:</label>
-    <input type="number" name="chamadoId" value="<?php echo isset($_GET['chamadoId']) ? $_GET['chamadoId'] : ''; ?>">
+<form action="listarTonner.php" method="GET">
+    <label for="tonnerId">Filtrar por Ticket:</label>
+    <input type="number" name="tonnerId" value="<?php echo isset($_GET['tonnerId']) ? $_GET['tonnerId'] : ''; ?>">
     <button type="submit">Filtrar</button>
-</form> -->
+</form>
 
 <a href="..\dashboard/adm/adm.php">Voltar</a>
 
