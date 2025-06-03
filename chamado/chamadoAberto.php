@@ -19,6 +19,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmação de Chamado</title>
+    <link rel="stylesheet" href="/gerenciadorti/css/confirmacaoChamado.css">
+
 </head>
 <body>
     <h1>Confirmação de Chamado</h1>

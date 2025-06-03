@@ -21,6 +21,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listar Usuarios</title>
+    <link rel="stylesheet" href="/gerenciadorti/css/listaUsuarios.css">
+
+
 </head>
 <body>
     <h1>Usuarios Cadastrados:</h1>

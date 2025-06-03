@@ -1,5 +1,7 @@
 <?php
-require_once '../../php/Chamado.php';
+require_once '..\php/Tonner.php';
+
+
 
 session_start();
 
@@ -8,19 +10,25 @@ if (!isset($_SESSION['usuario_id'])) {
     exit;
 }
 
-$chamado = new Chamado();
+if ($_SESSION['setor'] !== "TI") {
+    header('Location:../../php/validacao.php');
+    exit;
+}
 
-// Captura os filtros da URL
 $statusFiltro = isset($_GET['status']) ? $_GET['status'] : '';
-$idFiltro = isset($_GET['chamadoId']) ? $_GET['chamadoId'] : '';
+$idFiltro = isset($_GET['tonnerId']) ? $_GET['tonnerId'] : '';
 
-// Busca chamados aplicando filtros
+
+$tonner= new Tonner();
+
+
+
+// var_dump ($tonners);
 if(empty($idFiltro)){
-    $chamados = $chamado->listarTodosChamadosPorId($_SESSION['usuario_id'], $statusFiltro, $idFiltro);
+    $tonners = $tonner->listarTonnerPorId2($statusFiltro, $idFiltro);
     }else{
-        $chamados = $chamado->listarChamadoPorTicket2($_SESSION['usuario_id'],$idFiltro);
+        $tonners = $tonner->listarTonnerPorTicket($idFiltro);
     }
-
 
 ?>
 
@@ -29,13 +37,14 @@ if(empty($idFiltro)){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Chamados</title>
-    <link rel="stylesheet" href="/gerenciadorti/css/listarChamados.css">
+    <title>Lista de Chamados Tonner</title>
+    <link rel="stylesheet" href="/gerenciadorti/css/listarTonner.css">
 </head>
 <body>
 
-<h1>Lista de Chamados:</h1>
-<form action="listarChamadosPorId.php" method="GET">
+<h1>Lista de Chamados Tonner</h1>
+
+<form action="listarTonner.php" method="GET">
     <label for="status">Filtrar por Status:</label>
     <select name="status" id="status">
         <option value="">Pendentes</option>
@@ -48,37 +57,39 @@ if(empty($idFiltro)){
     <button type="submit">Filtrar</button>
 </form>
 
-<form action="listarChamadosPorId.php" method="GET">
-    <label for="chamadoId">Filtrar por Ticket:</label>
-    <input type="number" name="chamadoId" value="<?php echo isset($_GET['chamadoId']) ? $_GET['chamadoId'] : ''; ?>">
+<form action="listarTonner.php" method="GET">
+    <label for="tonnerId">Filtrar por Ticket:</label>
+    <input type="number" name="tonnerId" value="<?php echo isset($_GET['tonnerId']) ? $_GET['tonnerId'] : ''; ?>">
     <button type="submit">Filtrar</button>
 </form>
 
-<a href="dashboard.php">Voltar</a>
+<a href="..\dashboard/adm/adm.php">Voltar</a>
 
 <br><br>
 
 <table border="1">
     <tr>
-        <th>Ticket</th>
+        <th>Nº Solicitação</th>
         <th>Status</th>
         <th>Data de Abertura</th>
-        <th>Prioridade</th>
-        <th>Titulo</th>
+        <th>Modelo</th>
+        <th>Cor</th>
         <th>Usuario</th>
+        <th>Situação</th>
     </tr>
 
     <?php
     // Exibe os chamados com base no filtro
-    foreach ($chamados as $chamados) {
+    foreach ($tonners as $tonner) {
     ?>
     <tr>
-        <td><?php echo $chamados['chamadoId']; ?></td>
-        <td><?php echo $chamados['status']; ?></td>
-        <td><?php echo $chamados['dtAbertura']; ?></td>
-        <td><?php echo $chamados['tipoChamado']; ?></td>
-        <td><?php echo $chamados['tituloChamado']; ?></td>
-        <td><?php echo $chamados['autorNome']; ?></td>
+        <td><?php echo $tonner['tonnerId']; ?></td>
+        <td><?php echo $tonner['status']; ?></td>
+        <td><?php echo $tonner['dtAbertura']; ?></td>
+        <td><?php echo $tonner['modeloTonner']; ?></td>
+        <td><?php echo $tonner['corTonner'];?></td>
+        <td><?php echo $tonner['autorNome']; ?></td>
+        <td><?php echo $tonner['situacao']; ?></td>
         
     </tr>
     <?php

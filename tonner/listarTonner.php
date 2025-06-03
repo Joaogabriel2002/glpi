@@ -37,11 +37,12 @@ if(empty($idFiltro)){
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Chamados</title>
+    <title>Lista de Chamados Tonner</title>
+    <link rel="stylesheet" href="/gerenciadorti/css/listarTonner.css">
 </head>
 <body>
 
-<h1>Lista de Chamados:</h1>
+<h1>Lista de Chamados Tonner</h1>
 
 <form action="listarTonner.php" method="GET">
     <label for="status">Filtrar por Status:</label>

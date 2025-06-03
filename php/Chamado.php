@@ -255,26 +255,26 @@
         }
 
         public function listarTodosChamadosPorId3($status = '', $chamadoId = '') {
-            // Acondicionando a consulta para permitir filtros de forma flexível
+        
             $sql = "SELECT * FROM chamados WHERE 1=1"; // Usamos "WHERE 1=1" como base para todos os filtros
         
-            // Filtro para status, se fornecido
+            
             if (!empty($status) && $status !== 'Todos') {
                 $sql .= " AND status = :status";
             } elseif (empty($status)) {
-                // Se não houver filtro de status, buscar chamados "Aberto" e "Em andamento"
+               
                 $sql .= " AND (status = 'Aberto' OR status = 'Em andamento')";
             }
         
-            // Filtro para chamadoId, se fornecido
+           
             if (!empty($chamadoId)) {
                 $sql .= " AND chamadoId = :chamadoId";
             }
         
-            // Preparando a consulta SQL
+            
             $stmt = $this->conn->prepare($sql);
         
-            // Vinculando os parâmetros de acordo com a condição de status
+            
             if (!empty($status) && $status !== 'Todos') {
                 $stmt->bindParam(':status', $status, PDO::PARAM_STR);
             }

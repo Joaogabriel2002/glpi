@@ -1,0 +1,54 @@
+/* Estilo para listagem de usuários */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f4f4f4;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+h1 {
+    color: #1a8941;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 90%;
+    border-collapse: collapse;
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+th, td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #1a8941;
+    color: white;
+}
+
+td a {
+    color: red;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a {
+    margin-top: 20px;
+    display: inline-block;
+    color: #fff;
+    background-color: #1a8941;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+}
+
+a:hover {
+    background-color: #14632e;
+}

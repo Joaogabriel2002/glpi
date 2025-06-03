@@ -38,6 +38,7 @@ if(empty($idFiltro)){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Chamados</title>
+    <link rel="stylesheet" href="/gerenciadorti/css/listarTonner.css">
 </head>
 <body>
 
@@ -89,7 +90,7 @@ if(empty($idFiltro)){
         <td><?php echo $tonner['corTonner'];?></td>
         <td><?php echo $tonner['autorNome']; ?></td>
         <td><?php echo $tonner['situacao']; ?></td>
-        <td><a href="detalhesTonner.php?id=<?=$tonner['tonnerId']; ?>">Selecionar</a></td>
+        
     </tr>
     <?php
     }

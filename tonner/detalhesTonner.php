@@ -35,6 +35,7 @@ $atualizacoesTonner = $tonner->listarAtualizacoesPorSolicitacao($tonnerId);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do Chamado</title>
+    <link rel="stylesheet"href="/gerenciadorti/css/detalhesTonner.css">
 </head>
 <body>
 
@@ -102,7 +103,7 @@ if (!empty($atualizacoesTonner)) {
 echo "<br>";
 echo "<a href=\"atualizarTonner.php?id=$idAtual&status=" . $detalhesTonner['status'] . "\"> Atualizar</a>";
 echo "<br>";
-echo "<a href=\"listarTonnerPorId.php\">Voltar</a>";
+echo "<a href=\"../tonner/listarTonner.php\">Voltar</a>";
 ?>
 
 </body>
