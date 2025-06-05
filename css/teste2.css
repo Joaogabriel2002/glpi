@@ -1,0 +1,103 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+/* Variáveis CSS para cores e fontes */
+:root {
+    --primary-green: #34DCA2; /* Verde da sua imagem */
+    --dark-green: #2B9C80; /* Um verde mais escuro para hover, derivado do primary-green */
+    --dark-grey: #333;
+    --light-grey: #f0f0f0;
+    --white: #ffffff;
+    --border-color: #ccc; /* Cor da borda dos inputs */
+
+    --font-heading: 'Poppins', sans-serif;
+    --font-body: 'Open Sans', sans-serif;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-body);
+    background-color: black; /* Fundo preto conforme sua alteração */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 90vh;
+    box-sizing: border-box;
+}
+
+.container {
+    display: flex;
+    background-color: var(--white);
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 900px;
+    width: 90%;
+    min-height: 450px;
+}
+
+/* Seção do Logo e Nome da Marca */
+.left-section {
+    background-color: var(--primary-green);
+    display: flex;
+    flex-direction: column; /* Coluna para empilhar logo e letreiro */
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    width: 40%;
+    box-sizing: border-box;
+    position: relative; /* Para posicionar o letreiro se necessário */
+}
+
+.brand-logo {
+    max-width: 80%; /* Ajusta o tamanho do logo */
+    height: auto;
+    margin-bottom: 20px; /* Espaçamento entre logo e letreiro */
+}
+
+/* NOVO ESTILO PARA A IMAGEM DO LETREIRO */
+.brand-name {
+    position: absolute;
+    width: 70%; /* Mantido como estava */
+    bottom: 30px;
+}
+
+/* Seção do Formulário de Login */
+.right-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    width: 60%;
+    box-sizing: border-box;
+    text-align: center;
+    /* IMPORTANTE: Removido 'align-items: center;' do form-section para que o form-group possa alinhar à esquerda,
+       e o `text-align: center;` no form-section alinha os elementos que não são `block` por padrão.
+       Se a intenção é centralizar o formulário inteiro, o `max-width` e `margin: 0 auto;` no `.login-form` já faz isso. */
+}
+
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .left-section,
+    .right-section {
+        width: 100%;
+    }
+
+    .brand-logo {
+        width: 80px;
+    }
+
+    .brand-name {
+        font-size: 1em;
+    }
+}

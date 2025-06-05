@@ -31,14 +31,14 @@ select {
 
 button {
     padding: 8px 12px;
-    background-color: #3498db;
+    background-color: #2bd6a3;
     color: white;
     border: none;
     border-radius: 4px;
 }
 
 button:hover {
-    background-color: #2980b9;
+    background-color: #2bd6a3;
 }
 
 table {
@@ -54,7 +54,7 @@ th, td {
 }
 
 th {
-    background-color: #3498db;
+    background-color: #2bd6a3;
     color: white;
 }
 
@@ -65,7 +65,7 @@ tr:nth-child(even) {
 a {
     display: inline-block;
     margin-top: 10px;
-    color: #3498db;
+    color: #2bd6a3;
     text-decoration: none;
 }
 

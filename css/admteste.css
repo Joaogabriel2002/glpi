@@ -1,0 +1,148 @@
+body {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: 90vh;
+    padding: 10%;
+}
+
+.container {
+    background-color: white;
+    display: flex;
+    border-radius: 12px;
+    overflow: hidden;
+    max-width: 900px;
+    width: 90%;
+    min-height: 450px;
+    position: absolute;
+}
+
+.left-section {
+    background-color: #34DCA2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    width: 40%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.brand-logo {
+    max-width: 80%;
+    height: auto;
+    margin-bottom: 100px;
+}
+
+.brand-name {
+    position: absolute;
+    width: 70%;
+    bottom: 30px;
+}
+
+.right-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    width: 60%;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.title-right {
+    color: black;
+    font-family: poppins;
+    font-weight: bolder;
+    position: absolute;
+    top: 0%;
+    margin-bottom: 30px;
+    padding: 10px;
+}
+
+.botoes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    position: relative;
+    top: 10%;
+    width: 100%;
+    
+}
+
+.opcoes {
+    background:#34DCA2;
+    color: black;
+    font-family: poppins;
+    text-decoration: none;
+    padding: 12px 20px;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: grid;
+    text-align: center;
+    align-items: center;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.opcoes:hover {
+    background-color: rgb(90, 214, 90);
+    transform: translateY(-2px);
+    color: white;
+}
+
+.alongado {
+    grid-column: span 2; /* Ocupa as 2 colunas */
+}
+
+.sair {
+    background:  #ff4b4b;
+}
+
+.sair:hover {
+    background: #800000;
+    color: white;
+}
+/* Responsividade para telas menores (celulares) */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        width: 95%;
+        max-width: 400px;
+    }
+
+    .left-section, .right-section {
+        width: 100%;
+        padding: 30px 20px;
+    }
+
+    .left-section {
+        min-height: 200px;
+        border-bottom-left-radius: 0;
+        border-top-right-radius: 12px;
+    }
+
+    .brand-logo {
+        margin-bottom: 10px; /* Menor espaço entre logo e letreiro em mobile */
+    }
+
+    .brand-name-img { /* Usando a nova classe */
+        position: static;
+        width: 50%;
+        margin-top: 10px; /* Ajusta a margem superior se não estiver em posição absoluta */
+        font-size: 1.5em; /* Ajuste o tamanho da imagem do letreiro se ela se comportar como texto */
+    }
+
+    .login-title {
+        font-size: 1.8em;
+        margin-bottom: 20px;
+    }
+
+    .btn-login, .botoes, .error-message { /* Adicionado error-message aqui */
+        max-width: 100%;
+    }
+}

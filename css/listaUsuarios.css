@@ -9,7 +9,7 @@ body {
 }
 
 h1 {
-    color: #1a8941;
+    color: #2c3e50;
     margin-bottom: 20px;
 }
 
@@ -29,26 +29,23 @@ th, td {
 }
 
 th {
-    background-color: #1a8941;
+    background-color: #2bd6a3;
     color: white;
 }
 
 td a {
-    color: red;
+    color: white;
     text-decoration: none;
     font-weight: bold;
 }
 
 a {
-    margin-top: 20px;
     display: inline-block;
-    color: #fff;
-    background-color: #1a8941;
-    padding: 10px 20px;
-    border-radius: 8px;
+    margin-top: 10px;
+    color: #2c3e50;
     text-decoration: none;
 }
 
 a:hover {
-    background-color: #14632e;
+    background-color: #2bd6a3;
 }

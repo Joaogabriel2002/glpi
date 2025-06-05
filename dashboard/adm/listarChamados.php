@@ -29,7 +29,7 @@ $chamados = $chamado->listarTodosChamadosPorId3($statusFiltro, $idFiltro);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Chamados</title>
-    <link rel="stylesheet" href="/gerenciadorti/css/listarChamados.css">
+    <link rel="stylesheet" href="..\..\css/listarChamados.css">
 
 </head>
 <body>

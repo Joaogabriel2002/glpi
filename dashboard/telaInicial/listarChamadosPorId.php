@@ -66,6 +66,7 @@ if(empty($idFiltro)){
         <th>Prioridade</th>
         <th>Titulo</th>
         <th>Usuario</th>
+        <th> </th>
     </tr>
 
     <?php
@@ -79,7 +80,7 @@ if(empty($idFiltro)){
         <td><?php echo $chamados['tipoChamado']; ?></td>
         <td><?php echo $chamados['tituloChamado']; ?></td>
         <td><?php echo $chamados['autorNome']; ?></td>
-        
+        <td><a href="detalhesChamadosUsuario.php?id=<?=$chamados['chamadoId']; ?>">Selecionar</a></td>
     </tr>
     <?php
     }
