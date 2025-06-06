@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once "..\php/Usuario.php";
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
@@ -47,63 +47,73 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - ChesiQuímica</title>
-    <link rel="stylesheet" href="..\css/teste.css">
+    <link rel="stylesheet" href="../css/cadastro.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="icon" href="../img/chesiquimica-logo-png.png" type="image/png">
 </head>
+
 <body>
 
-<div class="container">
-    <!-- Bloco Verde -->
-    <div class="left-section">
-        <img src="..\img/chesiquimica-logo-png.png" alt="Logo ChesiQuímica" class="brand-logo">
-        <img src="..\img/chesiquimica-letreiro-png.png" alt="Logo ChesiQuímica" class="brand-name">
+    <div class="container">
+        <!-- Bloco Verde -->
+        <div class="left-section">
+            <img src="..\img/chesiquimica-logo-png.png" alt="Logo ChesiQuímica" class="brand-logo">
+            <img src="..\img/chesiquimica-letreiro-png.png" alt="Logo ChesiQuímica" class="brand-name">
+        </div>
+
+        <!-- Bloco Branco (Formulário) -->
+        <div class="right-section">
+            <a href="..\dashboard\telaInicial\dashboard.php" class="back-link">Voltar</a>
+            <h2 class="form-title">Cadastro</h2>
+
+            <form class="form" action="indexCadastro.php" method="POST">
+                <div class="campo-form">
+                    <label>Nome Completo:</label>
+                    <input type="text" name="nome" placeholder="Digite seu nome completo" required>
+                </div>
+                <div class="campo-form">
+                    <label>Email:</label>
+                    <input type="email" name="email" placeholder="Digite seu email" required>
+                </div>
+                <div class="campo-form">
+                    <label>Senha:</label>
+                    <input type="password" name="senha" placeholder="Digite sua senha" required>
+                </div>
+                <div class="campo-form">
+                    <label>Confirme sua senha:</label>
+                    <input type="password" name="confirmacaoSenha" placeholder="Confirme sua senha" required>
+                </div>
+                <div class="campo-form">
+                    <label>Setor:</label>
+                    <select name="setor" id="setor" required>
+                        <option value="">Selecione seu Setor:</option>
+                        <option value="Aerossol">Aerossol</option>
+                        <option value="Comercial">Comercial</option>
+                        <option value="Compras">Compras</option>
+                        <option value="Contabilidade">Contabilidade</option>
+                        <option value="Cosmetico">Cosmético</option>
+                        <option value="Expedicao">Expedição</option>
+                        <option value="Financeiro">Financeiro</option>
+                        <option value="Formulacao">Formulação</option>
+                        <option value="Logistica">Logística Adm</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Qualidade">Qualidade</option>
+                        <option value="RH">RH</option>
+                        <option value="SAC">SAC</option>
+                        <option value="TI">TI</option>
+                        <option value="Saneantes">Saneantes</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">Cadastrar-se</button>
+            </form>
+        </div>
     </div>
-
-    <!-- Bloco Branco (Formulário) -->
-    <div class="right-section">
-        <a href="..\dashboard\telaInicial\dashboard.php" class="back-link">Voltar</a>
-        <h2 class="form-title">Cadastro</h2>
-
-        <form class="registration-form" action="indexCadastro.php" method="POST">
-            <label>Nome Completo:</label>
-            <input type="text" name="nome" placeholder="Digite seu nome completo" required>
-
-            <label>Email:</label>
-            <input type="email" name="email" placeholder="Digite seu email" required>
-
-            <label>Senha:</label>
-            <input type="password" name="senha" placeholder="Digite sua senha" required>
-
-            <label>Confirme sua senha:</label>
-            <input type="password" name="confirmacaoSenha" placeholder="Confirme sua senha" required>
-
-            <label>Setor:</label>
-            <select name="setor" id="setor" required>
-                <option value="">Selecione seu Setor:</option>
-                <option value="Aerossol">Aerossol</option>
-                <option value="Comercial">Comercial</option>
-                <option value="Compras">Compras</option>
-                <option value="Contabilidade">Contabilidade</option>
-                <option value="Cosmetico">Cosmético</option>
-                <option value="Expedicao">Expedição</option>
-                <option value="Financeiro">Financeiro</option>
-                <option value="Formulacao">Formulação</option>
-                <option value="Logistica">Logística Adm</option>
-                <option value="Marketing">Marketing</option>
-                <option value="Qualidade">Qualidade</option>
-                <option value="RH">RH</option>
-                <option value="SAC">SAC</option>
-                <option value="TI">TI</option>
-                <option value="Saneantes">Saneantes</option>
-            </select>
-
-            <button type="submit" class="submit-btn">Cadastrar-se</button>
-        </form>
-    </div>
-</div>
 
 </body>
+
 </html>

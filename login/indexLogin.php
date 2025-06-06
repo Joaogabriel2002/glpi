@@ -44,6 +44,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="..\css/headerLogin.css">
     <title>Tela de Login</title>
+    <link rel="icon" href="img/chesiquimica-logo-png.png" type="image/png">
 </head>
 <body>
     

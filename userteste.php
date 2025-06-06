@@ -1,14 +1,12 @@
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Administrador</title>
-    <link rel="stylesheet" href="css/admteste.css">
+    <title>Painel Usuario</title>
     <link rel="icon" href="img/chesiquimica-logo-png.png" type="image/png">
+    <link rel="stylesheet" href="css/userteste.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@600&display=swap"
         rel="stylesheet">
 </head>
@@ -22,20 +20,17 @@
 
         <div class="right-section">
             <div class="title-right">
-                <h1>Painel Do TI</h1>
+                <h1>Painel do Usuario</h1>
             </div>
 
             <div class="botoes">
                 <a href="..\..\chamado/indexChamado.php" class="opcoes alongado">Abrir um Chamado</a>
+                <a href="..\..\chamado/indexChamado.php" class="opcoes alongado">Solicitar Tonner</a>
+                
+                <a href="listarUsuario.php" class="opcoes">Listar Chamados</a>
+                <a href="listarChamados.php" class="opcoes">Listar Solicitações tonner</a>
+                
 
-                <a href="listarUsuario.php" class="opcoes">Listar Usuários</a>
-                <a href="listarChamados.php" class="opcoes">Visualizar Chamados</a>
-
-                <a href="..\..\tonner\indexChamadoTonner.php" class="opcoes">Solicitar Tonner</a>
-                <a href="..\..\tonner\listarTonner.php" class="opcoes">Listar Solicitações de Tonner</a>
-
-                <a href="" class="opcoes">Estoque</a>
-                <a href="" class="opcoes">Botão</a>
 
                 <a href="..\..\login\logoff.php" class="opcoes alongado sair">Sair</a>
             </div>

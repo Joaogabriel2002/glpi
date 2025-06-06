@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      display: flex;
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      max-width: 900px;
+      width: 90%;
+      height: 620px; /* altura fixa */
+      overflow: hidden;
+    }
+
+    .left-section {
+      width: 45%;
+      background-color: #2fe29b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border-top-left-radius: 16px;
+      border-bottom-left-radius: 16px;
+    }
+
+    .left-section img {
+      width: 120px;
+      margin-bottom: 20px;
+    }
+
+    .left-section h1 {
+      color: #000;
+      font-size: 24px;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .right-section {
+      width: 55%;
+      padding: 40px 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .header h2 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .header a {
+      text-decoration: none;
+      color: #2fe29b;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      flex-grow: 1;
+      justify-content: center;
+    }
+
+    label {
+      font-weight: bold;
+      color: #333;
+      font-size: 14px;
+    }
+
+    input, select {
+      width: 90%;
+      padding: 10px 15px;
+      border-radius: 20px;
+      border: none;
+      background-color: #f1f1f1;
+      outline: none;
+      font-size: 14px;
+    }
+
+    button {
+      width: 90%;
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 20px;
+      background-color: #2fe29b;
+      color: #fff;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #24c48b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="left-section">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/06/Camale%C3%A3o_icon.png/600px-Camale%C3%A3o_icon.png" alt="Logo">
+      <h1>CHESIQUIMICA</h1>
+    </div>
+
+    <div class="right-section">
+      <div class="header">
+        <h2>Cadastro</h2>
+        <a href="#">Voltar</a>
+      </div>
+
+      <form>
+        <div>
+          <label for="nome">Nome Completo:</label><br />
+          <input type="text" id="nome" placeholder="Digite seu nome completo" />
+        </div>
+
+        <div>
+          <label for="email">Email:</label><br />
+          <input type="email" id="email" placeholder="Digite seu email" />
+        </div>
+
+        <div>
+          <label for="senha">Senha:</label><br />
+          <input type="password" id="senha" placeholder="Digite sua senha" />
+        </div>
+
+        <div>
+          <label for="confirmar-senha">Confirme sua senha:</label><br />
+          <input type="password" id="confirmar-senha" placeholder="Confirme sua senha" />
+        </div>
+
+        <div>
+          <label for="setor">Setor:</label><br />
+          <select id="setor">
+            <option value="">Selecione seu Setor</option>
+            <option value="RH">RH</option>
+            <option value="TI">TI</option>
+            <option value="Financeiro">Financeiro</option>
+          </select>
+        </div>
+
+        <button type="submit">Cadastrar-se</button>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>

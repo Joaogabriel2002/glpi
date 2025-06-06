@@ -1,11 +1,11 @@
 body {
-    font-family: poppins;
-    background-color: black; /* Fundo preto conforme sua alteração */
+    background-color: black;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 90vh;
     box-sizing: border-box;
+    min-height: 90vh;
+    padding: 10%;
 }
 
 .container {
@@ -34,7 +34,7 @@ body {
 .brand-logo {
     max-width: 80%;
     height: auto;
-    margin-bottom: 20px;
+    margin-bottom: 100px;
 }
 
 .brand-name {
@@ -52,7 +52,6 @@ body {
     width: 60%;
     box-sizing: border-box;
     text-align: center;
-    position: relative;
 }
 
 .title-right {
@@ -70,8 +69,6 @@ body {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     position: relative;
-    padding-top: 10px;
-    padding-bottom: 20px;
     top: 10%;
     width: 100%;
     

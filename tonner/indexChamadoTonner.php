@@ -38,6 +38,7 @@
     <link rel="stylesheet"href="/gerenciadorti/css/tonner.css">
     <script src="indexChamadoTonner.js" defer></script>
     <title>Solicitar Tonner</title>
+    <link rel="icon" href="../img/chesiquimica-logo-png.png" type="image/png">
 </head>
 
 <body>

@@ -78,20 +78,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chesiquimica - Login</title>
+    <link rel="icon" href="img/chesiquimica-logo-png.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@600&display=swap"
         rel="stylesheet">
 
     <link rel="stylesheet" href="css/headerLogin.css">
+    <link rel="stylesheet" href="css/base.css">
 </head>
 
 <body>
-    <div class="login-container">
-        <div class="brand-section">
+    <div class="container">
+        <div class="left-section">
             <img src="img/chesiquimica-logo-png.png" alt="Logo Chesiquimica" class="brand-logo">
             <img src="img/chesiquimica-letreiro-png.png" alt="Chesiquimica" class="brand-name">
 
         </div>
-        <div class="form-section">
+        <div class="right-section">
             <?php if (!empty($login_error_message)): ?>
                 <p class="error-message"><?php echo $login_error_message; ?></p>
             <?php endif; ?>

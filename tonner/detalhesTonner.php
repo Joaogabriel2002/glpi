@@ -35,6 +35,7 @@ $atualizacoesTonner = $tonner->listarAtualizacoesPorSolicitacao($tonnerId);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do Chamado</title>
+    <link rel="icon" href="../img/chesiquimica-logo-png.png" type="image/png">
     <link rel="stylesheet"href="/gerenciadorti/css/detalhesTonner.css">
 </head>
 <body>

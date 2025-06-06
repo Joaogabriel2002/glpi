@@ -1,11 +1,11 @@
 body {
-    font-family: poppins;
-    background-color: black; /* Fundo preto conforme sua alteração */
+    background-color: black;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 90vh;
     box-sizing: border-box;
+    min-height: 90vh;
+    padding: 10%;
 }
 
 .container {
@@ -34,7 +34,7 @@ body {
 .brand-logo {
     max-width: 80%;
     height: auto;
-    margin-bottom: 20px;
+    margin-bottom: 100px;
 }
 
 .brand-name {
@@ -52,7 +52,6 @@ body {
     width: 60%;
     box-sizing: border-box;
     text-align: center;
-    position: relative;
 }
 
 .title-right {
@@ -74,11 +73,40 @@ body {
     padding-bottom: 20px;
     top: 10%;
     width: 100%;
-    
+}
+
+.forms {
+    display: grid;
+    gap: 10px;
+    position: relative;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    top: 5%;
+    width: 100%;
+}
+
+.form-group {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+}
+.form-group label{
+    font-family: poppins;
+}
+.form-group input {
+    background-color: white;
+    border-radius: 6px;
+    width: 100%;
+    height: 50%;
+    border: solid 1px gray;
+}
+
+.back-link {
+    color: blue;
 }
 
 .opcoes {
-    background:#34DCA2;
+    background: #34DCA2;
     color: black;
     font-family: poppins;
     text-decoration: none;
@@ -99,17 +127,23 @@ body {
 }
 
 .alongado {
-    grid-column: span 2; /* Ocupa as 2 colunas */
+    grid-column: span 2;
+    /* Ocupa as 2 colunas */
 }
 
 .sair {
-    background:  #ff4b4b;
+    background: #ff4b4b;
 }
 
 .sair:hover {
     background: #800000;
     color: white;
 }
+
+
+
+
+
 /* Responsividade para telas menores (celulares) */
 @media (max-width: 768px) {
     .container {
@@ -118,7 +152,8 @@ body {
         max-width: 400px;
     }
 
-    .left-section, .right-section {
+    .left-section,
+    .right-section {
         width: 100%;
         padding: 30px 20px;
     }
@@ -130,14 +165,18 @@ body {
     }
 
     .brand-logo {
-        margin-bottom: 10px; /* Menor espaço entre logo e letreiro em mobile */
+        margin-bottom: 10px;
+        /* Menor espaço entre logo e letreiro em mobile */
     }
 
-    .brand-name-img { /* Usando a nova classe */
+    .brand-name-img {
+        /* Usando a nova classe */
         position: static;
         width: 50%;
-        margin-top: 10px; /* Ajusta a margem superior se não estiver em posição absoluta */
-        font-size: 1.5em; /* Ajuste o tamanho da imagem do letreiro se ela se comportar como texto */
+        margin-top: 10px;
+        /* Ajusta a margem superior se não estiver em posição absoluta */
+        font-size: 1.5em;
+        /* Ajuste o tamanho da imagem do letreiro se ela se comportar como texto */
     }
 
     .login-title {
@@ -145,7 +184,10 @@ body {
         margin-bottom: 20px;
     }
 
-    .btn-login, .botoes, .error-message { /* Adicionado error-message aqui */
+    .btn-login,
+    .botoes,
+    .error-message {
+        /* Adicionado error-message aqui */
         max-width: 100%;
     }
 }
