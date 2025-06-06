@@ -34,7 +34,7 @@ th {
 }
 
 td a {
-    color: white;
+    color: red;
     text-decoration: none;
     font-weight: bold;
 }
@@ -47,5 +47,5 @@ a {
 }
 
 a:hover {
-    background-color: #2bd6a3;
+    color: #2bd6a3;
 }

@@ -79,7 +79,7 @@ body {
 
 .opcoes {
     background:#34DCA2;
-    color: black;
+    color: white;
     font-family: poppins;
     text-decoration: none;
     padding: 12px 20px;
@@ -104,10 +104,11 @@ body {
 
 .sair {
     background:  #ff4b4b;
+    color: black;
 }
 
 .sair:hover {
-    background: #800000;
+    background: #d01515;
     color: white;
 }
 /* Responsividade para telas menores (celulares) */
