@@ -45,7 +45,7 @@
                 <td><?php echo $usuarios['nome'];?></td>
                 <td><?php echo $usuarios['email'];?></td>
                 <td><?php echo $usuarios['setor'];?></td>
-                <td><a href="excluirUsuarios.php?id=<?=$usuarios['id']; ?>" onclick="return confirm('Tem certeza que deseja excluir este usuário?');">Excluir</a>
+                <td><a href="detalhesUsuarios.php?id=<?=$usuarios['id']; ?>" >Selecionar</a>
             </tr>
 
             <?php } ?>

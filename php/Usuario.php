@@ -102,4 +102,19 @@ require_once 'Conexao.php';
             $stmt->bindParam(':id',$this->id);
             return $stmt->execute();
         }
+
+        public function listarUsuariosPorId($id) {
+        $sql = "SELECT id, nome, email, setor, local FROM usuarios WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([$id]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+
+        public function atualizarUsuario($id, $nome, $email, $setor, $local) {
+        $sql = "UPDATE usuarios SET nome = ?, email = ?, setor = ?, local = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$nome, $email, $setor, $local, $id]);
+}
+
+
     }
