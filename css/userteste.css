@@ -76,7 +76,7 @@ body {
 
 .opcoes {
     background:#34DCA2;
-    color: black;
+    color: white;
     font-family: poppins;
     text-decoration: none;
     padding: 12px 20px;
@@ -96,18 +96,20 @@ body {
 }
 
 .alongado {
-    grid-column: span 2; /* Ocupa as 2 colunas */
+    grid-column: span 2; 
 }
 
 .sair {
     background:  #ff4b4b;
+    color: black;
 }
 
 .sair:hover {
     background: #800000;
-    color: white;
+    color: black;
 }
-/* Responsividade para telas menores (celulares) */
+
+
 @media (max-width: 768px) {
     .container {
         flex-direction: column;
@@ -127,14 +129,14 @@ body {
     }
 
     .brand-logo {
-        margin-bottom: 10px; /* Menor espaço entre logo e letreiro em mobile */
+        margin-bottom: 10px; 
     }
 
-    .brand-name-img { /* Usando a nova classe */
+    .brand-name-img { 
         position: static;
         width: 50%;
-        margin-top: 10px; /* Ajusta a margem superior se não estiver em posição absoluta */
-        font-size: 1.5em; /* Ajuste o tamanho da imagem do letreiro se ela se comportar como texto */
+        margin-top: 10px; 
+        font-size: 1.5em; 
     }
 
     .login-title {
@@ -142,7 +144,7 @@ body {
         margin-bottom: 20px;
     }
 
-    .btn-login, .botoes, .error-message { /* Adicionado error-message aqui */
+    .btn-login, .botoes, .error-message { 
         max-width: 100%;
     }
 }
