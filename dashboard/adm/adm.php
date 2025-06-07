@@ -1,29 +1,4 @@
 
-<!--
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Administrador</title>
-    <link rel="stylesheet" href="/gerenciadorti/css/telaAdm.css">   Verifique se está na mesma pasta 
-</head>
-<body>
-
-    <h1>PAINEL DO ADM</h1>
-
-    <div class="container">
-        <a href="..\..\chamado/indexChamado.php">Abrir um Chamado</a>
-        <a href="listarUsuario.php">Listar Usuários</a>
-        <a href="listarChamados.php">Visualizar Chamados</a>
-        <a href="..\..\tonner\indexChamadoTonner.php">Solicitar Tonner</a>
-        <a href="..\..\tonner\listarTonner.php">Listar Solicitações de Tonner</a>
-        <a href="..\..\login\logoff.php">Sair</a>
-    </div>
-
-</body>
-</html>
--->
 <?php
     session_start();
 
@@ -61,9 +36,10 @@
                 <a href="listarUsuario.php" class="opcoes">Listar Usuários</a>
                 <a href="listarChamados.php" class="opcoes">Visualizar Chamados</a>
                 <a href="..\..\tonner/indexChamadoTonner.php" class="opcoes">Solicitar Tonner</a>
+                <a href="..\..\tonner/listarTonner.php" class="opcoes">Listar Solicitações de Tonner</a>
                 <a href="..\..\tonner/indexChamadoTonner.php" class="opcoes">botao 1</a>
                 <a href="..\..\tonner/indexChamadoTonner.php" class="opcoes">botao 2</a>
-                <a href="..\..\tonner/listarTonner.php" class="opcoes">Listar Solicitações de Tonner</a>
+                
                 <a href="..\..\login/logoff.php" class="opcoes sair alongado">Sair</a>
             </div>
         </div>

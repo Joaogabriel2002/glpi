@@ -115,6 +115,11 @@ require_once 'Conexao.php';
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([$nome, $email, $setor, $local, $id]);
 }
+        public function atualizarSenha($id, $novaSenha) {
+        $sql = "UPDATE usuarios SET senha = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        return $stmt->execute([$novaSenha, $id]);
+}
 
 
     }

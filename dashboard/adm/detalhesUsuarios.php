@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['AlterarDados'])) {
 // Atualiza apenas a senha
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['AlterarSenha'])) {
     $id = $_POST['id'];
-    $senha = $_POST['senha'];
+    $senha = sha1($_POST['senha']);
 
     if ($usuario->atualizarSenha($id, $senha)) {
         echo "Senha atualizada com sucesso!";
