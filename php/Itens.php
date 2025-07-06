@@ -66,6 +66,7 @@ class Itens extends Conexao {
              return $resultados;
         }
 
+
         public function listarItens2() {
         $sql = "SELECT * FROM itens";
         $stmt = $this->conn->prepare($sql);
@@ -106,6 +107,8 @@ class Itens extends Conexao {
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+
 public function excluirItem($id) {
     // Verifica o saldo do item
     $sqlSaldo = "

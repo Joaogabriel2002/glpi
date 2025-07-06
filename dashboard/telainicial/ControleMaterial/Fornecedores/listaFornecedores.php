@@ -23,7 +23,7 @@
     <title>Listar Fornecedores</title>
      <link rel="icon" href="../../../../../img/chesiquimica-logo-png.png" type="image/png">
     
-        <link rel="stylesheet" href="../../../../css/listaUsuario.css">
+        <link rel="stylesheet" href="/sistemaglpi/css/listaUsuario.css">
         <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@600&display=swap"
         rel="stylesheet">
 <style>

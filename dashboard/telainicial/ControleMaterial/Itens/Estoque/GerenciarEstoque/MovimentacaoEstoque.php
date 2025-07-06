@@ -17,15 +17,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Administrador</title>
     <link rel="icon" href="..\..\..\..\..\..\img/chesiquimica-logo-png.png" type="image/png">
-    <link rel="stylesheet" href="..\..\..\..\..\..\css/telaEstoque.css"> 
+    <link rel="stylesheet" href="/sistemaglpi/css/telaEstoque.css"> 
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@600&display=swap"
         rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <div class="left-section">
-            <img src="..\..\..\..\..\..\img/chesiquimica-logo-png.png" alt="Logo" class="brand-logo"> 
-            <img src="..\..\..\..\..\..\img/chesiquimica-letreiro-png.png" alt="Nome da marca" class="brand-name"> 
+            <img src="..\..\..\..\..\..\img/chesiquimica-logo-png.png" alt="Logo" class="brand-logo">  
         </div>
 
         <div class="right-section">

@@ -1,5 +1,5 @@
 <?php
-require_once "..\php/Usuario.php";
+require_once "../php/Usuario.php";
 
 $usuarios = new Usuario();
 $setores = $usuarios->listarSetores();
@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $email = $_POST['email'];
 
     if (count($resultado) > 0 || strlen($email) < 5) {
-        echo '<div style="color: red; font-weight: bold; margin-top: 10px; position:absolute;top:5%;">Verifique seu email</div>';
+        $mensagemErro = "Verifique seu email.";
     } else {
         $usuario->setEmail($email);
         $erro = ["nome" => 0, "senha" => 0];
@@ -35,88 +35,94 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $setorEscolhido = $_POST['setor'];
 
         if ($setorEscolhido === "TI") {
-            echo '<div style="color: red; font-weight: bold; margin-top: 10px; position:absolute;top:5%;">Você não tem permissão para cadastrar no setor TI.</div>';
+            $mensagemErro = "Você não tem permissão para cadastrar no setor TI.";
         } else {
             $usuario->setSetor($setorEscolhido);
 
             if (in_array(1, $erro)) {
-                echo '<div style="color: red; font-weight: bold; margin-top: 10px; position:absolute;top:5%;">Erro no preenchimento, verifique os campos.!</div>';
+                $mensagemErro = "Erro no preenchimento, verifique os campos.";
             } else {
                 if ($usuario->cadastrar()) {
                     header("Location: confirmacaoCadastro.php");
                     exit;
                 } else {
-                    echo '<div style="color: red; font-weight: bold; margin-top: 10px; position:absolute;top:5%;">Erro ao cadastrar o usuário!!</div>';
+                    $mensagemErro = "Erro ao cadastrar o usuário!";
                 }
             }
         }
     }
 }
 ?>
-
-?>
-
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Cadastro - ChesiQuímica</title>
-    <link rel="stylesheet" href="../css/cadastro.css">
-   
-    <link rel="icon" href="../img/chesiquimica-logo-png.png" type="image/png">
+    <link rel="icon" href="../img/chesiquimica-logo-png.png" type="image/png" />
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
-<body>
-
-    <div class="container">
-        <!-- Bloco Verde -->
-        <div class="left-section">
-            <img src="..\img/chesiquimica-logo-png.png" alt="Logo ChesiQuímica" class="brand-logo">
-            <img src="..\img/chesiquimica-letreiro-png.png" alt="Logo ChesiQuímica" class="brand-name">
+<body class="min-h-screen bg-gray-100 flex items-center justify-center font-sans">
+    <div class="bg-white shadow-lg rounded-lg w-full max-w-4xl max-h-[90vh] mx-4 flex flex-col md:flex-row overflow-hidden">
+        <!-- Seção da Esquerda com logo -->
+        <div class="md:w-1/2 bg-black flex flex-col items-center justify-center p-8 space-y-6">
+            <img src="../img/logo-branca.png" alt="Logo ChesiQuímica" class="w-80 h-80 object-contain" />
         </div>
 
-        
-        <div class="right-section">
-            <a href="..\index.php" class="back-link">Voltar</a>
-            <h2 class="form-title">Cadastro</h2>
+        <!-- Seção da Direita com formulário -->
+        <div class="md:w-1/2 p-8 max-h-[90vh] overflow-y-auto">
 
-            <form class="form" action="indexCadastro.php" method="POST">
-                <div class="campo-form">
-                    <label>Nome Completo:</label>
-                    <input type="text" name="nome" placeholder="Digite seu nome completo" required>
+            <?php if (!empty($mensagemErro)) : ?>
+                <div class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+                    <?php echo htmlspecialchars($mensagemErro); ?>
                 </div>
-                <div class="campo-form">
-                    <label>Email:</label>
-                    <input type="email" name="email" placeholder="Digite seu email" required>
+            <?php endif; ?>
+
+            <a href="../index.php" class="text-sm text-purple-600 hover:underline">&larr; Voltar</a>
+            <h1 class="text-3xl font-bold mb-8 text-gray-800">Cadastro</h1>
+
+            <form class="space-y-6" action="indexCadastro.php" method="POST">
+                <div>
+                    <label class="block mb-2 font-medium text-gray-700">Nome Completo:</label>
+                    <input type="text" name="nome" placeholder="Digite seu nome completo" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-600">
                 </div>
-                <div class="campo-form">
-                    <label>Senha:</label>
-                    <input type="password" name="senha" placeholder="Digite sua senha" required>
+
+                <div>
+                    <label class="block mb-2 font-medium text-gray-700">Email:</label>
+                    <input type="email" name="email" placeholder="Digite seu email" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-600">
                 </div>
-                <div class="campo-form">
-                    <label>Confirme sua senha:</label>
-                    <input type="password" name="confirmacaoSenha" placeholder="Confirme sua senha" required>
+
+                <div>
+                    <label class="block mb-2 font-medium text-gray-700">Senha:</label>
+                    <input type="password" name="senha" placeholder="Digite sua senha" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-600">
                 </div>
-                <div class="campo-form">
-                    <label>Setor:</label>
-                    <select name="setor" id="setor" required>
-                        <option value=""></option>
+
+                <div>
+                    <label class="block mb-2 font-medium text-gray-700">Confirme sua senha:</label>
+                    <input type="password" name="confirmacaoSenha" placeholder="Confirme sua senha" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-600">
+                </div>
+
+                <div>
+                    <label class="block mb-2 font-medium text-gray-700">Setor:</label>
+                    <select name="setor" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-purple-600">
+                        <option value="">Selecione o setor</option>
                         <?php foreach ($setores as $set): ?>
-                        <option value="<?= htmlspecialchars($set['setor']) ?>">
-                            <?= htmlspecialchars($set['setor']) ?>
-                        </option>
-                    <?php endforeach; ?>
-
+                            <option value="<?= htmlspecialchars($set['setor']) ?>"><?= htmlspecialchars($set['setor']) ?></option>
+                        <?php endforeach; ?>
                     </select>
                 </div>
-                <button type="submit" class="submit-btn">Cadastrar-se</button>
+
+                <button type="submit"
+                    class="w-full bg-purple-700 hover:bg-purple-800 text-white font-semibold py-3 rounded transition-colors">
+                    Cadastrar-se
+                </button>
             </form>
         </div>
     </div>
-
 </body>
-
 </html>

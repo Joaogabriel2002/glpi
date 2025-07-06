@@ -51,7 +51,7 @@ if ($saldoTonner > 0) {
     <meta charset="UTF-8">
     <title>Detalhes do Chamado</title>
     <link rel="icon" href="../img/chesiquimica-logo-png.png" type="image/png">
-    <link rel="stylesheet" href="/gerenciadorti/css/detalhesTonner.css">
+    <link rel="stylesheet" href="/sistemaglpi/css/detalhesTonner.css">
 </head>
 <body>
 
@@ -65,7 +65,6 @@ if ($saldoTonner > 0) {
         <th>Situação</th>
         <th>Data de Abertura</th>
         <th>Modelo</th>
-        <th>Cor</th>
         <th>Solicitante</th>
         <th>E-mail</th>
         <th>Setor</th>
@@ -77,7 +76,6 @@ if ($saldoTonner > 0) {
         <td><?= htmlspecialchars($statusEstoque) ?></td>        
         <td><?= htmlspecialchars($detalhesTonner['dtAbertura']) ?></td>
         <td><?= htmlspecialchars($detalhesTonner['nome']) ?></td>
-        <td><?= htmlspecialchars($detalhesTonner['corTonner']) ?></td>
         <td><a href="detalhesUsuario.php?id=<?= urlencode($detalhesTonner['autorId']) ?>"><?= htmlspecialchars($detalhesTonner['autorNome']) ?></a></td>
         <td><?= htmlspecialchars($detalhesTonner['autorEmail']) ?></td>
         <td><?= htmlspecialchars($detalhesTonner['autorSetor']) ?></td>

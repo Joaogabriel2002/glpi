@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Usuario</title>
     <link rel="icon" href="img/chesiquimica-logo-png.png" type="image/png">
-    <link rel="stylesheet" href="../../css/userteste.css">
+    <link rel="stylesheet" href="/sistemaglpi/css/userteste.css">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Poppins:wght@600&display=swap"
         rel="stylesheet">
 </head>
@@ -23,7 +23,8 @@
     <div class="container">
         <div class="left-section">
             <img src="../../img/chesiquimica-logo-png.png" alt="Logo ChesiQuímica" class="brand-logo">
-            <img src="../../img/chesiquimica-letreiro-png.png" alt="Logo ChesiQuímica" class="brand-name">
+            <img src="../../img/chesiquimica-letreiro-png.png" alt="Logo" class="brand-logo"> 
+           
         </div>
 
         <div class="right-section">

@@ -48,7 +48,7 @@ $detalhesUsuario = $usuario->listarUsuariosPorId($idAtual);
 <head>
     <meta charset="UTF-8">
     <title>Editar Usuário</title>
-    <link rel="stylesheet" href="..\..\..\css/cadastro.css">
+    <link rel="stylesheet" href="/sistemaglpi/css/cadastro.css">
     <link rel="icon" href="..\..\..\img/chesiquimica-logo-png.png" type="image/png">
 </head>
 <body>

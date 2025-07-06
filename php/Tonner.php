@@ -1,7 +1,8 @@
 <?php
 require_once 'Conexao.php';
 
-class Tonner extends Conexao {
+class Tonner extends Conexao
+{
 
     private $tonnerId;
     private $status;
@@ -20,158 +21,200 @@ class Tonner extends Conexao {
     private $nome;
     private $solicitacaoId;
 
-    public function getSolicitacaoId() {
-    return $this->solicitacaoId;
+    public function getSolicitacaoId()
+    {
+        return $this->solicitacaoId;
     }
 
-    public function setSolicitacaoId($solicitacaoId) {
-    $this->solicitacaoId = $solicitacaoId;
+    public function setSolicitacaoId($solicitacaoId)
+    {
+        $this->solicitacaoId = $solicitacaoId;
     }
 
 
-    public function getTonnerId() {
+    public function getTonnerId()
+    {
         return $this->tonnerId;
     }
 
-    public function setTonnerId($tonnerId) {
+    public function setTonnerId($tonnerId)
+    {
         $this->tonnerId = $tonnerId;
     }
 
-    public function getAutorId() {
+    public function getAutorId()
+    {
         return $this->autorId;
     }
 
-    public function setAutorId($autorId) {
+    public function setAutorId($autorId)
+    {
         $this->autorId = $autorId;
     }
 
-    public function getStatus() {
+    public function getStatus()
+    {
         return $this->status;
     }
 
-    public function setStatus($status) {
+    public function setStatus($status)
+    {
         $this->status = $status;
     }
 
-    public function getDtAbertura() {
+    public function getDtAbertura()
+    {
         return $this->dtAbertura;
     }
 
-    public function setDtAbertura($dtAbertura) {
+    public function setDtAbertura($dtAbertura)
+    {
         $this->dtAbertura = $dtAbertura;
     }
 
-    public function getSituacao() {
+    public function getSituacao()
+    {
         return $this->situacao;
     }
 
-    public function setSituacao($situacao) {
+    public function setSituacao($situacao)
+    {
         $this->situacao = $situacao;
     }
 
     // Faltando:
 
-    public function getModeloTonner() {
+    public function getModeloTonner()
+    {
         return $this->modeloTonner;
     }
 
-    public function setModeloTonner($modeloTonner) {
+    public function setModeloTonner($modeloTonner)
+    {
         $this->modeloTonner = $modeloTonner;
     }
 
-    public function getCorTonner() {
+    public function getCorTonner()
+    {
         return $this->corTonner;
     }
 
-    public function setCorTonner($corTonner) {
+    public function setCorTonner($corTonner)
+    {
         $this->corTonner = $corTonner;
     }
 
-    public function getDtFechamento() {
+    public function getDtFechamento()
+    {
         return $this->dtFechamento;
     }
 
-    public function setDtFechamento($dtFechamento) {
+    public function setDtFechamento($dtFechamento)
+    {
         $this->dtFechamento = $dtFechamento;
     }
 
-    public function getAutorNome() {
+    public function getAutorNome()
+    {
         return $this->autorNome;
     }
 
-    public function setAutorNome($autorNome) {
+    public function setAutorNome($autorNome)
+    {
         $this->autorNome = $autorNome;
     }
 
-    public function getAutorEmail() {
+    public function getAutorEmail()
+    {
         return $this->autorEmail;
     }
 
-    public function setAutorEmail($autorEmail) {
+    public function setAutorEmail($autorEmail)
+    {
         $this->autorEmail = $autorEmail;
     }
 
-    public function getAutorSetor() {
+    public function getAutorSetor()
+    {
         return $this->autorSetor;
     }
 
-    public function setAutorSetor($autorSetor) {
+    public function setAutorSetor($autorSetor)
+    {
         $this->autorSetor = $autorSetor;
     }
 
-    public function getTecnico() {
+    public function getTecnico()
+    {
         return $this->tecnico;
     }
 
-    public function setTecnico($tecnico) {
+    public function setTecnico($tecnico)
+    {
         $this->tecnico = $tecnico;
     }
 
-    public function getIdAtualizacao() {
+    public function getIdAtualizacao()
+    {
         return $this->idAtualizacao;
     }
 
-    public function setIdAtualizacao($idAtualizacao) {
+    public function setIdAtualizacao($idAtualizacao)
+    {
         $this->idAtualizacao = $idAtualizacao;
     }
 
-    public function getNome() {
+    public function getNome()
+    {
         return $this->nome;
     }
 
-    public function setNome($nome) {
+    public function setNome($nome)
+    {
         $this->nome = $nome;
     }
 
-    public function getImpressoraId() {
+    public function getImpressoraId()
+    {
         return $this->impressoraId;
     }
 
-    public function setImpressoraId($impressoraId) {
+    public function setImpressoraId($impressoraId)
+    {
         $this->impressoraId = $impressoraId;
     }
 
 
-   
 
-    public function solicitarTonner() {
-    $sql = "INSERT INTO tonnerSolicitacao (tonnerId, status, corTonner, autorId, autorNome, autorEmail, autorSetor, impressoraId)
+
+    public function solicitarTonner()
+    {
+        $sql = "INSERT INTO tonnerSolicitacao (tonnerId, status, corTonner, autorId, autorNome, autorEmail, autorSetor, impressoraId)
             VALUES (:tonnerId, :status, :corTonner, :autorId, :autorNome, :autorEmail, :autorSetor, :impressoraId)";
-    $stmt = $this->conn->prepare($sql);
-    $stmt->bindParam(':tonnerId', $this->tonnerId, PDO::PARAM_INT);
-    $stmt->bindParam(':status', $this->status);
-    $stmt->bindParam(':corTonner', $this->corTonner);
-    $stmt->bindParam(':autorId', $this->autorId);
-    $stmt->bindParam(':autorNome', $this->autorNome);
-    $stmt->bindParam(':autorEmail', $this->autorEmail);
-    $stmt->bindParam(':autorSetor', $this->autorSetor);
-    $stmt->bindParam(':impressoraId', $this->impressoraId);
-    return $stmt->execute() ? $this->conn->lastInsertId() : false;
-}
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':tonnerId', $this->tonnerId, PDO::PARAM_INT);
+        $stmt->bindParam(':status', $this->status);
+        $stmt->bindParam(':corTonner', $this->corTonner);
+        $stmt->bindParam(':autorId', $this->autorId);
+        $stmt->bindParam(':autorNome', $this->autorNome);
+        $stmt->bindParam(':autorEmail', $this->autorEmail);
+        $stmt->bindParam(':autorSetor', $this->autorSetor);
+        $stmt->bindParam(':impressoraId', $this->impressoraId);
+        return $stmt->execute() ? $this->conn->lastInsertId() : false;
+    }
 
 
-    
-    public function atualizarTonner($id, $dados) {
+    public function contarTonnersAbertos()
+    {
+        $sql = "SELECT COUNT(*) as total FROM tonnersolicitacao WHERE status = 'Aberto'";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resultado['total'] ?? 0;
+    }
+
+    public function atualizarTonner($id, $dados)
+    {
         $sql = "UPDATE tonnerSolicitacao SET status = :status, situacao = :situacao WHERE tonnerId = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':status', $dados['status'], PDO::PARAM_STR);
@@ -180,8 +223,9 @@ class Tonner extends Conexao {
         return $stmt->execute();
     }
 
-  
-    public function excluirTonner($id) {
+
+    public function excluirTonner($id)
+    {
         $sql = "DELETE FROM tonnerSolicitacao WHERE tonnerId = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
@@ -191,7 +235,8 @@ class Tonner extends Conexao {
     // --- MÉTODOS DE LISTAGEM COM JOIN ---
 
     // Listar todas as solicitações com modelo, cor e nome do item
-    public function listarTodasSolicitacoes() {
+    public function listarTodasSolicitacoes()
+    {
         $sql = "SELECT ts.*, i.modeloTonner, i.corTonner, i.nome
                 FROM tonnerSolicitacao ts
                 JOIN itens i ON ts.tonnerId = i.id";
@@ -201,20 +246,22 @@ class Tonner extends Conexao {
     }
 
     // Listar por ID com join
-    public function listarTonnerPorId($idAtual) {
-    $sql = "SELECT ts.*, i.nome
+    public function listarTonnerPorId($idAtual)
+    {
+        $sql = "SELECT ts.*, i.nome
             FROM tonnerSolicitacao ts
             JOIN itens i ON ts.tonnerId = i.id
             WHERE ts.solicitacaoId = :id";
-    $stmt = $this->conn->prepare($sql);
-    $stmt->bindParam(':id', $idAtual, PDO::PARAM_INT);
-    $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $idAtual, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
 
     // Listar com filtros
-    public function listarTonnerPorId2($status = '', $tonnerId = '') {
+    public function listarTonnerPorId2($status = '', $tonnerId = '')
+    {
         $sql = "SELECT ts.*,i.nome
                 FROM tonnerSolicitacao ts
                 JOIN itens i ON ts.tonnerId = i.id
@@ -245,7 +292,8 @@ class Tonner extends Conexao {
     }
 
     // Listar por autorId e filtros
-    public function listarTodosTonnerPorId($autorId, $status = '', $tonnerId = '') {
+    public function listarTodosTonnerPorId($autorId, $status = '', $tonnerId = '')
+    {
         $sql = "SELECT ts.*, i.nome
                 FROM tonnerSolicitacao ts
                 JOIN itens i ON ts.tonnerId = i.id
@@ -277,7 +325,8 @@ class Tonner extends Conexao {
     }
 
     // Listar por ticket
-    public function listarTonnerPorTicket($idFiltro) {
+    public function listarTonnerPorTicket($idFiltro)
+    {
         $sql = "SELECT ts.*, i.modeloTonner, i.corTonner, i.nome
                 FROM tonnerSolicitacao ts
                 JOIN itens i ON ts.tonnerId = i.id
@@ -289,7 +338,8 @@ class Tonner extends Conexao {
     }
 
     // Listar por ticket e autorId
-    public function listarTonnerPorTicket2($autorId, $idFiltro = '') {
+    public function listarTonnerPorTicket2($autorId, $idFiltro = '')
+    {
         $sql = "SELECT ts.*, i.modeloTonner, i.corTonner, i.nome
                 FROM tonnerSolicitacao ts
                 JOIN itens i ON ts.tonnerId = i.id
@@ -310,68 +360,73 @@ class Tonner extends Conexao {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function listarAtualizacoesPorSolicitacao($solicitacaoId) {
-            $sql = "SELECT id_atualizacao, dtAtualizacao, tecnico, situacao 
+    public function listarAtualizacoesPorSolicitacao($solicitacaoId)
+    {
+        $sql = "SELECT id_atualizacao, dtAtualizacao, tecnico, situacao 
                     FROM tonneratualizacao 
                     WHERE solicitacaoId = :solicitacaoId";
-         $stmt = $this->conn->prepare($sql);
-         $stmt->bindParam(':solicitacaoId',$solicitacaoId);
-         $stmt->execute();
-         return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':solicitacaoId', $solicitacaoId);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-        public function excluirAtualizacao(){
-            $sql="DELETE FROM tonneratualizacao WHERE id_atualizacao=:idAtualizacao";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':idAtualizacao',$this->idAtualizacao);
-            return $stmt->execute();
-        }
+    public function excluirAtualizacao()
+    {
+        $sql = "DELETE FROM tonneratualizacao WHERE id_atualizacao=:idAtualizacao";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':idAtualizacao', $this->idAtualizacao);
+        return $stmt->execute();
+    }
 
-        public function adicionarAtualizacao(){
+    public function adicionarAtualizacao()
+    {
         $sql = "INSERT INTO tonneratualizacao (solicitacaoid, tecnico, situacao) VALUES (:solicitacaoid, :tecnico, :situacao)";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':solicitacaoid', $this->solicitacaoId);
         $stmt->bindParam(':tecnico', $this->tecnico);
         $stmt->bindParam(':situacao', $this->situacao);
         return $stmt->execute();
-}
+    }
 
 
-           public function atualizarSolicitacao($status, $situacao, $idAtual) {
-            $sql = "UPDATE tonnerSolicitacao SET status = :status, situacao = :situacao WHERE solicitacaoid = :id";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
-            $stmt->bindParam(':situacao', $situacao, PDO::PARAM_STR);
-            $stmt->bindParam(':id', $idAtual, PDO::PARAM_INT); // Melhor usar INT, se for numérico
-            $stmt->execute();
-            return $stmt->rowCount();
-        }
+    public function atualizarSolicitacao($status, $situacao, $idAtual)
+    {
+        $sql = "UPDATE tonnerSolicitacao SET status = :status, situacao = :situacao WHERE solicitacaoid = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+        $stmt->bindParam(':situacao', $situacao, PDO::PARAM_STR);
+        $stmt->bindParam(':id', $idAtual, PDO::PARAM_INT); // Melhor usar INT, se for numérico
+        $stmt->execute();
+        return $stmt->rowCount();
+    }
 
-        public function buscarSaldo($itemId) {
-    $sql = "
+    public function buscarSaldo($itemId)
+    {
+        $sql = "
         SELECT 
             COALESCE(SUM(CASE WHEN e.tipo_movimentacao = 'ENTRADA' THEN e.quantidade ELSE 0 END), 0) -
             COALESCE(SUM(CASE WHEN e.tipo_movimentacao = 'SAIDA' THEN e.quantidade ELSE 0 END), 0) AS saldo
         FROM estoque e
         WHERE e.item_id = :itemId
     ";
-    $stmt = $this->conn->prepare($sql);
-    $stmt->bindParam(':itemId', $itemId);
-    $stmt->execute();
-    return $stmt->fetchColumn();
-}
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':itemId', $itemId);
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
     public function listarMovimentacoesPorItem($item_id)
-{
-    $sql = "SELECT e.*, u.nome AS nome_usuario 
+    {
+        $sql = "SELECT e.*, u.nome AS nome_usuario 
             FROM estoque e
             LEFT JOIN usuarios u ON e.usuario_id = u.id
             WHERE e.item_id = :item_id
             ORDER BY e.id DESC"; // ou e.data_movimentacao DESC, caso tenha a coluna data
-    
-    $stmt = $this->conn->prepare($sql);
-    $stmt->bindParam(':item_id', $item_id, PDO::PARAM_INT);
-    $stmt->execute();
 
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':item_id', $item_id, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

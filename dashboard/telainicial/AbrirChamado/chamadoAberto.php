@@ -19,8 +19,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmação de Chamado</title>
-    <link rel="icon" href="img/chesiquimica-logo-png.png" type="image/png">
-    <link rel="stylesheet" href="/gerenciadorti/css/confirmacaoChamado.css">
+    <link rel="icon" href="/sistemaglpi/img/chesiquimica-logo-png.png" type="image/png">
+    <link rel="stylesheet" href="/sistemaglpi/css/confirmacaoChamado.css">
 
 </head>
 <body>

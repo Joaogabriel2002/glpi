@@ -1,20 +1,13 @@
 <?php
-    session_start();
-    require_once "Usuario.php";
-    echo $_SESSION['usuario_id'];
-    
-    if(!isset($_SESSION['usuario_id'])){
+session_start();
+require_once "Usuario.php";
 
-        header('Location: ..\index.php');
-    }else{
+if (!isset($_SESSION['usuario_id'])) {
+    header('Location: ../index.php');
+    exit();
+}
 
-        if ($_SESSION['setor']==="TI"){
-           header ("Location: ..\dashboard/telaInicial/telaAdm.php");
-           
-        }else{
-            // echo "Não";
-           header ("Location: ..\dashboard/telainicial/telaUsuario.php");
-        }
-    }
-
+// Redireciona sempre para a dashboard única
+header("Location: ../dashboard/telainicial/dashboard.php");
+exit();
 ?>

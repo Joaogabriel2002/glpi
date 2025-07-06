@@ -1,6 +1,6 @@
 <?php
 require_once '..\..\..\php/Tonner.php';
-
+require_once '..\..\..\php/Itens.php';
 session_start();
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: ../../index.php');
@@ -15,11 +15,26 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
 $idAtual = $_GET['id'];
 $tonner = new Tonner();
+$item = new Itens();
 $detalhesTonner = $tonner->listarTonnerporId($idAtual);
 $atualizacoesTonner = $tonner->listarAtualizacoesPorSolicitacao($solicitacaoId);
-
+$saldo = $item->listarEstoque();
 if (!$detalhesTonner) {
     die('Solicitação não encontrada.');
+}
+$statusEstoque = 'Sem estoque'; // padrão
+$nomeTonner = $detalhesTonner['nome'];
+
+$saldoTonner = 0;
+foreach ($saldo as $itemEstoque) {
+    if ($itemEstoque['nome'] === $nomeTonner) {
+        $saldoTonner = (int)$itemEstoque['saldo'];
+        break;
+    }
+}
+
+if ($saldoTonner > 0) {
+    $statusEstoque = 'Em estoque';
 }
 ?>
 
@@ -29,7 +44,7 @@ if (!$detalhesTonner) {
     <meta charset="UTF-8">
     <title>Detalhes do Chamado</title>
     <link rel="icon" href="../img/chesiquimica-logo-png.png" type="image/png">
-    <link rel="stylesheet" href="/gerenciadorti/css/detalhesTonner.css">
+    <link rel="stylesheet" href="/sistemaglpi/css/detalhesTonner.css">
 </head>
 <body>
 
@@ -51,8 +66,10 @@ if (!$detalhesTonner) {
     <tr>
         <td><?= $detalhesTonner['solicitacaoId'] ?></td>
         <td><?= $detalhesTonner['status'] ?></td>
-        <td><?= $detalhesTonner['situacao'] ?></td>
+
+        <td><?= htmlspecialchars($statusEstoque) ?></td>    
         <td><?= $detalhesTonner['dtAbertura'] ?></td>
+
         <td><?= $detalhesTonner['nome'] ?></td>
 
         <td><a href="detalhesUsuario.php?id=<?= $detalhesTonner['autorId'] ?>"><?= $detalhesTonner['autorNome'] ?></a></td>

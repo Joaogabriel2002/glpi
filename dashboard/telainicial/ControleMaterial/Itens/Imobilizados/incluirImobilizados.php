@@ -2,22 +2,32 @@
 require_once '..\..\..\..\..\php/Imobilizados.php';
 require_once '..\..\..\..\..\php/Usuario.php';
 $msg = "";
-
+session_start();
 // if(!isset($_SESSION['usuario_id'])){
 //     header("Location:..\..\index.php");
 //     exit();
 // }
+if (!isset($_SESSION['usuario_id'])) {
+    header('Location:../../index.php');
+    exit;
+}
+$usuario = $_SESSION['usuario'];
+$setor = $_SESSION['setor'];
 
-
+if ($_SESSION['setor'] !== "TI") {
+    header('Location:../../php/validacao.php');
+    exit;
+}
 $imobilizado = new Imobilizados();
-$usuario = new Usuario();
-$usuarios = $usuario->listarUsuarios();
-$modelos= $imobilizado->buscarModelos();
-$setor= $imobilizado->buscarSetores();
+$usuarioModel = new Usuario();
+$usuarios = $usuarioModel->listarUsuarios();
+
+$modelos = $imobilizado->buscarModelos();
+$setorModel = $imobilizado->buscarSetores();
 
 
 
-if ($_SERVER['REQUEST_METHOD'] === "POST"){
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $imobilizado = new Imobilizados;
     $imobilizado->setModelo($_POST['modelo']);        // modelo_id no banco
     $imobilizado->setPatrimonio($_POST['patrimonio']);
@@ -35,11 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
         $msg = "Item cadastrado com sucesso!";
     }
 }
-
-
-
-
-
 ?>
 
 <!DOCTYPE html>
@@ -48,97 +53,193 @@ if ($_SERVER['REQUEST_METHOD'] === "POST"){
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cadastro - ChesiQuímica</title>
-    <script src="scriptEstoque.js"></script>
-    <link rel="stylesheet" href="../../../../../css/incluirEstoque.css" />
+    <title>Vinculo de Equipamentos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="/sistemaglpi/img/chesiquimica-logo-png.png" type="image/png">
 </head>
 
-<body>
+<body class="flex h-screen font-sans">
 
+    <aside class="w-64 bg-black text-gray-800 p-6 flex flex-col relative z-10">
+        <!-- Logo e nome -->
+        <div class="flex items-center mb-8 space-x-3">
+            <img src="/sistemaglpi/img/chesi-logo-branca.png" alt="Logo" class="h-16 w-16 object-contain">
+            <div>
+                <h2 class="text-lg font-semibold text-white"><?php echo $usuario; ?></h2>
+                <p class="text-sm text-gray-400"><?php echo $setor; ?></p>
+            </div>
+        </div>
 
-<div class="container">
-    <div class="left-section">
-        <img src="../../../../../img/chesiquimica-logo-png.png" alt="Logo ChesiQuímica" class="brand-logo" />
-        <img src="../../../../../img/chesiquimica-letreiro-png.png" alt="Logo ChesiQuímica" class="brand-name" />
-    </div>
+        <!-- Navegação -->
+        <nav class="flex flex-col space-y-2">
 
-    <div class="right-section">
-        <a href="imobilizados.php" class="back-link">Voltar</a>
-        <?php if ($msg) : ?>
-            <div class="mensagem-feedback"><?= htmlspecialchars($msg) ?></div>
-        <?php endif; ?>
-        <h2 class="form-title">Cadastro</h2>
+            <!-- Chamados -->
+            <div class="relative group">
+                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                    Chamados
+                </button>
+                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                    <a href="/sistemaglpi/dashboard/telaInicial/AbrirChamado/indexChamado.php" class="p-2 hover:bg-[#2E2E2E] text-white">Abrir Chamado</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/AbrirChamado/listarChamadosPorId.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Chamados Pessoais</a>
 
-        <form class="form" action="incluirImobilizados.php" method="POST" id="form-estoque">
+                    <a href="/sistemaglpi/dashboard/telaInicial/GerenciarChamados/listarChamados.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Todos Chamados</a>
 
-            <div class="campo-form">
-                <label for="modeloTonner">Modelo:</label>
-                <select id="modelo" name="modelo" required>
-                    <option value=""></option>
-                    <?php foreach ($modelos as $mdl): ?>
-                        <option value="<?= htmlspecialchars($mdl['idEquipamento']) ?>">
-                        <?= htmlspecialchars($mdl['descricaoEquipamento']) ?>
-                        </option>
-                    <?php endforeach; ?>
+                </div>
+            </div>
 
-                </select>
+            <!-- Tonner -->
+            <div class="relative group">
+                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                    Tonner
+                </button>
+                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                    <a href="/sistemaglpi/dashboard/telaInicial/SolicitarTonner/indexChamadoTonner.php" class="p-2 hover:bg-[#2E2E2E] text-white">Solicitar Tonner</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/SolicitarTonner/listarTonnerPorId.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Solicitações pessoais</a>
+
+                    <a href="/sistemaglpi/dashboard/telaInicial/GerenciarTonner/listarTonner.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Todos Tonner</a>
+
+                </div>
+            </div>
+
+            <!-- Equipamentos (somente para TI) -->
+
+            <div class="relative group">
+                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                    Equipamentos
+                </button>
+                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Imobilizados/cadastroImobilizados.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Equipamentos</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Imobilizados/listaImobilizados.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Equipamentos</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Imobilizados/incluirImobilizados.php" class="p-2 hover:bg-[#2E2E2E] text-white">Vincular Equipamento</a>
+                </div>
+            </div>
+
+            <!-- Itens -->
+            <div class="relative group">
+                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                    Itens
+                </button>
+                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/cadastrarItem.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Itens</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/Itens/listaItens.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Itens</a>
+                </div>
+            </div>
+
+            <!-- Estoque -->
+            <div class="relative group">
+                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                    Estoque
+                </button>
+                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/incluirEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Incluir Item</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/baixarEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Baixar Item</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/visualizarMovimentacao.php" class="p-2 hover:bg-[#2E2E2E] text-white">Visualizar Movimentações</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/listaEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Visualizar Estoque</a>
+                </div>
+            </div>
+
+            <!-- Cadastro -->
+            <div class="relative group">
+                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                    Cadastro
+                </button>
+                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                    <a href="/sistemaglpi/dashboard/telainicial/cadastros/IndexCadastro.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Usuário</a>
+                    <a href="/sistemaglpi/dashboard/telainicial/usuario\listarUsuario.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Usuário</a>
+                    <a href="Cadastros/cadastroSetor.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Setor</a>
+                    <a href="#" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Setor</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Fornecedores/cadastrarFornecedor.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Fornecedor</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Fornecedores/listaFornecedores.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Fornecedor</a>
+                </div>
             </div>
 
 
-            <div id="itens-container">
-                <div class="campo-form item-row">
-                    <label>Nrº Patrimônio</label>               
-                    <input type="text" id="patrimonio" name="patrimonio" required>
+            <!-- Sair -->
+            <a href="/sistemaglpi/login/logoff.php" class="bg-purple-600 hover:bg-red-700 text-black hover:text-white text-center p-2 rounded mt-4">Sair</a>
+        </nav>
+    </aside>
+
+    <main class="flex-1 p-8 bg-gray-300 max-h-screen h-full overflow-auto">
+        <div class="w-full max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mb-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Vincular Equipamento</h2>
+
+            <?php if ($msg) : ?>
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                    <?= htmlspecialchars($msg) ?>
+                </div>
+            <?php endif; ?>
+
+            <form action="incluirImobilizados.php" method="POST" class="space-y-5" id="form-estoque">
+                <div>
+                    <label for="modelo" class="block text-sm font-medium text-gray-700 mb-1">Modelo:</label>
+                    <select id="modelo" name="modelo" required class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4B5563]">
+                        <option value=""></option>
+                        <?php foreach ($modelos as $mdl): ?>
+                            <option value="<?= htmlspecialchars($mdl['idEquipamento']) ?>">
+                                <?= htmlspecialchars($mdl['descricaoEquipamento']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
 
-            <div class="campo-form">
-                <label for="localizacao">Setor:</label>
-                <select id="localizacao" name="localizacao" required>
-                    <option value=""></option>
-                    <?php foreach ($setor as $st): ?>
-                        <option value="<?= htmlspecialchars($st['setor']) ?>">
-                        <?= htmlspecialchars($st['setor']) ?>
-                        </option>
-                    <?php endforeach; ?>
+                <div>
+                    <label for="patrimonio" class="block text-sm font-medium text-gray-700 mb-1">Número do Patrimônio:</label>
+                    <input type="text" id="patrimonio" name="patrimonio" required class="w-full px-4 py-2 border border-gray-300 rounded text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4B5563]">
+                </div>
 
-                </select><br><br>
-            </div>
+                <div>
+                    <label for="localizacao" class="block text-sm font-medium text-gray-700 mb-1">Setor:</label>
+                    <select id="localizacao" name="localizacao" required class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4B5563]">
+                        <option value=""></option>
+                        <?php foreach ($setorModel as $st): ?>
+                            <option value="<?= htmlspecialchars($st['setor']) ?>">
+                                <?= htmlspecialchars($st['setor']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
-            <div class="campo-form item-row">
-                    <label>Nrº NFe</label>               
-                    <input type="text" id="nota_fiscal" name="nota_fiscal" required>
-                </div><br>
-                <div class="campo-form">
-                <label for="setor">Usuario(se houver):</label>
-                <select id="usuario" name="usuario" required>
-                    <option value=""></option>
-                    <?php foreach ($usuarios as $user): ?>
-                        <option value="<?= htmlspecialchars($user['id']) ?>">
-                        <?= htmlspecialchars($user['nome']) ?>
-                        </option>
-                    <?php endforeach; ?>
+                <div>
+                    <label for="nota_fiscal" class="block text-sm font-medium text-gray-700 mb-1">Número da Nota Fiscal:</label>
+                    <input type="text" id="nota_fiscal" name="nota_fiscal" required class="w-full px-4 py-2 border border-gray-300 rounded text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4B5563]">
+                </div>
 
-                </select><br><br>
-            </div>
-            <div class="campo-form">
-                <label for="status">Situação:</label>
-                <select id="status" name="status" required>
-                    <option value=""></option>
-                    <option value="Ativo">Ativo</option>
-                    <option value="Em_manutencao">Em manutenção</option>
-                    <option value="Reservado">Reservado</option>
-                    <option value="Emprestado">Emprestado</option>
-                    <option value="Disponivel">Disponível</option>
-                    <option value="Perdido">Perdido</option>
-                    <option value="Sucata">Sucata</option>
-                </select>
-            </div>
+                <div>
+                    <label for="usuario" class="block text-sm font-medium text-gray-700 mb-1">Usuário (se houver):</label>
+                    <select id="usuario" name="usuario" class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4B5563]">
+                        <option value=""></option>
+                        <?php foreach ($usuarios as $user): ?>
+                            <option value="<?= htmlspecialchars($user['id']) ?>">
+                                <?= htmlspecialchars($user['nome']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
-                
-            <br><button type="submit" class="submit-btn">Cadastrar</button>
-        </form>
-    </div>
-</div>
+                <div>
+                    <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Situação:</label>
+                    <select id="status" name="status" required class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4B5563]">
+                        <option value=""></option>
+                        <option value="Ativo">Ativo</option>
+                        <option value="Em_manutencao">Em manutenção</option>
+                        <option value="Reservado">Reservado</option>
+                        <option value="Emprestado">Emprestado</option>
+                        <option value="Disponivel">Disponível</option>
+                        <option value="Perdido">Perdido</option>
+                        <option value="Sucata">Sucata</option>
+                    </select>
+                </div>
+
+                <div>
+                    <button type="submit" class="w-full bg-[#4B5563] hover:bg-[#2E2E2E] text-white font-semibold py-2 px-4 rounded shadow transition duration-300">
+                        Cadastrar
+                    </button>
+                </div>
+            </form>
+        </div>                    
+    </main>
+
+
 </body>
 
 </html>

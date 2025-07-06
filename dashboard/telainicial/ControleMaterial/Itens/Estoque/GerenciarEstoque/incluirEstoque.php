@@ -5,7 +5,9 @@ require_once '..\..\..\..\..\..\php\Fornecedor.php';
 require_once '..\..\..\..\..\..\php\Estoque.php';
 
 session_start();
-echo $_SESSION['usuario_id'];
+// echo $_SESSION['usuario_id'];
+$usuario = $_SESSION['usuario'];
+$setor = $_SESSION['setor'];
 $msg = "";
 
 
@@ -77,87 +79,197 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Cadastro - ChesiQuímica</title>
-    <script src="scriptEstoque.js"></script>
-    <link rel="stylesheet" href="../../../../../../css/incluirEstoque.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cadastro - ChesiQuímica</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="/sistemaglpi/img/chesiquimica-logo-png.png" type="image/png">
+  <script src="scriptEstoque.js"></script>
 </head>
 
-<body>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const itensContainer = document.getElementById('itens-container');
-    const botaoAdd = document.getElementById('botao-adicionar');
-    const optionsHTML = `<?= $optionsHTML ?>`;
+<body class="flex h-screen font-sans">
 
-    function adicionarItem() {
-        const novaLinha = document.createElement('div');
-        novaLinha.classList.add('campo-form', 'item-row');
-        novaLinha.innerHTML = `
-            <label>Item:</label>
-            <select name="item[]" required>
-                ${optionsHTML}
-            </select>
-            <label>Quantidade:</label>
-            <input type="number" name="quantidade[]" min="1" required>
-            <button type="button" class="remover-btn">Remover</button>
-        `;
-
-        itensContainer.appendChild(novaLinha);
-
-        novaLinha.querySelector('.remover-btn').addEventListener('click', () => {
-            itensContainer.removeChild(novaLinha);
-        });
-    }
-
-    botaoAdd.addEventListener('click', adicionarItem);
-});
-</script>
-
-<div class="container">
-    <div class="left-section">
-        <img src="../../../../img/chesiquimica-logo-png.png" alt="Logo ChesiQuímica" class="brand-logo" />
-        <img src="../../../../img/chesiquimica-letreiro-png.png" alt="Logo ChesiQuímica" class="brand-name" />
-    </div>
-
-    <div class="right-section">
-        <a href="MovimentacaoEstoque.php" class="back-link">Voltar</a>
-        <?php if ($msg) : ?>
-            <div class="mensagem-feedback"><?= htmlspecialchars($msg) ?></div>
-        <?php endif; ?>
-        <h2 class="form-title">Cadastro</h2>
-
-        <form class="form" action="incluirEstoque.php" method="POST" id="form-estoque">
-            <div class="campo-form">
-                <label>Nrº NFe:</label>
-                <input type="text" name="nota_fiscal" placeholder="000000" required />
+  <!-- ASIDE NAVBAR -->
+  <aside class="w-64 bg-black text-gray-800 p-6 flex flex-col relative z-10">
+        <!-- Logo e nome -->
+        <div class="flex items-center mb-8 space-x-3">
+            <img src="/sistemaglpi/img/chesi-logo-branca.png" alt="Logo" class="h-16 w-16 object-contain">
+            <div>
+                <h2 class="text-lg font-semibold text-white"><?php echo $usuario; ?></h2>
+                <p class="text-sm text-gray-400"><?php echo $setor; ?></p>
             </div>
+        </div>
 
-            <div class="campo-form">
-                <label>Fornecedor:</label>
-                <select name="fornecedor" required>
-                    <?= $optionsFornecedoresHTML ?>
-                </select>
-            </div>
+        <!-- Navegação -->
+        <nav class="flex flex-col space-y-2">
 
-            <div id="itens-container">
-                <div class="campo-form item-row">
-                    <label>Item:</label>
-                    <select name="item[]" required>
-                        <?= $optionsHTML ?>
-                    </select>
+            <!-- Chamados -->
+            <div class="relative group">
+                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                    Chamados
+                </button>
+                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                    <a href="/sistemaglpi/dashboard/telaInicial/AbrirChamado/indexChamado.php" class="p-2 hover:bg-[#2E2E2E] text-white">Abrir Chamado</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/AbrirChamado/listarChamadosPorId.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Chamados Pessoais</a>
 
-                    <label>Quantidade:</label>
-                    <input type="number" name="quantidade[]" min="1" required />
+                    <a href="/sistemaglpi/dashboard/telaInicial/GerenciarChamados/listarChamados.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Todos Chamados</a>
+
                 </div>
             </div>
 
-            <button type="button" class="submit-btn" id="botao-adicionar">Adicionar Item</button>
-            <button type="submit" class="submit-btn">Cadastrar</button>
-        </form>
+            <!-- Tonner -->
+            <div class="relative group">
+                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                    Tonner
+                </button>
+                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                    <a href="/sistemaglpi/dashboard/telaInicial/SolicitarTonner/indexChamadoTonner.php" class="p-2 hover:bg-[#2E2E2E] text-white">Solicitar Tonner</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/SolicitarTonner/listarTonnerPorId.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Solicitações pessoais</a>
+
+                    <a href="/sistemaglpi/dashboard/telaInicial/GerenciarTonner/listarTonner.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Todos Tonner</a>
+
+                </div>
+            </div>
+
+            <!-- Equipamentos (somente para TI) -->
+
+            <div class="relative group">
+                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                    Equipamentos
+                </button>
+                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Imobilizados/cadastroImobilizados.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Equipamentos</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Imobilizados/listaImobilizados.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Equipamentos</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Imobilizados/incluirImobilizados.php" class="p-2 hover:bg-[#2E2E2E] text-white">Vincular Equipamento</a>
+                </div>
+            </div>
+
+            <!-- Itens -->
+            <div class="relative group">
+                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                    Itens
+                </button>
+                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/cadastrarItem.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Itens</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/Itens/listaItens.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Itens</a>
+                </div>
+            </div>
+
+            <!-- Estoque -->
+            <div class="relative group">
+                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                    Estoque
+                </button>
+                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/incluirEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Incluir Item</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/baixarEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Baixar Item</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/visualizarMovimentacao.php" class="p-2 hover:bg-[#2E2E2E] text-white">Visualizar Movimentações</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/listaEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Visualizar Estoque</a>
+                </div>
+            </div>
+
+            <!-- Cadastro -->
+            <div class="relative group">
+                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                    Cadastro
+                </button>
+                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                    <a href="/sistemaglpi/dashboard/telainicial/cadastros/IndexCadastro.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Usuário</a>
+                    <a href="/sistemaglpi/dashboard/telainicial/usuario\listarUsuario.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Usuário</a>
+                    <a href="Cadastros/cadastroSetor.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Setor</a>
+                    <a href="#" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Setor</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Fornecedores/cadastrarFornecedor.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Fornecedor</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Fornecedores/listaFornecedores.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Fornecedor</a>
+                </div>
+            </div>
+
+
+            <!-- Sair -->
+            <a href="/sistemaglpi/login/logoff.php" class="bg-purple-600 hover:bg-red-700 text-black hover:text-white text-center p-2 rounded mt-4">Sair</a>
+        </nav>
+    </aside>
+
+  <main class="flex-1 p-8 bg-gray-300 max-h-screen h-full overflow-auto">
+    <div class="w-full max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mb-6">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">Lançamento de Entrada de Estoque</h2>
+
+      <?php if ($msg) : ?>
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+          <?= htmlspecialchars($msg) ?>
+        </div>
+      <?php endif; ?>
+
+      <form class="space-y-5" action="incluirEstoque.php" method="POST" id="form-estoque">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Nrº NFe:</label>
+          <input type="text" name="nota_fiscal" placeholder="000000" required class="w-full border border-gray-300 rounded px-4 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4B5563]" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Fornecedor:</label>
+          <select name="fornecedor" required class="w-full border border-gray-300 rounded px-4 py-2 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#4B5563]">
+            <?= $optionsFornecedoresHTML ?>
+          </select>
+        </div>
+
+        <div id="itens-container" class="space-y-4">
+          <div class="flex items-center space-x-4">
+            <div class="flex-1">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Item:</label>
+              <select name="item[]" required class="w-full border border-gray-300 rounded px-4 py-2 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#4B5563]">
+                <?= $optionsHTML ?>
+              </select>
+            </div>
+
+            <div class="flex-1">
+              <label class="block text-sm font-medium text-gray-700 mb-1">Quantidade:</label>
+              <input type="number" name="quantidade[]" min="1" required class="w-full border border-gray-300 rounded px-4 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4B5563]" />
+            </div>
+          </div>
+        </div>
+
+        <div class="flex space-x-4">
+          <button type="button" id="botao-adicionar" class="flex-1 bg-[#4B5563] hover:bg-[#2E2E2E] text-white font-semibold py-2 px-4 rounded shadow transition duration-300">Incluir Item</button>
+          <button type="submit" class="flex-1 bg-green-700 hover:bg-green-800 text-white font-semibold py-2 px-4 rounded shadow transition duration-300">Efetuar Lançamento</button>
+        </div>
+      </form>
     </div>
-</div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const itensContainer = document.getElementById('itens-container');
+      const botaoAdd = document.getElementById('botao-adicionar');
+      const optionsHTML = `<?= $optionsHTML ?>`;
+
+      function adicionarItem() {
+        const novaLinha = document.createElement('div');
+        novaLinha.classList.add('flex', 'items-center', 'space-x-4');
+
+        novaLinha.innerHTML = `
+          <div class="flex-1">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Item:</label>
+            <select name="item[]" required class="w-full border border-gray-300 rounded px-4 py-2 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#4B5563]">
+              ${optionsHTML}
+            </select>
+          </div>
+          <div class="flex-1">
+            <label class="block text-sm font-medium text-gray-700 mb-1">Quantidade:</label>
+            <input type="number" name="quantidade[]" min="1" required class="w-full border border-gray-300 rounded px-4 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4B5563]"/>
+          </div>
+          <button type="button" class="text-red-500 hover:text-red-700 font-bold">X</button>
+        `;
+
+        novaLinha.querySelector('button').addEventListener('click', () => {
+          itensContainer.removeChild(novaLinha);
+        });
+
+        itensContainer.appendChild(novaLinha);
+      }
+
+      botaoAdd.addEventListener('click', adicionarItem);
+    });
+  </script>
 </body>
 
 </html>

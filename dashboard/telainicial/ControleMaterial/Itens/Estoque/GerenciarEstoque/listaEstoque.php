@@ -20,7 +20,7 @@ $itens = $item->listarEstoque();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estoque Atual</title>
     <link rel="icon" href="../../img/chesiquimica-logo-png.png" type="image/png">
-    <link rel="stylesheet" href="/gerenciadorti/css/listaUsuarios.css">
+    <link rel="stylesheet" href="/sistemaglpi/css/listaUsuarios.css">
 </head>
 <body>
     <h1>Estoque Atual:</h1>
@@ -32,6 +32,7 @@ $itens = $item->listarEstoque();
             <th>Nome</th>
             <th>Tipo</th>
             <th>Saldo em Estoque</th>
+            <th>Movimentações</th>
         </tr>
 
         <?php foreach ($itens as $item) { ?>
@@ -40,6 +41,7 @@ $itens = $item->listarEstoque();
                 <td><?php echo $item['nome']; ?></td>
                 <td><?php echo $item['tipo']; ?></td>
                 <td><?php echo $item['saldo']; ?></td>
+                <td><a href="movimentacoesItens.php?id=<?= $item['id']; ?>">Movimentações</a></td>
             </tr>
         <?php } ?>
     </table>

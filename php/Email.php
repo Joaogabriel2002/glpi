@@ -4,8 +4,8 @@
     require_once __DIR__ . '/../phpmailer/src/SMTP.php';
     require_once __DIR__ . '/../phpmailer/src/Exception.php';
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
 
 
     class Email extends Conexao{
@@ -18,7 +18,7 @@ use PHPMailer\PHPMailer\Exception;
         $this->mail->Host       = 'smtp.skymail.net.br';
         $this->mail->SMTPAuth   = true;
         $this->mail->Username   = 'ti@chesiquimica.com.br';
-        $this->mail->Password   = 'Brasil@2025';
+        $this->mail->Password   = '$v4[j9?x@';
         $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $this->mail->Port       = 465;
         $this->mail->setFrom('ti@chesiquimica.com.br', 'TI Chesiquimica');

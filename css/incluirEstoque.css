@@ -6,7 +6,7 @@
 }
 
 body {
-    background-color: #000;
+    background-color: rgb(180, 175, 175);
     display: flex;
     justify-content: center;
     align-items: start;
@@ -18,7 +18,7 @@ body {
     display: flex;
     background-color: #fff;
     border-radius: 16px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 24px (0, 0, 0, 0.2);
     max-width: 600px; /* diminuiu */
     width: 80%;       /* diminuiu */
     overflow: hidden;

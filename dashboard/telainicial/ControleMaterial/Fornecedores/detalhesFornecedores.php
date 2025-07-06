@@ -37,7 +37,7 @@ $detalhesFornecedor = $fornecedor->listarFornecedoresPorId($idAtual);
 <head>
     <meta charset="UTF-8">
     <title>Editar Fornecedor</title>
-    <link rel="stylesheet" href="..\..\..\..\css/incluirEstoque.css">
+    <link rel="stylesheet" href="/sistemaglpi/css/incluirEstoque.css">
     <link rel="icon" href="..\..\..\img/chesiquimica-logo-png.png" type="image/png">
 </head>
 <body>
