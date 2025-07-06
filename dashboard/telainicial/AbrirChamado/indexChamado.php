@@ -2,7 +2,7 @@
 session_start();
 require_once '../../../php/Chamado.php';
 require_once '../../../php/Email.php';
-require_once '../../../arealateral.php';
+// require_once '../../../arealateral.php';
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: ../../index.php");
     exit();
