@@ -343,27 +343,29 @@ class Tonner extends Conexao
 
 
     // Listar por ticket e autorId
-    public function listarTonnerPorTicket2($autorId, $idFiltro = '')
-    {
-        $sql = "SELECT ts.*, i.modeloTonner, i.corTonner, i.nome
-                FROM tonnerSolicitacao ts
-                JOIN itens i ON ts.tonnerId = i.id
-                WHERE ts.autorId = :autorId";
+  public function listarTonnerPorTicket2($autorId, $idFiltro = '')
+{
+    $sql = "SELECT ts.*, i.nome
+            FROM tonnerSolicitacao ts
+            JOIN itens i ON ts.tonnerId = i.id
+            WHERE ts.autorId = :autorId";
 
-        if (!empty($idFiltro)) {
-            $sql .= " AND ts.tonnerId = :tonnerId";
-        }
-
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':autorId', $autorId, PDO::PARAM_INT);
-
-        if (!empty($idFiltro)) {
-            $stmt->bindParam(':tonnerId', $idFiltro, PDO::PARAM_INT);
-        }
-
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (!empty($idFiltro)) {
+        $sql .= " AND ts.solicitacaoId = :solicitacaoId";
     }
+
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':autorId', $autorId, PDO::PARAM_INT);
+
+    if (!empty($idFiltro)) {
+        $stmt->bindParam(':solicitacaoId', $idFiltro, PDO::PARAM_INT);
+    }
+
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 
     public function listarAtualizacoesPorSolicitacao($solicitacaoId)
     {
