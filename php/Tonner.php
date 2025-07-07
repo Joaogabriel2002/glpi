@@ -260,36 +260,37 @@ class Tonner extends Conexao
 
 
     // Listar com filtros
-    public function listarTonnerPorId2($status = '', $tonnerId = '')
-    {
-        $sql = "SELECT ts.*,i.nome
-                FROM tonnerSolicitacao ts
-                JOIN itens i ON ts.tonnerId = i.id
-                WHERE 1=1";
+    public function listarTonnerPorId2($status = '', $solicitacaoId = '')
+{
+    $sql = "SELECT ts.*, i.nome
+            FROM tonnerSolicitacao ts
+            JOIN itens i ON ts.tonnerId = i.id
+            WHERE 1=1";
 
-        if (!empty($status) && $status !== 'Todos') {
-            $sql .= " AND ts.status = :status";
-        } elseif (empty($status)) {
-            $sql .= " AND (ts.status = 'Aberto' OR ts.status = 'Em andamento')";
-        }
-
-        if (!empty($tonnerId)) {
-            $sql .= " AND ts.tonnerId = :tonnerId";
-        }
-
-        $stmt = $this->conn->prepare($sql);
-
-        if (!empty($status) && $status !== 'Todos') {
-            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
-        }
-
-        if (!empty($tonnerId)) {
-            $stmt->bindParam(':tonnerId', $tonnerId, PDO::PARAM_INT);
-        }
-
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (!empty($status) && $status !== 'Todos') {
+        $sql .= " AND ts.status = :status";
+    } elseif (empty($status)) {
+        $sql .= " AND (ts.status = 'Aberto' OR ts.status = 'Em andamento')";
     }
+
+    if (!empty($solicitacaoId)) {
+        $sql .= " AND ts.solicitacaoId = :solicitacaoId";
+    }
+
+    $stmt = $this->conn->prepare($sql);
+
+    if (!empty($status) && $status !== 'Todos') {
+        $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+    }
+
+    if (!empty($solicitacaoId)) {
+        $stmt->bindParam(':solicitacaoId', $solicitacaoId, PDO::PARAM_INT);
+    }
+
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
     // Listar por autorId e filtros
     public function listarTodosTonnerPorId($autorId, $status = '', $tonnerId = '')
@@ -325,21 +326,19 @@ class Tonner extends Conexao
     }
 
     // Listar por ticket
-    public function listarTonnerPorTicket($idFiltro)
-    {
-        $sql = "SELECT ts.solicitacaoId, ts.status, ts.corTonner, ts.dtAbertura, ts.dtFechamento,
-                   ts.autorId, ts.autorNome, ts.autorEmail,
-                   i.nome AS nomeItem, i.tipo
+   public function listarTonnerPorTicket($idFiltro)
+{
+    $sql = "SELECT ts.*, i.nome
             FROM tonnerSolicitacao ts
-            JOIN itens i ON ts.corTonner = i.nome
+            JOIN itens i ON ts.tonnerId = i.id
             WHERE ts.solicitacaoId = :idFiltro";
 
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':idFiltro', $idFiltro, PDO::PARAM_INT);
-        $stmt->execute();
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':idFiltro', $idFiltro, PDO::PARAM_INT);
+    $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 
 

@@ -19,6 +19,7 @@ $ticketFiltro = $_GET['solicitacaoId'] ?? '';
 
 if (empty($ticketFiltro)) {
     $tonners = $tonner->listarTonnerPorId2($statusFiltro, $ticketFiltro);
+
 } else {
     $tonners = $tonner->listarTonnerPorTicket($ticketFiltro);
 }
