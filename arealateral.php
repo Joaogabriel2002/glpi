@@ -1,4 +1,5 @@
 <?php
+/*
 $usuario = $_SESSION['usuario'] ?? 'Usuário';
 $setor = $_SESSION['setor'] ?? 'Setor';
 
@@ -8,7 +9,13 @@ if (!isset($_SESSION['usuario_id'])) {
 }
 $usuario = $_SESSION['usuario'];
 $setor = $_SESSION['setor'];
+
+*/
+
+$usuario = $_SESSION['usuario'];
+$setor = $_SESSION['setor'];
 ?>
+    <link rel="icon" href="/sistemaglpi/img/chesiquimica-logo-png.png" type="image/png">
     <aside class="w-64 bg-black text-gray-800 p-6 flex flex-col relative z-10">
         <!-- Logo e nome -->
         <div class="flex items-center mb-8 space-x-3">
@@ -22,7 +29,7 @@ $setor = $_SESSION['setor'];
         <!-- Navegação -->
         <nav class="flex flex-col space-y-2">
 
-            <!-- Chamados -->
+            <!-- Chamados /sistemaglpi/dashboard/telaInicial/GerenciarChamados/listarChamados.php -->
             <div class="relative group">
                 <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
                     Chamados
@@ -93,9 +100,9 @@ $setor = $_SESSION['setor'];
                         Cadastro
                     </button>
                     <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
-                        <a href="Cadastros/IndexCadastro.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Usuário</a>
-                        <a href="Usuario\listarUsuario.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Usuário</a>
-                        <a href="Cadastros/cadastroSetor.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Setor</a>
+                        <a href="/sistemaglpi/dashboard/telaInicial/Cadastros/IndexCadastro.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Usuário</a>
+                        <a href="/sistemaglpi/dashboard/telaInicial/Usuario\listarUsuario.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Usuário</a>
+                        <a href="/sistemaglpi/dashboard/telaInicial/Cadastros/cadastroSetor.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Setor</a>
                         <a href="#" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Setor</a>
                         <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Fornecedores/cadastrarFornecedor.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Fornecedor</a>
                         <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Fornecedores/listaFornecedores.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Fornecedor</a>

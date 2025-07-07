@@ -1,8 +1,9 @@
 <?php
 session_start();
+require_once __DIR__ . '/../../../arealateral.php';
 require_once '../../../php/Chamado.php';
 require_once '../../../php/Email.php';
-// require_once '../../../arealateral.php';
+
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: ../../index.php");
     exit();
@@ -10,6 +11,7 @@ if (!isset($_SESSION['usuario_id'])) {
 
 $usuario = $_SESSION['usuario'];
 $setor = $_SESSION['setor'];
+$mensagem_sucesso = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = new Email();
@@ -26,6 +28,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $novoChamadoId = $chamado->abrirChamado();
 
     if ($novoChamadoId) {
+        $mensagem_sucesso = "Chamado aberto com sucesso! ID: $novoChamadoId";
+
         $destinatario = 'ti@chesiquimica.com.br';
         $assunto = "Novo chamado aberto: " . $_POST['assunto'];
         $mensagem = "<h2>Novo Chamado Aberto</h2>";
@@ -37,11 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mensagem .= "<p><strong>Status:</strong> Aberto</p>";
 
         $email->enviarEmail($destinatario, $assunto, $mensagem);
-        header("Location: chamadoAberto.php?chamadoId=" . $novoChamadoId);
-        exit();
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -60,6 +63,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <main class="flex-1 p-8 bg-gray-300 max-h-screen h-full overflow-auto">
         <div class="w-full max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mb-6">
             <h2 class="text-xl font-semibold text-gray-800 mb-4">Abertura de Chamado</h2>
+            <?php if (!empty($mensagem_sucesso)) : ?>
+    <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-800 rounded shadow">
+        ✅ <?php echo htmlspecialchars($mensagem_sucesso); ?>
+    </div>
+<?php endif; ?>
             <form action="indexChamado.php" method="POST" class="space-y-5">
                 <input type="hidden" name="status" value="Aberto">
 

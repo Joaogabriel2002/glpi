@@ -19,7 +19,7 @@ $setor = $_SESSION['setor'];
     <meta charset="UTF-8">
     <title>Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-     <link rel="icon" href="/sistemaglpi/img/chesiquimica-logo-png.png" type="image/png">
+     
 </head>
 
 <body class="flex h-screen font-sans">

@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 require_once '../../../php/Chamado.php';
 require_once '../../../arealateral.php';
 

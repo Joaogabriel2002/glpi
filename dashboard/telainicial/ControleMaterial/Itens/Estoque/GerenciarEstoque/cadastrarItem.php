@@ -1,13 +1,14 @@
 <?php
 require_once "..\..\..\..\..\..\php/Itens.php";
-session_start();
 
+
+session_start();
+require_once "..\..\..\..\..\../arealateral.php";
 if (!isset($_SESSION['usuario_id'])) {
     header('Location:../../index.php');
     exit;
 }
-$usuario = $_SESSION['usuario'];
-$setor = $_SESSION['setor'];
+
 $msg = "";
 $success = false;
 
@@ -57,160 +58,61 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
 <body class="flex h-screen font-sans">
 
-    <aside class="w-64 bg-black text-gray-800 p-6 flex flex-col relative z-10">
-        <!-- Logo e nome -->
-        <div class="flex items-center mb-8 space-x-3">
-            <img src="/sistemaglpi/img/chesi-logo-branca.png" alt="Logo" class="h-16 w-16 object-contain">
-            <div>
-                <h2 class="text-lg font-semibold text-white"><?php echo $usuario; ?></h2>
-                <p class="text-sm text-gray-400"><?php echo $setor; ?></p>
-            </div>
-        </div>
-
-        <!-- Navegação -->
-        <nav class="flex flex-col space-y-2">
-
-            <!-- Chamados -->
-            <div class="relative group">
-                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
-                    Chamados
-                </button>
-                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
-                    <a href="/sistemaglpi/dashboard/telaInicial/AbrirChamado/indexChamado.php" class="p-2 hover:bg-[#2E2E2E] text-white">Abrir Chamado</a>
-                    <a href="/sistemaglpi/dashboard/telaInicial/AbrirChamado/listarChamadosPorId.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Chamados Pessoais</a>
-
-                    <a href="/sistemaglpi/dashboard/telaInicial/GerenciarChamados/listarChamados.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Todos Chamados</a>
-
-                </div>
-            </div>
-
-            <!-- Tonner -->
-            <div class="relative group">
-                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
-                    Tonner
-                </button>
-                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
-                    <a href="/sistemaglpi/dashboard/telaInicial/SolicitarTonner/indexChamadoTonner.php" class="p-2 hover:bg-[#2E2E2E] text-white">Solicitar Tonner</a>
-                    <a href="/sistemaglpi/dashboard/telaInicial/SolicitarTonner/listarTonnerPorId.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Solicitações pessoais</a>
-
-                    <a href="/sistemaglpi/dashboard/telaInicial/GerenciarTonner/listarTonner.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Todos Tonner</a>
-
-                </div>
-            </div>
-
-            <!-- Equipamentos (somente para TI) -->
-
-            <div class="relative group">
-                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
-                    Equipamentos
-                </button>
-                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
-                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Imobilizados/cadastroImobilizados.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Equipamentos</a>
-                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Imobilizados/listaImobilizados.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Equipamentos</a>
-                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Imobilizados/incluirImobilizados.php" class="p-2 hover:bg-[#2E2E2E] text-white">Vincular Equipamento</a>
-                </div>
-            </div>
-
-            <!-- Itens -->
-            <div class="relative group">
-                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
-                    Itens
-                </button>
-                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
-                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/cadastrarItem.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Itens</a>
-                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/Itens/listaItens.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Itens</a>
-                </div>
-            </div>
-
-            <!-- Estoque -->
-            <div class="relative group">
-                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
-                    Estoque
-                </button>
-                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
-                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/incluirEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Incluir Item</a>
-                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/baixarEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Baixar Item</a>
-                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/visualizarMovimentacao.php" class="p-2 hover:bg-[#2E2E2E] text-white">Visualizar Movimentações</a>
-                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/listaEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Visualizar Estoque</a>
-                </div>
-            </div>
-
-            <!-- Cadastro -->
-            <div class="relative group">
-                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
-                    Cadastro
-                </button>
-                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
-                    <a href="/sistemaglpi/dashboard/telainicial/cadastros/IndexCadastro.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Usuário</a>
-                    <a href="/sistemaglpi/dashboard/telainicial/usuario\listarUsuario.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Usuário</a>
-                    <a href="Cadastros/cadastroSetor.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Setor</a>
-                    <a href="#" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Setor</a>
-                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Fornecedores/cadastrarFornecedor.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Fornecedor</a>
-                    <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Fornecedores/listaFornecedores.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Fornecedor</a>
-                </div>
-            </div>
 
 
-            <!-- Sair -->
-            <a href="/sistemaglpi/login/logoff.php" class="bg-purple-600 hover:bg-red-700 text-black hover:text-white text-center p-2 rounded mt-4">Sair</a>
-        </nav>
-    </aside>
     <main class="flex-1 p-8 bg-gray-300 max-h-screen h-full overflow-auto">
-    <div class="w-full max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mb-6">
-        <h2 class="text-xl font-semibold text-gray-800 mb-4"><b>Cadastro de Itens de Estoque</b></h2>
+        <div class="w-full max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mb-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4"><b>Cadastro de Itens de Estoque</b></h2>
 
-        <?php if ($msg) : ?>
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
-                <?= htmlspecialchars($msg) ?>
-            </div>
-        <?php endif; ?>
+            <?php if ($msg) : ?>
+                <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                    <?= htmlspecialchars($msg) ?>
+                </div>
+            <?php endif; ?>
 
-        <h2 class="form-title text-lg font-medium text-gray-700 mb-4">Cadastro de Itens</h2>
+            <h2 class="form-title text-lg font-medium text-gray-700 mb-4">Cadastro de Itens</h2>
 
-        <form class="space-y-5" action="cadastrarItem.php" method="POST">
-            <!-- Descrição -->
-            <div>
-                <label for="nome" class="block text-sm font-medium text-gray-700 mb-1">Descrição do Item:</label>
-                <input 
-                    type="text" 
-                    id="nome" 
-                    name="nome" 
-                    placeholder="Digite a descrição do item" 
-                    required 
-                    value="<?= htmlspecialchars($nome ?? '') ?>"
-                    class="w-full border border-gray-300 rounded px-4 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4B5563]"
-                >
-            </div>
-
+            <form class="space-y-5" action="cadastrarItem.php" method="POST">
+                <!-- Descrição -->
+                <div>
+                    <label for="nome" class="block text-sm font-medium text-gray-700 mb-1">Descrição do Item:</label>
+                    <input
+                        type="text"
+                        id="nome"
+                        name="nome"
+                        placeholder="Digite a descrição do item"
+                        required
+                        value="<?= htmlspecialchars($nome ?? '') ?>"
+                        class="w-full border border-gray-300 rounded px-4 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4B5563]">
+                </div>
 
 
-            <!-- Tipo -->
-            <div>
-                <label for="tipo" class="block text-sm font-medium text-gray-700 mb-1">Tipo:</label>
-                <select 
-                    name="tipo" 
-                    id="tipo" 
-                    required
-                    class="w-full border border-gray-300 rounded px-4 py-2 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#4B5563]"
-                >
-                    <option value="">Selecione uma opção</option>
-                    <option value="Tonner" <?= (isset($tipo) && $tipo === "Tonner") ? 'selected' : '' ?>>Tonner</option>
-                    <option value="Material De Escritório" <?= (isset($tipo) && $tipo === "Material De Escritório") ? 'selected' : '' ?>>Material de Escritório</option>
-                </select>
-            </div>
 
-            <!-- Botão de envio -->
-            <div>
-                <button 
-                    type="submit"
-                    class="w-full bg-[#4B5563] hover:bg-[#2E2E2E] text-white font-semibold py-2 px-4 rounded shadow transition duration-300"
-                >
-                    Cadastrar
-                </button>
-            </div>
-        </form>
-    </div>
-</main>
+                <!-- Tipo -->
+                <div>
+                    <label for="tipo" class="block text-sm font-medium text-gray-700 mb-1">Tipo:</label>
+                    <select
+                        name="tipo"
+                        id="tipo"
+                        required
+                        class="w-full border border-gray-300 rounded px-4 py-2 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#4B5563]">
+                        <option value="">Selecione uma opção</option>
+                        <option value="Tonner" <?= (isset($tipo) && $tipo === "Tonner") ? 'selected' : '' ?>>Tonner</option>
+                        <option value="Material De Escritório" <?= (isset($tipo) && $tipo === "Material De Escritório") ? 'selected' : '' ?>>Material de Escritório</option>
+                    </select>
+                </div>
+
+                <!-- Botão de envio -->
+                <div>
+                    <button
+                        type="submit"
+                        class="w-full bg-[#4B5563] hover:bg-[#2E2E2E] text-white font-semibold py-2 px-4 rounded shadow transition duration-300">
+                        Cadastrar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
 
 </body>
 
