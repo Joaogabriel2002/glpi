@@ -1,6 +1,6 @@
 <?php
 require_once '../../../php/Chamado.php';
-require_once __DIR__ . '/../../../arealateral.php';
+
 
 
 session_start();
@@ -44,41 +44,41 @@ $atualizacoesChamado = $chamado->listarAtualizacoesPorChamado($chamadoId);
 <body class="flex h-screen font-sans">
 
     <main class="flex-1 p-8 bg-gray-100 overflow-auto">
-    <h1 class="text-2xl font-bold mb-6">Detalhes do Chamado</h1>
+    <h1 class="text-2xl font-semibold mb-6"><strong>Chamado Nrº: </strong><?= $detalhesChamado['chamadoId'];?></h1>
+    <h1 class="text-2xl font-semibold mb-6"><strong>Título:</strong> <?= $detalhesChamado['tituloChamado'];?></h1>
+
 
     <!-- Tabela de detalhes -->
     <div class="overflow-x-auto mb-8">
         <table class="min-w-full bg-white rounded-lg shadow">
             <thead class="bg-[#4B5563] text-white">
                 <tr>
-                    <th class="px-4 py-2">ID</th>
-                    <th class="px-4 py-2">Status</th>
-                    <th class="px-4 py-2">Prioridade</th>
-                    <th class="px-4 py-2">Abertura</th>
-                    <th class="px-4 py-2">Fechamento</th>
-                    <th class="px-4 py-2">Título</th>
-                    <th class="px-4 py-2">Descrição</th>
-                    <th class="px-4 py-2">Usuário</th>
-                    <th class="px-4 py-2">Email</th>
-                    <th class="px-4 py-2">Setor</th>
+                    <!-- <th class="px-6 py-3 text-left text-sm font-medium">ID</th> -->
+                    <th class="px-6 py-3 text-left text-sm font-medium">Status</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium">Prioridade</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium">Abertura</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium">Fechamento</th>
+                    <!-- <th class="px-6 py-3 text-left text-sm font-medium">Título</th> -->
+                    <!-- <th class="px-6 py-3 text-left text-sm font-medium">Descrição</th> -->
+                     <th class="px-6 py-3 text-left text-sm font-medium">Usuário</th>
+                    <!--<th class="px-6 py-3 text-left text-sm font-medium">Email</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium">Setor</th> -->
                 </tr>
             </thead>
             <tbody class="text-sm divide-y divide-gray-200">
-                <tr>
-                    <td class="px-4 py-2"><?= $detalhesChamado['chamadoId'] ?></td>
-                    <td class="px-4 py-2"><?= $detalhesChamado['status'] ?></td>
-                    <td class="px-4 py-2"><?= $detalhesChamado['tipoChamado'] ?></td>
-                    <td class="px-4 py-2"><?= $detalhesChamado['dtAbertura'] ?></td>
-                    <td class="px-4 py-2"><?= $detalhesChamado['dtFechamento'] ?></td>
-                    <td class="px-4 py-2"><?= $detalhesChamado['tituloChamado'] ?></td>
-                    <td class="px-4 py-2"><?= $detalhesChamado['descricaoChamado'] ?></td>
-                    <td class="px-4 py-2">
-                        <a href="detalhesUsuario.php?id=<?= $detalhesChamado['autorId'] ?>" class="text-blue-600 hover:underline">
-                            <?= $detalhesChamado['autorNome'] ?>
-                        </a>
-                    </td>
-                    <td class="px-4 py-2"><?= $detalhesChamado['autorEmail'] ?></td>
-                    <td class="px-4 py-2"><?= $detalhesChamado['autorSetor'] ?></td>
+                <tr class="hover:bg-gray-100">
+                    <!-- <td class="px-6 py-4"><?= $detalhesChamado['chamadoId']; ?></td> -->
+                    <td class="px-6 py-4"><?= $detalhesChamado['status']; ?></td>
+                    <td class="px-6 py-4"><?= $detalhesChamado['tipoChamado']; ?></td>
+                    <td class="px-6 py-4"><?= $detalhesChamado['dtAbertura']; ?></td>
+                    <td class="px-6 py-4"><?= $detalhesChamado['dtFechamento']; ?></td>
+                    <!-- <td class="px-6 py-4"><?= $detalhesChamado['tituloChamado']; ?></td> -->
+                   
+
+                    <td class="px-6 py-4"><?= $detalhesChamado['autorNome']; ?></td>
+                    <!-- </td>
+                    <td class="px-6 py-4"><?= $detalhesChamado['autorEmail']; ?></td>
+                    <td class="px-6 py-4"><?= $detalhesChamado['autorSetor']; ?></td> -->
                 </tr>
             </tbody>
         </table>
