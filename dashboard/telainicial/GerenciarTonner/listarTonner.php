@@ -15,12 +15,12 @@ if ($_SESSION['setor'] !== "TI") {
 
 $tonner = new Tonner();
 $statusFiltro = $_GET['status'] ?? '';
-$idFiltro = $_GET['tonnerId'] ?? '';
+$ticketFiltro = $_GET['solicitacaoId'] ?? '';
 
-if (empty($idFiltro)) {
-    $tonners = $tonner->listarTonnerPorId2($statusFiltro, $idFiltro);
+if (empty($ticketFiltro)) {
+    $tonners = $tonner->listarTonnerPorId2($statusFiltro, $ticketFiltro);
 } else {
-    $tonners = $tonner->listarTonnerPorTicket($idFiltro);
+    $tonners = $tonner->listarTonnerPorTicket($ticketFiltro);
 }
 
 $usuario = $_SESSION['usuario'];
@@ -61,8 +61,8 @@ $setor = $_SESSION['setor'];
 
         <!-- Filtro por ticket -->
         <form method="GET" class="bg-white p-4 rounded shadow w-full sm:w-auto flex-1">
-            <label for="tonnerId" class="block text-sm font-medium text-gray-700 mb-2">Filtrar por Ticket:</label>
-            <input type="number" name="tonnerId" value="<?= htmlspecialchars($idFiltro) ?>" class="w-full p-2 border rounded mb-2">
+            <label for="solicitacaoId" class="block text-sm font-medium text-gray-700 mb-2">Filtrar por Ticket:</label>
+            <input type="number" name="solicitacaoId" value="<?= htmlspecialchars($ticketFiltro) ?>" class="w-full p-2 border rounded mb-2">
             <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Filtrar</button>
         </form>
     </div>

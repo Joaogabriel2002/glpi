@@ -5,6 +5,11 @@ require_once '../../../php/Usuario.php';
 date_default_timezone_set('America/Sao_Paulo');
 session_start();
 
+if (!isset($_SESSION['usuario_id'])) {
+    header('Location: ../../index.php');
+    exit;
+}
+
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $chamadoId = (int) $_GET['id'];
 
@@ -32,7 +37,6 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Para garantir que o ID do chamado veio no POST e é válido
     if (!isset($_POST['chamadoId']) || !is_numeric($_POST['chamadoId'])) {
         die('ID do chamado inválido no formulário.');
     }
@@ -41,7 +45,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $chamado = new Chamado();
     $chamado->setChamadoId($chamadoId);
 
-    // Atualizar status, se enviado
     if (!empty($_POST['status'])) {
         $novoStatus = $_POST['status'];
         $chamado->setStatus($novoStatus);
@@ -58,7 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $novaPrioridade = $prioridade;
     }
 
-
     $comentario = '';
     if (!empty(trim($_POST['comentario']))) {
         $comentario = trim($_POST['comentario']);
@@ -67,10 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $chamado->atualizarChamado();
     }
 
-  
     $email = new Email();
     $destinatario = $emailUsuario;
-
     $assunto = "Atualização no seu chamado nº $chamadoId";
 
     $mensagem = "<h2>Atualização do Chamado Nº $chamadoId</h2>";
@@ -90,67 +90,67 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     exit;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Atualizar Chamado</title>
-    <link rel="icon" href="../../img/chesiquimica-logo-png.png" type="image/png">
-    <link rel="stylesheet" href="/sistemaglpi/css/atualizarTonner.css">
+    <link rel="icon" href="../../../img/chesiquimica-logo-png.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<body class="flex h-screen font-sans">
 
-<body>
+<!-- Sidebar -->
+<?php include '../../../arealateral.php'; ?>
 
-    <?php
-    if ($detalhesChamado['status'] == "Fechado" || $detalhesChamado['status'] == "Cancelado") {
-        echo "<p>Chamado Cancelado/Fechado!<br>Impossível Alterar!</p>";
-    } else {
-        ?>
+<!-- Conteúdo -->
+<main class="flex-1 p-8 bg-gray-200 overflow-auto">
+    <h1 class="text-2xl font-semibold mb-6">Atualizar Chamado</h1>
 
-        <h3>Atualizar Chamado</h3>
+    <?php if ($detalhesChamado['status'] == "Fechado" || $detalhesChamado['status'] == "Cancelado") : ?>
+        <p class="text-lg text-red-600 font-semibold mb-4">Chamado Cancelado ou Fechado!<br>Impossível Alterar.</p>
+        <a href="detalhesChamados.php?id=<?= $chamadoId; ?>" class="inline-block bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded">Voltar</a>
+    <?php else : ?>
 
-        <form action="atualizarChamados.php?id=<?= $_GET['id']; ?>" method="POST">
-            <input type="hidden" name="chamadoId" value="<?= $_GET['id']; ?>">
+        <form action="atualizarChamados.php?id=<?= $chamadoId; ?>" method="POST" class="bg-white p-6 rounded shadow-md space-y-4">
+            <input type="hidden" name="chamadoId" value="<?= $chamadoId; ?>">
             <input type="hidden" name="tecnico" value="<?= $_SESSION['usuario']; ?>">
 
-            <!-- Alterar status -->
-            <label for="status">Alterar Status:</label>
-            <select name="status">
-                <option value="">-- Não alterar --</option>
-                <option value="Aberto" <?= ($statusAtual == 'Aberto') ? 'selected' : ''; ?>>Aberto</option>
-                <option value="Em Andamento" <?= ($statusAtual == 'Em Andamento') ? 'selected' : ''; ?>>Em Andamento</option>
-                <option value="Fechado" <?= ($statusAtual == 'Fechado') ? 'selected' : ''; ?>>Fechado</option>
-                <option value="Cancelado" <?= ($statusAtual == 'Cancelado') ? 'selected' : ''; ?>>Cancelado</option>
-            </select>
-            <br><br>
+            <div>
+                <label for="status" class="block text-sm font-medium mb-1">Alterar Status:</label>
+                <select name="status" class="border rounded w-full p-2">
+                    <option value="">-- Não alterar --</option>
+                    <option value="Aberto" <?= ($statusAtual == 'Aberto') ? 'selected' : ''; ?>>Aberto</option>
+                    <option value="Em Andamento" <?= ($statusAtual == 'Em Andamento') ? 'selected' : ''; ?>>Em Andamento</option>
+                    <option value="Fechado" <?= ($statusAtual == 'Fechado') ? 'selected' : ''; ?>>Fechado</option>
+                    <option value="Cancelado" <?= ($statusAtual == 'Cancelado') ? 'selected' : ''; ?>>Cancelado</option>
+                </select>
+            </div>
 
-            <!-- Alterar prioridade -->
-            <label for="tipoChamado">Prioridade:</label>
-            <select name="tipoChamado">
-                <option value="">-- Não alterar --</option>
-                <option value="Baixa" <?= ($prioridade == 'Baixa') ? 'selected' : ''; ?>>Baixa</option>
-                <option value="Média" <?= ($prioridade == 'Média') ? 'selected' : ''; ?>>Média</option>
-                <option value="Alta" <?= ($prioridade == 'Alta') ? 'selected' : ''; ?>>Alta</option>
-            </select>
-            <br><br>
+            <div>
+                <label for="tipoChamado" class="block text-sm font-medium mb-1">Prioridade:</label>
+                <select name="tipoChamado" class="border rounded w-full p-2">
+                    <option value="">-- Não alterar --</option>
+                    <option value="Baixa" <?= ($prioridade == 'Baixa') ? 'selected' : ''; ?>>Baixa</option>
+                    <option value="Média" <?= ($prioridade == 'Média') ? 'selected' : ''; ?>>Média</option>
+                    <option value="Alta" <?= ($prioridade == 'Alta') ? 'selected' : ''; ?>>Alta</option>
+                </select>
+            </div>
 
-            <!-- Comentário -->
-            <label for="comentario">Comentário:</label>
-            <textarea name="comentario" id="comentario" rows="4" cols="50"></textarea>
-            <br><br>
+            <div>
+                <label for="comentario" class="block text-sm font-medium mb-1">Comentário:</label>
+                <textarea name="comentario" id="comentario" rows="4" class="border rounded w-full p-2"></textarea>
+            </div>
 
-            <button type="submit" name="atualizarChamado" href="detalhesChamados.php?id=<?= $_GET['id']; ?>">Atualizar
-                Chamado</button>
+            <div class="flex space-x-4">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Atualizar Chamado</button>
+                <a href="detalhesChamados.php?id=<?= $chamadoId; ?>" class="bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded">Voltar</a>
+            </div>
         </form>
 
-    <?php } ?>
+    <?php endif; ?>
 
-    <br>
-    <a href="detalhesChamados.php?id=<?= $_GET['id']; ?>">Voltar</a>
+</main>
 
 </body>
-
 </html>

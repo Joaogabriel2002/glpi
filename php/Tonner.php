@@ -327,15 +327,21 @@ class Tonner extends Conexao
     // Listar por ticket
     public function listarTonnerPorTicket($idFiltro)
     {
-        $sql = "SELECT ts.*, i.modeloTonner, i.corTonner, i.nome
-                FROM tonnerSolicitacao ts
-                JOIN itens i ON ts.tonnerId = i.id
-                WHERE ts.tonnerId = :tonnerId";
+        $sql = "SELECT ts.solicitacaoId, ts.status, ts.corTonner, ts.dtAbertura, ts.dtFechamento,
+                   ts.autorId, ts.autorNome, ts.autorEmail,
+                   i.nome AS nomeItem, i.tipo
+            FROM tonnerSolicitacao ts
+            JOIN itens i ON ts.corTonner = i.nome
+            WHERE ts.solicitacaoId = :idFiltro";
+
         $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':tonnerId', $idFiltro, PDO::PARAM_INT);
+        $stmt->bindParam(':idFiltro', $idFiltro, PDO::PARAM_INT);
         $stmt->execute();
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
 
     // Listar por ticket e autorId
     public function listarTonnerPorTicket2($autorId, $idFiltro = '')
