@@ -5,7 +5,8 @@ require_once '..\..\..\php/Email.php';
 date_default_timezone_set('America/Sao_Paulo');
 
 session_start();
-
+$usuario = $_SESSION['usuario'];
+$setor = $_SESSION['setor'];
 $msg = "";
 
 // Verifica se o ID da solicitação veio e é numérico
@@ -121,41 +122,158 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Atualizar Toner</title>
-    <link rel="stylesheet" href="/sistemaglpi/css/atualizarTonner.css" />
+    <title>Atualizar Tonner</title>
     <link rel="icon" href="../img/chesiquimica-logo-png.png" type="image/png" />
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-    <?php if ($statusAtualBanco === "Fechado" || $statusAtualBanco === "Cancelado") { ?>
-        <p style="color: red; font-weight: bold;">Impossível alterar as informações desta Solicitação.</p>
-    <?php } else { ?>
-        <?php if (!empty($msg)) { ?>
-            <p style="color: red; font-weight: bold;"><?= htmlspecialchars($msg) ?></p>
-        <?php } ?>
+<body class="flex h-screen font-sans">
 
-        <h3>Atualizar Solicitação Nº: <?= htmlspecialchars($solicitacaoid) ?></h3>
-        <form action="atualizarTonner.php?id=<?= htmlspecialchars($solicitacaoid) ?>&statusEstoque=<?= urlencode($statusEstoque) ?>&tonnerId=<?= urlencode($tonnerId) ?>" method="POST">
+<!-- Sidebar -->
+<aside class="w-64 bg-black text-gray-800 p-6 flex flex-col relative z-10">
+        <div class="flex items-center mb-8 space-x-3">
+            <img src="../../../img/chesi-logo-branca.png" alt="Logo" class="h-16 w-16 object-contain">
+             <div>
+                <h2 class="text-lg font-semibold text-white"><?= $_SESSION['usuario'];?></h2>
+                <p class="text-sm text-gray-400"><?= $_SESSION['setor'];?></p>
+            </div>
+        </div>
+        <nav class="flex flex-col space-y-2">
+
+            <!-- Chamados -->
+            <div class="relative group">
+                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                    Chamados
+                </button>
+                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                    <a href="/sistemaglpi/dashboard/telaInicial/AbrirChamado/indexChamado.php" class="p-2 hover:bg-[#2E2E2E] text-white">Abrir Chamado</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/AbrirChamado/listarChamadosPorId.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Chamados Pessoais</a>
+                    <?php if ($setor === 'TI'): ?>
+                        <a href="/sistemaglpi/dashboard/telaInicial/GerenciarChamados/listarChamados.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Todos Chamados</a>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <!-- Tonner -->
+            <div class="relative group">
+                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                    Tonner
+                </button>
+                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                    <a href="/sistemaglpi/dashboard/telaInicial/SolicitarTonner/indexChamadoTonner.php" class="p-2 hover:bg-[#2E2E2E] text-white">Solicitar Tonner</a>
+                    <a href="/sistemaglpi/dashboard/telaInicial/SolicitarTonner/listarTonnerPorId.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Solicitações pessoais</a>
+                    <?php if ($setor === 'TI'): ?>
+                        <a href="/sistemaglpi/dashboard/telaInicial/GerenciarTonner/listarTonner.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Todos Tonner</a>
+                    <?php endif; ?>
+                </div>
+            </div>
+
+            <!-- Equipamentos (somente para TI) -->
+            <?php if ($setor === 'TI'): ?>
+                <div class="relative group">
+                    <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                        Equipamentos
+                    </button>
+                    <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                        <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Imobilizados/cadastroImobilizados.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Equipamentos</a>
+                        <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Imobilizados/listaImobilizados.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Equipamentos</a>
+                        <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Imobilizados/incluirImobilizados.php" class="p-2 hover:bg-[#2E2E2E] text-white">Vincular Equipamento</a>
+                    </div>
+                </div>
+
+                <!-- Itens -->
+                <div class="relative group">
+                    <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                        Itens
+                    </button>
+                    <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                        <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/cadastrarItem.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Itens</a>
+                        <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/Itens/listaItens.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Itens</a>
+                    </div>
+                </div>
+
+                <!-- Estoque -->
+                <div class="relative group">
+                    <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                        Estoque
+                    </button>
+                    <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                        <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/incluirEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Incluir Item</a>
+                        <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/baixarEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Baixar Item</a>
+                        <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/visualizarMovimentacao.php" class="p-2 hover:bg-[#2E2E2E] text-white">Visualizar Movimentações</a>
+                        <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Itens/Estoque/GerenciarEstoque/listaEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Visualizar Estoque</a>
+                    </div>
+                </div>
+
+                <!-- Cadastro -->
+                <div class="relative group">
+                    <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                        Cadastro
+                    </button>
+                    <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                        <a href="Cadastros/IndexCadastro.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Usuário</a>
+                        <a href="Usuario\listarUsuario.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Usuário</a>
+                        <a href="Cadastros/cadastroSetor.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Setor</a>
+                        <a href="#" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Setor</a>
+                        <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Fornecedores/cadastrarFornecedor.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Fornecedor</a>
+                        <a href="/sistemaglpi/dashboard/telaInicial/ControleMaterial/Fornecedores/listaFornecedores.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Fornecedor</a>
+                    </div>
+                </div>
+            <?php endif; ?>
+
+            <!-- Sair -->
+            <a href="../../login/logoff.php" class="bg-purple-600 hover:bg-red-700 text-black hover:text-white text-center p-2 rounded mt-4">Sair</a>
+        </nav>
+
+    </aside>
+
+<!-- Conteúdo -->
+<main class="flex-1 p-8 bg-gray-200 overflow-auto">
+
+    <h1 class="text-2xl font-semibold mb-6">Atualizar Solicitação Nº <?= htmlspecialchars($solicitacaoid) ?></h1>
+
+    <?php if ($statusAtualBanco === "Fechado" || $statusAtualBanco === "Cancelado") : ?>
+        <p class="text-red-600 font-bold mb-6">Impossível alterar as informações desta Solicitação.</p>
+        <a href="detalhesTonner.php?id=<?= htmlspecialchars($solicitacaoid) ?>"
+           class="inline-block bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded">Voltar</a>
+
+    <?php else : ?>
+
+        <?php if (!empty($msg)) : ?>
+            <p class="text-red-600 font-bold mb-4"><?= htmlspecialchars($msg) ?></p>
+        <?php endif; ?>
+
+        <form action="atualizarTonner.php?id=<?= htmlspecialchars($solicitacaoid) ?>&statusEstoque=<?= urlencode($statusEstoque) ?>&tonnerId=<?= urlencode($tonnerId) ?>" method="POST" class="space-y-6 bg-white p-6 rounded shadow-md">
 
             <input type="hidden" name="statusEstoque" value="<?= htmlspecialchars($statusEstoque) ?>">
             <input type="hidden" name="tonnerId" value="<?= htmlspecialchars($tonnerId) ?>">
 
-            <label for="status">Status da Requisição</label>
-            <select name="status" id="status" required>
-                <option value="Aberto" <?= ($statusAtualBanco == 'Aberto') ? 'selected' : '' ?>>Aberto</option>
-                <option value="Em andamento" <?= ($statusAtualBanco == 'Em andamento') ? 'selected' : '' ?>>Em andamento</option>
-                <option value="Fechado" <?= ($statusAtualBanco == 'Fechado') ? 'selected' : '' ?>>Fechado</option>
-                <option value="Cancelado" <?= ($statusAtualBanco == 'Cancelado') ? 'selected' : '' ?>>Cancelado</option>
-            </select>
-            <br />
+            <div>
+                <label for="status" class="block font-medium mb-2">Status da Requisição</label>
+                <select name="status" id="status" required class="w-full p-2 border rounded">
+                    <option value="Aberto" <?= ($statusAtualBanco == 'Aberto') ? 'selected' : '' ?>>Aberto</option>
+                    <option value="Em andamento" <?= ($statusAtualBanco == 'Em andamento') ? 'selected' : '' ?>>Em andamento</option>
+                    <option value="Fechado" <?= ($statusAtualBanco == 'Fechado') ? 'selected' : '' ?>>Fechado</option>
+                    <option value="Cancelado" <?= ($statusAtualBanco == 'Cancelado') ? 'selected' : '' ?>>Cancelado</option>
+                </select>
+            </div>
 
-            <label for="situacao">Situação:</label>
-            <input type="text" name="situacao" value="<?= htmlspecialchars($statusEstoque) ?>" readonly>
-            <br />
+            <div>
+                <label for="situacao" class="block font-medium mb-2">Situação</label>
+                <input type="text" name="situacao" value="<?= htmlspecialchars($statusEstoque) ?>" readonly class="w-full p-2 border rounded bg-gray-100">
+            </div>
 
-            <button type="submit" name="atualizarTonner">Atualizar</button>
+            <button type="submit" name="atualizarTonner" class="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">
+                Atualizar
+            </button>
+<a href="detalhesTonner.php?id=<?= htmlspecialchars($solicitacaoid) ?>"
+           class="inline-block mt-6 bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded">Voltar</a>
         </form>
-    <?php } ?>
 
-    <a href="detalhesTonner.php?id=<?= htmlspecialchars($solicitacaoid) ?>">Voltar</a>
+        
+
+    <?php endif; ?>
+
+</main>
+
 </body>
 </html>
