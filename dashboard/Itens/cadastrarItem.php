@@ -1,9 +1,9 @@
 <?php
-require_once "..\..\..\..\..\..\php/Itens.php";
+require_once __DIR__.  '../../../php/Itens.php';
 
 
 session_start();
-require_once "..\..\..\..\..\../arealateral.php";
+
 if (!isset($_SESSION['usuario_id'])) {
     header('Location:../../index.php');
     exit;
@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
 <body class="flex h-screen font-sans">
 
-
+<?php require_once __DIR__.  '../../arealateral.php'; ?>
 
     <main class="flex-1 p-8 bg-gray-300 max-h-screen h-full overflow-auto">
         <div class="w-full max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mb-6">

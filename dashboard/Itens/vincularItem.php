@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once '..\..\..\..\..\..\php\Itens.php';
-require_once '..\..\..\..\..\..\php\Imobilizados.php';
+require_once __DIR__.  '../../../php/Itens.php';
+require_once __DIR__.  '../../../php/Imobilizados.php';
 
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: ..\..\index.php");
