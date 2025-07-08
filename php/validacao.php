@@ -8,6 +8,6 @@ if (!isset($_SESSION['usuario_id'])) {
 }
 
 // Redireciona sempre para a dashboard única
-header("Location: ../dashboard/telainicial/dashboard.php");
+header("Location: ../dashboard/dashboard.php");
 exit();
 ?>

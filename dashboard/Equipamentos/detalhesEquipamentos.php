@@ -74,7 +74,7 @@ $listaModelos = $modelos->buscarModelos();
                         <?php
                         foreach ($listaModelos as $mdl) {
                             $selected = ($mdl['idEquipamento'] == ($modeloSelecionado['idEquipamento'] ?? null)) ? 'selected' : '';
-                            echo "<option value='{$mdl['idEquipamento']}' {$selected}>" . htmlspecialchars($mdl['descricaoEquipamento']) . "</option>";
+                            echo "<option value='{$mdl['idEquipamento']}' {$selected}>" . htmlspecialchars($mdl['tipo']) . "</option>";
                         }
                         ?>
                     </select>
