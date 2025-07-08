@@ -11,6 +11,32 @@ $dados = json_decode($resposta, true);
 $temp = round($dados['main']['temp']);
 $descricao = $dados['weather'][0]['description'];
 $icone = $dados['weather'][0]['icon'];
+$main = $dados['weather'][0]['main']; // ex: "Rain", "Clear", "Clouds", etc.
+
+switch ($main) {
+    case 'Rain':
+        $infoAdicional = 'Está chuvoso, leve um guarda-chuva! ☔';
+        break;
+    case 'Clear':
+        $infoAdicional = 'Céu limpo, aproveite o dia! ☀️';
+        break;
+    case 'Clouds':
+        $infoAdicional = 'Céu nublado, sem previsão de chuva por enquanto. ☁️';
+        break;
+    case 'Thunderstorm':
+        $infoAdicional = 'Tempestades previstas, cuidado! ⛈️';
+        break;
+    case 'Drizzle':
+        $infoAdicional = 'Garoando lá fora. 🌧️';
+        break;
+    case 'Mist':
+    case 'Fog':
+        $infoAdicional = 'Neblina no ar, dirija com atenção! 🌫️';
+        break;
+    default:
+        $infoAdicional = 'Condições climáticas variadas.';
+        break;
+}
 
 // Monta o HTML da previsão
 $mensagem = '
@@ -19,6 +45,7 @@ $mensagem = '
   <div>
     <h2 class=\"text-xl font-bold\">Tempo em Ponta Grossa - PR</h2>
     <p class=\"text-md capitalize\">' . $temp . '°C</p>
+    <p class=\"text-md capitalize\">' . $infoAdicional . '</p>
   </div>
 </div>
 ';

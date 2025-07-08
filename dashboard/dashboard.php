@@ -25,7 +25,7 @@ $setor = $_SESSION['setor'];
 <body class="flex h-screen font-sans">
 
     <!-- Sidebar -->
-    <?php require_once 'arealateral.php';?>
+    <?php require_once 'arealateral.php'; ?>
     <!-- Conteúdo principal -->
     <main class="flex-1 bg-gray-200 p-6">
         <h1 class="text-2xl font-bold mb-4" id="titulo"></h1>
@@ -64,7 +64,8 @@ $setor = $_SESSION['setor'];
                             if ($diaSemana == 0 || $diaSemana == 6) continue;
                             $dataFormatada = $data->format('Y-m-d');
                             $texto = $data->format('d/m') . ' - ' . $diasSemana[$diaSemana];
-                            echo "<option value=\"$dataFormatada\">$texto</option>";
+                            $selected = ($dataFormatada === $hoje->format('Y-m-d')) ? 'selected' : '';
+                            echo "<option value=\"$dataFormatada\" $selected>$texto</option>";
                         }
                         ?>
                     </select>
@@ -164,7 +165,7 @@ $setor = $_SESSION['setor'];
         const titulo = document.getElementById("titulo");
         let indexo = 0;
 
-        
+
 
         function escreverTitulo() {
             if (indexo < texto.length) {
@@ -175,6 +176,10 @@ $setor = $_SESSION['setor'];
         }
 
         escreverTitulo();
+        window.addEventListener("DOMContentLoaded", () => {
+            const hoje = document.getElementById("selectData").value;
+            document.getElementById("descricaoCardapio").innerText = cardapios[hoje] || "Sem cardápio para esta data.";
+        });
     </script>
     </script>
 </body>
