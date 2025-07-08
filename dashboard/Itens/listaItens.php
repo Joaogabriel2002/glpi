@@ -30,6 +30,7 @@ $itens = $item->listarEstoque();
 
 <body class="flex h-screen font-sans">
    <?php require_once __DIR__.  '../../arealateral.php'; ?>
+   
     <main class="flex-1 p-8 bg-gray-200 overflow-auto">
         <h1 class="text-2xl font-semibold mb-6">Lista de Itens Cadastrados</h1>
         <div class="overflow-x-auto">

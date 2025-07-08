@@ -19,38 +19,38 @@ $setor = $_SESSION['setor'];
     <meta charset="UTF-8">
     <title>Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-     
+
 </head>
 
 <body class="flex h-screen font-sans">
 
     <!-- Sidebar -->
-    
+
     <!-- Conteúdo principal -->
     <main class="flex-1 bg-gray-200 p-6">
-    <h1 class="text-2xl font-bold mb-4">Painel do Sistema</h1>
-    <p>Bem-vindo, <?php echo $usuario; ?>! Este é o seu painel de acesso.</p>
+        <h1 class="text-2xl font-bold mb-4" id="titulo"></h1>
+        <p>Bem-vindo, <?php echo $usuario; ?>! Este é o seu painel de acesso.</p>
 
-    <div class="grid grid-cols-1 md:grid-cols-[auto,1fr] gap-6 mt-6 items-start">
-        <!-- Coluna da esquerda: Contadores -->
-        <?php if ($setor === 'TI'): ?>
-            <div class="flex flex-col space-y-4 w-64">
-                <div class="bg-white p-6 rounded shadow">
-                    <h3 class="text-lg font-bold text-gray-800">Chamados Abertos</h3>
-                    <p id="chamadosAbertos" class="text-3xl font-semibold text-blue-600 mt-2">0</p>
+        <div class="grid grid-cols-1 md:grid-cols-[auto,1fr] gap-6 mt-6 items-start">
+            <!-- Coluna da esquerda: Contadores -->
+            <?php if ($setor === 'TI'): ?>
+                <div class="flex flex-col space-y-4 w-64">
+                    <div class="bg-white p-6 rounded shadow">
+                        <h3 class="text-lg font-bold text-gray-800">Chamados Abertos</h3>
+                        <p id="chamadosAbertos" class="text-3xl font-semibold text-blue-600 mt-2">0</p>
+                    </div>
+                    <div class="bg-white p-6 rounded shadow">
+                        <h3 class="text-lg font-bold text-gray-800">Solicitações Abertas</h3>
+                        <p id="tonnersAbertos" class="text-3xl font-semibold text-green-600 mt-2">0</p>
+                    </div>
                 </div>
-                <div class="bg-white p-6 rounded shadow">
-                    <h3 class="text-lg font-bold text-gray-800">Solicitações Abertas</h3>
-                    <p id="tonnersAbertos" class="text-3xl font-semibold text-green-600 mt-2">0</p>
-                </div>
-            </div>
-        <?php endif; ?>
+            <?php endif; ?>
 
-        <!-- Coluna da direita: Cardápio e mural -->
-        <div class="flex flex-col space-y-6 w-full">
-            <div class="bg-white p-4 rounded shadow w-full">
-                <h2 class="text-xl font-bold mb-2">📅 Cardápio do Mês</h2>
-                <select id="selectData" class="w-full p-2 border rounded mb-4">
+            <!-- Coluna da direita: Cardápio e mural -->
+            <div class="flex flex-col space-y-6 w-full">
+                <div class="bg-white p-4 rounded shadow w-full">
+                    <h2 class="text-xl font-bold mb-2">📅 Cardápio do Mês</h2>
+                    <select id="selectData" class="w-full p-2 border rounded mb-4">
                         <?php
                         date_default_timezone_set('America/Sao_Paulo');
                         $hoje = new DateTime();
@@ -68,22 +68,23 @@ $setor = $_SESSION['setor'];
                         }
                         ?>
                     </select>
-                <div id="descricaoCardapio" class="text-gray-700">
-                    Arroz, feijão, salada, sobremesa e suco temos sempre!
+                    <div id="descricaoCardapio" class="text-gray-700">
+                        Arroz, feijão, salada, sobremesa e suco temos sempre!
+                    </div>
                 </div>
-            </div>
 
-            <div class="bg-white p-4 rounded shadow w-full">
-                <h2 class="text-xl font-bold mb-2">📢 Mural de Avisos</h2>
-                <div id="avisoAtual" class="text-gray-700 min-h-[60px] transition-all duration-300">
-                    Carregando avisos...
+                <div class="bg-white p-4 rounded shadow w-full">
+                    <h2 class="text-xl font-bold mb-2">📢 Mural de Avisos</h2>
+                    <div id="avisoAtual" class="text-gray-700 min-h-[60px] transition-all duration-300">
+                        Carregando avisos...
+                    </div>
                 </div>
+                <?php include 'previsao.php'; ?>
             </div>
         </div>
-    </div>
-</main>
+    </main>
 
-            <script>
+    <script>
         const cardapios = {
             "2025-07-01": "Linguiça Frango Acebolada, Bisteca Suína Chapeada, Sopa de Legumes, Quirera.",
             "2025-07-02": "Almondenga molho Sugo, Filé Frango Chapeado, Mac. Penne Alho e Óleo, Acelga com Bacon.",
@@ -153,6 +154,23 @@ $setor = $_SESSION['setor'];
         }
 
         carregarContadores();
+
+        const texto = "Bem-vindo ao sistema GLPI!";
+        const titulo = document.getElementById("titulo");
+        let indexo = 0;
+
+        
+
+        function escreverTitulo() {
+            if (indexo < texto.length) {
+                titulo.innerHTML += texto.charAt(indexo);
+                indexo++;
+                setTimeout(escreverTitulo, 100); // ajusta a velocidade aqui
+            }
+        }
+
+        escreverTitulo();
+    </script>
     </script>
 </body>
 

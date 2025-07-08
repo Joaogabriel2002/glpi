@@ -118,12 +118,6 @@ $detalhesUsuario = $usuario->listarUsuariosPorId($idAtual);
                 class="block text-center text-white bg-red-600 hover:bg-red-800 font-semibold py-2 px-4 rounded shadow transition duration-300 mt-6">
                 Excluir Usuário
             </a>
-
-            <!-- Link Voltar -->
-            <a href="listarUsuario.php"
-                class="block text-center text-gray-700 hover:text-gray-900 font-medium mt-4 underline">
-                Voltar
-            </a>
         </div>
     </main>
 </body>

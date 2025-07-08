@@ -19,7 +19,9 @@ $setor = $_SESSION['setor'];
 <aside class="w-64 bg-black text-gray-800 p-6 flex flex-col relative z-10">
     <!-- Logo e nome -->
     <div class="flex items-center mb-8 space-x-3">
-        <img src="/sistemaglpi/img/chesi-logo-branca.png" alt="Logo" class="h-16 w-16 object-contain">
+        <a href="/sistemaglpi/dashboard/dashboard.php">
+            <img src="/sistemaglpi/img/chesi-logo-branca.png" alt="Logo" class="h-16 w-16 object-contain">
+        </a>
         <div>
             <h2 class="text-lg font-semibold text-white"><?php echo $usuario; ?></h2>
             <p class="text-sm text-gray-400"><?php echo $setor; ?></p>
@@ -72,15 +74,7 @@ $setor = $_SESSION['setor'];
             </div>
 
             <!-- Itens -->
-            <div class="relative group">
-                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
-                    Itens
-                </button>
-                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
-                    <a href="/sistemaglpi/dashboard/Itens/cadastrarItem.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Itens</a>
-                    <a href="/sistemaglpi/dashboard/Itens/listaItens.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Itens</a>
-                </div>
-            </div>
+            
 
             <!-- Estoque -->
             <div class="relative group">
@@ -88,10 +82,13 @@ $setor = $_SESSION['setor'];
                     Estoque
                 </button>
                 <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
-                    <a href="/sistemaglpi/dashboard/ControleMaterial/Itens/Estoque/GerenciarEstoque/incluirEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Incluir Item</a>
-                    <a href="/sistemaglpi/dashboard/ControleMaterial/Itens/Estoque/GerenciarEstoque/baixarEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Baixar Item</a>
-                    <a href="/sistemaglpi/dashboard/ControleMaterial/Itens/Estoque/GerenciarEstoque/visualizarMovimentacao.php" class="p-2 hover:bg-[#2E2E2E] text-white">Visualizar Movimentações</a>
-                    <a href="/sistemaglpi/dashboard/ControleMaterial/Itens/Estoque/GerenciarEstoque/listaEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Visualizar Estoque</a>
+                    <a href="/sistemaglpi/dashboard/ControleMaterial/Itens/GerenciarEstoque/incluirEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Incluir Item</a>
+                    <a href="/sistemaglpi/dashboard/ControleMaterial/Itens/GerenciarEstoque/baixarEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Baixar Item</a>
+                    <a href="/sistemaglpi/dashboard/ControleMaterial/Itens/GerenciarEstoque/visualizarMovimentacao.php" class="p-2 hover:bg-[#2E2E2E] text-white">Visualizar Movimentações</a>
+                    <a href="/sistemaglpi/dashboard/ControleMaterial/Itens/GerenciarEstoque/listaEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Visualizar Estoque</a>
+                    <a href="/sistemaglpi/dashboard/Itens/cadastrarItem.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Itens</a>
+                    <a href="/sistemaglpi/dashboard/Itens/listaItens.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Itens</a>
+                    
                 </div>
             </div>
 
@@ -109,6 +106,7 @@ $setor = $_SESSION['setor'];
                     <a href="/sistemaglpi/dashboard/ControleMaterial/Fornecedores/listaFornecedores.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Fornecedor</a>
                 </div>
             </div>
+            
         <?php endif; ?>
 
         <!-- Sair -->

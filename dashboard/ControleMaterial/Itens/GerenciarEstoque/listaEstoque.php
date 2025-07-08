@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '..\..\..\..\..\..\php\Itens.php';
+require_once '..\..\..\..\php\Itens.php';
 
 if(!isset($_SESSION['usuario_id'])){
     header ("Location: ..\..\index.php");
