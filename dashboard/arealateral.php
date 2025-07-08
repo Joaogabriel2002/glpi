@@ -101,7 +101,7 @@ $setor = $_SESSION['setor'];
                     Cadastro
                 </button>
                 <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
-                    <a href="/sistemaglpi/dashboard/Cadastros/IndexCadastro.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Usuário</a>
+                    <a href="/sistemaglpi/dashboard/Usuario/IndexCadastro.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Usuário</a>
                     <a href="/sistemaglpi/dashboard/Usuario/listarUsuario.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Usuário</a>
                     <a href="/sistemaglpi/dashboard/Cadastros/cadastroSetor.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Setor</a>
                     <a href="#" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Setor</a>

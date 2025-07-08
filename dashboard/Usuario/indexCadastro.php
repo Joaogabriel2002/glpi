@@ -1,8 +1,12 @@
 <?php
-require_once __DIR__.  'php/Usuario.php';
+require_once __DIR__.  '../../../php/Usuario.php';
+
+session_start();
 
 $usuarios = new Usuario();
 $setores = $usuarios->listarSetores();
+
+$mensagemErro = "";
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $usuario = new Usuario();
@@ -57,73 +61,70 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Cadastro - ChesiQuímica</title>
-    <link rel="icon" href="../img/chesiquimica-logo-png.png" type="image/png" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="../img/chesiquimica-logo-png.png" type="image/png" />
 </head>
-<body class="min-h-screen bg-gray-100 flex items-center justify-center font-sans">
-    
-    <div class="bg-white shadow-lg rounded-lg w-full max-w-4xl max-h-[90vh] mx-4 flex flex-col md:flex-row overflow-hidden">
-        <!-- Seção da Esquerda com logo -->
-        <div class="md:w-1/2 bg-black flex flex-col items-center justify-center p-8 space-y-6">
-            <img src="../img/logo-branca.png" alt="Logo ChesiQuímica" class="w-80 h-80 object-contain" />
-        </div>
+<body class="flex h-screen font-sans">
+    <?php require_once __DIR__ . '/../arealateral.php'; ?>
 
-        <!-- Seção da Direita com formulário -->
-        <div class="md:w-1/2 p-8 max-h-[90vh] overflow-y-auto">
+    <main class="flex-1 p-8 bg-gray-300 max-h-screen h-full overflow-auto">
+        <div class="w-full max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mb-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Cadastro de Usuário</h2>
 
             <?php if (!empty($mensagemErro)) : ?>
-                <div class="mb-6 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-                    <?php echo htmlspecialchars($mensagemErro); ?>
+                <div class="mb-4 p-4 bg-red-100 text-red-800 border border-red-300 rounded shadow">
+                    <?= htmlspecialchars($mensagemErro); ?>
                 </div>
             <?php endif; ?>
 
-            <a href="../index.php" class="text-sm text-purple-600 hover:underline">&larr; Voltar</a>
-            <h1 class="text-3xl font-bold mb-8 text-gray-800">Cadastro</h1>
-
-            <form class="space-y-6" action="indexCadastro.php" method="POST">
+            <form class="space-y-5" action="indexCadastro.php" method="POST">
                 <div>
-                    <label class="block mb-2 font-medium text-gray-700">Nome Completo:</label>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Nome Completo:</label>
                     <input type="text" name="nome" placeholder="Digite seu nome completo" required
-                        class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-600">
+                        class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600">
                 </div>
 
                 <div>
-                    <label class="block mb-2 font-medium text-gray-700">Email:</label>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Email:</label>
                     <input type="email" name="email" placeholder="Digite seu email" required
-                        class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-600">
+                        class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600">
                 </div>
 
                 <div>
-                    <label class="block mb-2 font-medium text-gray-700">Senha:</label>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Senha:</label>
                     <input type="password" name="senha" placeholder="Digite sua senha" required
-                        class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-600">
+                        class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600">
                 </div>
 
                 <div>
-                    <label class="block mb-2 font-medium text-gray-700">Confirme sua senha:</label>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Confirme sua Senha:</label>
                     <input type="password" name="confirmacaoSenha" placeholder="Confirme sua senha" required
-                        class="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-purple-600">
+                        class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600">
                 </div>
 
                 <div>
-                    <label class="block mb-2 font-medium text-gray-700">Setor:</label>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Setor:</label>
                     <select name="setor" required
-                        class="w-full px-4 py-3 border border-gray-300 rounded bg-white focus:outline-none focus:ring-2 focus:ring-purple-600">
+                        class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600">
                         <option value="">Selecione o setor</option>
-                        <?php foreach ($setores as $set): ?>
+                        <?php foreach ($setores as $set) : ?>
                             <option value="<?= htmlspecialchars($set['setor']) ?>"><?= htmlspecialchars($set['setor']) ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
 
                 <button type="submit"
-                    class="w-full bg-purple-700 hover:bg-purple-800 text-white font-semibold py-3 rounded transition-colors">
-                    Cadastrar-se
+                    class="w-full bg-[#4B5563] hover:bg-[#2E2E2E] text-white font-semibold py-2 px-4 rounded shadow transition duration-300">
+                    Cadastrar
                 </button>
             </form>
+
+            <!-- <a href="../index.php"
+                class="block text-center text-gray-700 hover:text-gray-900 font-medium mt-6 underline">
+                Voltar
+            </a> -->
         </div>
-    </div>
+    </main>
 </body>
 </html>

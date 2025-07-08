@@ -1,5 +1,5 @@
 <?php
-require_once '..\..\..\php/Usuario.php';
+require_once __DIR__.  '../../../php/Usuario.php';
 
 session_start();
 if (!isset($_SESSION['usuario_id'])) {
@@ -9,6 +9,8 @@ if (!isset($_SESSION['usuario_id'])) {
 
 $usuario = new Usuario();
 
+$msg = "";
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['AlterarDados'])) {
     $id = $_POST['id'];
     $nome = $_POST['nome'];
@@ -17,9 +19,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['AlterarDados'])) {
     $local = $_POST['local'];
 
     if ($usuario->atualizarUsuario($id, $nome, $email, $setor, $local)) {
-        echo '<div style="color: green; font-weight: bold; margin-top: 10px;">Dados atualizados com sucesso!</div>';
+        $msg = '<div class="mb-4 p-4 bg-green-100 text-green-800 border border-green-300 rounded">Dados atualizados com sucesso!</div>';
     } else {
-        echo '<div style="color: red; font-weight: bold; margin-top: 10px;">Erro ao atualizar dados.</div>';
+        $msg = '<div class="mb-4 p-4 bg-red-100 text-red-800 border border-red-300 rounded">Erro ao atualizar dados.</div>';
     }
 }
 
@@ -28,9 +30,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['AlterarSenha'])) {
     $senha = sha1($_POST['senha']);
 
     if ($usuario->atualizarSenha($id, $senha)) {
-        echo '<div style="color: green; font-weight: bold; margin-top: 10px;">Senha atualizada com sucesso!</div>';
+        $msg = '<div class="mb-4 p-4 bg-green-100 text-green-800 border border-green-300 rounded">Senha atualizada com sucesso!</div>';
     } else {
-        echo '<div style="color: red; font-weight: bold; margin-top: 10px;">Erro ao atualizar senha.</div>';
+        $msg = '<div class="mb-4 p-4 bg-red-100 text-red-800 border border-red-300 rounded">Erro ao atualizar senha.</div>';
     }
 }
 
@@ -48,74 +50,81 @@ $detalhesUsuario = $usuario->listarUsuariosPorId($idAtual);
 <head>
     <meta charset="UTF-8">
     <title>Editar Usuário</title>
-    <link rel="stylesheet" href="/sistemaglpi/css/cadastro.css">
-    <link rel="icon" href="..\..\..\img/chesiquimica-logo-png.png" type="image/png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="/sistemaglpi/img/chesiquimica-logo-png.png" type="image/png">
 </head>
-<body>
+<body class="flex h-screen font-sans">
+    <?php require_once __DIR__ . '../../arealateral.php'; ?>
 
-<div class="container">
-    <!-- Bloco Verde -->
-    <div class="left-section">
-        <img src="..\..\..\img/chesiquimica-logo-png.png" alt="Logo ChesiQuímica" class="brand-logo">
-        <img src="..\..\..\img/chesiquimica-letreiro-png.png" alt="Logo ChesiQuímica" class="brand-name">
-    </div>
+    <main class="flex-1 p-8 bg-gray-300 max-h-screen h-full overflow-auto">
+        <div class="w-full max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mb-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Editar Usuário</h2>
 
-    <!-- Bloco Branco (Formulário) -->
-    <div class="right-section">
-        <a href="listarUsuario.php" class="back-link">Voltar</a>
-        <h2 class="form-title">Editar Usuário</h2>
+            <?= $msg ?>
 
-        <!-- Form de Nome, Email, Setor e Local -->
-        <form class="form" method="post">
-            <input type="hidden" name="id" value="<?php echo $detalhesUsuario['id']; ?>">
+            <!-- Form Alterar Dados -->
+            <form class="space-y-5" method="post">
+                <input type="hidden" name="id" value="<?= $detalhesUsuario['id']; ?>">
 
-            <div class="campo-form">
-                <label>Nome:</label>
-                <input type="text" name="nome" value="<?php echo htmlspecialchars($detalhesUsuario['nome']); ?>" required>
-            </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Nome:</label>
+                    <input type="text" name="nome" value="<?= htmlspecialchars($detalhesUsuario['nome']); ?>" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600">
+                </div>
 
-            <div class="campo-form">
-                <label>Email:</label>
-                <input type="email" name="email" value="<?php echo htmlspecialchars($detalhesUsuario['email']); ?>" required>
-            </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Email:</label>
+                    <input type="email" name="email" value="<?= htmlspecialchars($detalhesUsuario['email']); ?>" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600">
+                </div>
 
-            <div class="campo-form">
-                <label>Setor:</label>
-                <input type="text" name="setor" value="<?php echo htmlspecialchars($detalhesUsuario['setor']); ?>" readonly>
-            </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Setor:</label>
+                    <input type="text" name="setor" value="<?= htmlspecialchars($detalhesUsuario['setor']); ?>" readonly
+                        class="w-full px-4 py-2 border border-gray-300 rounded bg-gray-100 text-gray-600 cursor-not-allowed">
+                </div>
 
-            <div class="campo-form">
-                <label>Local:</label>
-                <input type="text" name="local" value="<?php echo htmlspecialchars($detalhesUsuario['local']); ?>" readonly>
-            </div>
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Local:</label>
+                    <input type="text" name="local" value="<?= htmlspecialchars($detalhesUsuario['local']); ?>" readonly
+                        class="w-full px-4 py-2 border border-gray-300 rounded bg-gray-100 text-gray-600 cursor-not-allowed">
+                </div>
 
-            <button type="submit" name="AlterarDados" class="submit-btn">Alterar Dados</button>
-        </form>
+                <button type="submit" name="AlterarDados"
+                    class="w-full bg-[#4B5563] hover:bg-[#2E2E2E] text-white font-semibold py-2 px-4 rounded shadow transition duration-300">
+                    Alterar Dados
+                </button>
+            </form>
 
-        <br>
+            <!-- Form Alterar Senha -->
+            <form class="space-y-5 mt-6" method="post">
+                <input type="hidden" name="id" value="<?= $detalhesUsuario['id']; ?>">
 
-        <!-- Form de Senha -->
-        <form class="form" method="post">
-            <input type="hidden" name="id" value="<?php echo $detalhesUsuario['id']; ?>">
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Nova Senha:</label>
+                    <input type="password" name="senha" required
+                        class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600">
+                </div>
 
-            <div class="campo-form">
-                <label>Nova Senha:</label>
-                <input type="password" name="senha" required>
-            </div>
+                <button type="submit" name="AlterarSenha"
+                    class="w-full bg-[#4B5563] hover:bg-[#2E2E2E] text-white font-semibold py-2 px-4 rounded shadow transition duration-300">
+                    Alterar Senha
+                </button>
+            </form>
 
-            <button type="submit" name="AlterarSenha" class="submit-btn">Alterar Senha</button>
-        </form>
+            <!-- Botão Excluir -->
+            <a href="excluirUsuarios.php?id=<?= $detalhesUsuario['id']; ?>"
+                onclick="return confirm('Tem certeza que deseja excluir este usuário?');"
+                class="block text-center text-white bg-red-600 hover:bg-red-800 font-semibold py-2 px-4 rounded shadow transition duration-300 mt-6">
+                Excluir Usuário
+            </a>
 
-        <br>
-
-        <!-- Botão Excluir -->
-        <a href="excluirUsuarios.php?id=<?=$detalhesUsuario['id']; ?>" 
-           onclick="return confirm('Tem certeza que deseja excluir este usuário?');" 
-           style="display: block; text-align: center; color: white; background-color: red; padding: 10px 0; border-radius: 8px; text-decoration: none; margin-top: 20px;">
-            Excluir Usuário
-        </a>
-    </div>
-</div>
-
+            <!-- Link Voltar -->
+            <a href="listarUsuario.php"
+                class="block text-center text-gray-700 hover:text-gray-900 font-medium mt-4 underline">
+                Voltar
+            </a>
+        </div>
+    </main>
 </body>
 </html>
