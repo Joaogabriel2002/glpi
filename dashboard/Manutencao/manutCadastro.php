@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8" />
-    <title>Cadastro - ChesiQuímica</title>
+    <title>Registrar Manutenção</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="/sistemaglpi/img/chesiquimica-logo-png.png" type="image/png">
 </head>
@@ -51,10 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     <?php require_once __DIR__ . '/../arealateral.php'; ?>
 
     <main class="flex-1 p-8 bg-gray-300 max-h-screen h-full overflow-auto">
-        <div class="w-full max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mb-6">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4">Registrar uma Manutenção</h2>
-
-            <?php if (!empty($mensagemErro)) : ?>
+        <?php if (!empty($mensagemErro)) : ?>
                 <div class="mb-4 p-4 bg-red-100 text-red-800 border border-red-300 rounded shadow">
                     <?= htmlspecialchars($mensagemErro); ?>
                 </div>
@@ -65,6 +62,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     <?= htmlspecialchars($mensagemSucesso); ?>
                 </div>
             <?php endif; ?>
+        <div class="w-full max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mb-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">Registrar uma Manutenção</h2>
+
+            
 
             <form class="space-y-5" action="" method="POST">
                 <div>
