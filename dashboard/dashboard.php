@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once 'arealateral.php';
+// require_once 'arealateral.php';
 
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: ../../index.php');
@@ -25,7 +25,7 @@ $setor = $_SESSION['setor'];
 <body class="flex h-screen font-sans">
 
     <!-- Sidebar -->
-
+    <?php require_once 'arealateral.php';?>
     <!-- Conteúdo principal -->
     <main class="flex-1 bg-gray-200 p-6">
         <h1 class="text-2xl font-bold mb-4" id="titulo"></h1>
@@ -79,7 +79,6 @@ $setor = $_SESSION['setor'];
                         Carregando avisos...
                     </div>
                 </div>
-                <?php include 'previsao.php'; ?>
             </div>
         </div>
     </main>
@@ -124,6 +123,12 @@ $setor = $_SESSION['setor'];
         async function carregarAvisos() {
             const res = await fetch("/sistemaglpi/php/get_avisos.php");
             avisos = await res.json();
+
+            const previsaoRes = await fetch("previsao.php");
+            const previsao = await previsaoRes.json();
+
+            avisos.push(previsao); // ou avisos.splice(1, 0, previsao); pra colocar sempre em 2º lugar
+
             mostrarProximoAviso();
         }
 
@@ -136,7 +141,7 @@ $setor = $_SESSION['setor'];
             document.getElementById("avisoAtual").innerHTML =
                 `<strong>${aviso.titulo}</strong><br>${aviso.mensagem}`;
             index = (index + 1) % avisos.length;
-            setTimeout(mostrarProximoAviso, 10000);
+            setTimeout(mostrarProximoAviso, 2000);
         }
 
         carregarAvisos();

@@ -1,27 +1,30 @@
 <?php
-$apiKey = 'dc53e79575564432b7866c24f29203b6'; // Substitua pela sua chave
-$cidade = 'Curitiba';       // Ou outra cidade que quiser
+header('Content-Type: application/json');
 
-// Monta a URL da API
+$apiKey = 'dc53e79575564432b7866c24f29203b6';
+$cidade = 'Ponta&Grossa';
+
 $url = "https://api.openweathermap.org/data/2.5/weather?q={$cidade}&units=metric&lang=pt_br&appid={$apiKey}";
-
-// Faz a requisição
 $resposta = file_get_contents($url);
 $dados = json_decode($resposta, true);
 
-// Extrai dados
-$temp = $dados['main']['temp'];
+$temp = round($dados['main']['temp']);
 $descricao = $dados['weather'][0]['description'];
 $icone = $dados['weather'][0]['icon'];
-?>
 
-<!-- Exibe a previsão com Tailwind -->
-<div class="bg-blue-900 text-white p-4 rounded-xl shadow-md max-w-sm">
-  <div class="flex items-center space-x-4">
-    <img src="https://openweathermap.org/img/wn/<?php echo $icone; ?>@2x.png" alt="Ícone do tempo">
-    <div>
-      <h2 class="text-xl font-bold">Tempo em <?php echo $cidade; ?></h2>
-      <p class="text-md capitalize"><?php echo $descricao; ?>, <?php echo $temp; ?>°C</p>
-    </div>
+// Monta o HTML da previsão
+$mensagem = '
+<div class="flex items-center space-x-4">
+  
+  <div>
+    <h2 class=\"text-xl font-bold\">Tempo em Ponta Grossa - PR</h2>
+    <p class=\"text-md capitalize\">' . $temp . '°C</p>
   </div>
 </div>
+';
+
+// Retorna JSON
+echo json_encode([
+    "titulo" => "Previsão do Tempo",
+    "mensagem" => $mensagem
+]);
