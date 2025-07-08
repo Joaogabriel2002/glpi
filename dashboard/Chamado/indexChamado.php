@@ -1,8 +1,9 @@
 <?php
 session_start();
-require_once __DIR__ . '/../../../arealateral.php';
-require_once '../../../php/Chamado.php';
-require_once '../../../php/Email.php';
+require_once __DIR__ . '/../arealateral.php';
+
+require_once __DIR__. '../../../php/Chamado.php';
+require_once __DIR__. '../../../php/Email.php';
 
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: ../../index.php");

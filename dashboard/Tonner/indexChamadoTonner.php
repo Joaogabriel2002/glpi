@@ -1,15 +1,15 @@
 <?php
 session_start();
-require_once '../../../php/Tonner.php';
-require_once '../../../php/Imobilizados.php';
-require_once '../../../php/Email.php';
-require_once __DIR__ . '/../../../arealateral.php';
+require_once __DIR__. '../../../php/Tonner.php';
+require_once __DIR__. '../../../php/Imobilizados.php';
+require_once __DIR__.  '../../../php/Email.php';
+
 
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: ../../../index.php");
     exit();
 }
-
+// 
 $usuario = $_SESSION['usuario'];
 $setor = $_SESSION['setor'];
 
@@ -41,31 +41,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tonnerSolicitacao->setCorTonner($corTonnerString);
 
     try {
-        $novoChamadoId = $tonnerSolicitacao->solicitarTonner();
+    $novoChamadoId = $tonnerSolicitacao->solicitarTonner();
 
-        if ($novoChamadoId) {
-            $destinatario = 'ti@chesiquimica.com.br';
-            $assunto = "Solicitação de Suprimento: Tonner ID #{$novoChamadoId}";
+    if ($novoChamadoId) {
+        $destinatario = 'ti@chesiquimica.com.br';
+        $assunto = "Solicitação de Suprimento: Tonner ID #{$novoChamadoId}";
 
-            $mensagem = "<h2>Nova Solicitação de Tonner</h2>";
-            $mensagem .= "<p><strong>ID da Solicitação:</strong> " . $novoChamadoId . "</p>";
-            $mensagem .= "<p><strong>Solicitante:</strong> " . $_SESSION['usuario'] . " (" . $_SESSION['email_usuario'] . ")</p>";
-            $mensagem .= "<p><strong>Setor:</strong> " . $_SESSION['setor'] . "</p>";
-            $mensagem .= "<p><strong>Status:</strong> Aberto</p>";
-            $mensagem .= "<br><p>Por favor, providenciar a entrega o quanto antes.</p>";
+        $mensagem = "<h2>Nova Solicitação de Tonner</h2>";
+        $mensagem .= "<p><strong>ID da Solicitação:</strong> " . $novoChamadoId . "</p>";
+        $mensagem .= "<p><strong>Solicitante:</strong> " . $_SESSION['usuario'] . " (" . $_SESSION['email_usuario'] . ")</p>";
+        $mensagem .= "<p><strong>Setor:</strong> " . $_SESSION['setor'] . "</p>";
+        $mensagem .= "<p><strong>Status:</strong> Aberto</p>";
+        $mensagem .= "<br><p>Por favor, providenciar a entrega o quanto antes.</p>";
 
-            $email->enviarEmail($destinatario, $assunto, $mensagem);
-            header("Location: solicitacaoAberta.php?tonnerSolicitacao=" . $novoChamadoId);
-            exit();
-        } else {
-            $erroMsg = "Erro ao abrir chamado!";
-        }
+        $email->enviarEmail($destinatario, $assunto, $mensagem);
 
-    } catch (PDOException $e) {
-        $erroMsg = strpos($e->getMessage(), 'impressoraId sem tonner associado') !== false
-            ? "⚠️ Você precisa associar um tonner a essa impressora antes de solicitar!"
-            : "Erro inesperado: " . htmlspecialchars($e->getMessage());
+        // Ao invés de redirecionar, salva a mensagem no $msg
+        $msg = "Solicitação aberta com sucesso!<br><strong>ID da Solicitação:</strong> {$novoChamadoId}";
+
+    } else {
+        $erroMsg = "Erro ao abrir chamado!";
     }
+
+} catch (PDOException $e) {
+    $erroMsg = strpos($e->getMessage(), 'impressoraId sem tonner associado') !== false
+        ? "⚠️ Você precisa associar um tonner a essa impressora antes de solicitar!"
+        : "Erro inesperado: " . htmlspecialchars($e->getMessage());
+}
+
 }
 ?>
 
@@ -80,11 +83,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body class="flex h-screen font-sans">
 
     <!-- Sidebar -->
-    
+    <?php require_once __DIR__.  '../../arealateral.php'; ?>
 
     <!-- Conteúdo principal -->
     <main class="flex-1 p-8 bg-gray-300 max-h-screen h-full overflow-auto">
         <div class="w-full max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mb-6">
+            <?php if (isset($msg)): ?>
+    <div class="mb-4 p-4 bg-green-100 text-green-800 border border-green-300 rounded">
+        <?= $msg ?>
+    </div>
+<?php endif; ?>
+
             <h2 class="text-xl font-semibold text-gray-800 mb-4">Solicitação de Tonner</h2>
 
             <?php if (isset($erroMsg)): ?>

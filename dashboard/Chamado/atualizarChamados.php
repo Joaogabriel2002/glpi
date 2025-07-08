@@ -1,7 +1,7 @@
 <?php
-require_once '../../../php/Chamado.php';
-require_once '../../../php/Email.php';
-require_once '../../../php/Usuario.php';
+require_once __DIR__.  '../../../php/Chamado.php';
+require_once __DIR__.  '../../../php/Email.php';
+require_once __DIR__.  '../../../php/Usuario.php';
 date_default_timezone_set('America/Sao_Paulo');
 session_start();
 
@@ -9,7 +9,7 @@ if (!isset($_SESSION['usuario_id'])) {
     header('Location: ../../index.php');
     exit;
 }
-
+// require_once __DIR__.  '../../arealateral.php';
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     $chamadoId = (int) $_GET['id'];
 
@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body class="flex h-screen font-sans">
 
 <!-- Sidebar -->
-<?php include '../../../arealateral.php'; ?>
+<?php require_once __DIR__.  '../../arealateral.php'; ?>
 
 <!-- Conteúdo -->
 <main class="flex-1 p-8 bg-gray-200 overflow-auto">

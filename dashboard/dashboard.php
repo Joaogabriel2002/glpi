@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once __DIR__ . '/../../../sistemaglpi/arealateral.php';
+require_once 'arealateral.php';
 
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: ../../index.php');

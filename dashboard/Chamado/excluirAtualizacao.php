@@ -1,5 +1,5 @@
 <?php
-require_once '..\..\..\php/Chamado.php';
+require_once __DIR__.  '../../../php/Chamado.php';
 session_start();
 
 $chamado = new Chamado();
@@ -11,16 +11,18 @@ if (isset($_GET['id_atualizacao']) && isset($_GET['id_chamado']) && isset($_GET[
     $status = $_GET['status'];
 
     // Verifica se o chamado está fechado ou cancelado
-    if ($status == "Fechado" || $status == "Cancelado") {
-        echo "Erro ao excluir atualização! Chamado já fechado ou cancelado.";
-        exit; // Encerra o script para evitar que a exclusão aconteça
-    }
+   if ($status == "Fechado" || $status == "Cancelado") {
+    header('Location: detalhesChamados.php?id=' . $idChamado . '&msg=erro_status');
+    exit;
+}
+
 
     $chamado->setIdAtualizacao($idAtualizacao);
-    echo "ID da atualização capturado: " . $idAtualizacao;
+    // echo "ID da atualização capturado: " . $idAtualizacao;
 
     if ($chamado->excluirAtualizacao()) {
-        header('Location: detalhesChamados.php?id=' . $idChamado);
+        // Agora passando a flag msg=excluido
+        header('Location: detalhesChamados.php?id=' . $idChamado . '&msg=excluido');
         exit;
     } else {
         echo "Erro ao excluir a atualização.";
@@ -28,3 +30,4 @@ if (isset($_GET['id_atualizacao']) && isset($_GET['id_chamado']) && isset($_GET[
 } else {
     echo "ID da atualização, ID do chamado ou status não foram passados!";
 }
+?>

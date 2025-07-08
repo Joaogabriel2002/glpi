@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once '../../../php/Chamado.php';
-require_once '../../../arealateral.php';
+require_once __DIR__. '../../../php/Chamado.php';
+require_once __DIR__.  '../../arealateral.php';
 
 
 if (!isset($_SESSION['usuario_id'])) {

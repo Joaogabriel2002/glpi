@@ -115,6 +115,14 @@ class Imobilizados extends Conexao
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function listarModelos()
+    {
+        $sql = "SELECT * FROM equipamentos ORDER by tipo";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     // Cadastrar imobilizado
     public function cadastrar()
     {
@@ -183,6 +191,18 @@ class Imobilizados extends Conexao
         return false;
     }
 
+    public function atualizarEquipamentos()
+    {
+        $sql = "INSERT INTO equipamentos (descricaoEquipamento, tipo) VALUES (:modelo,:tipo)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':modelo', $this->modelo);
+        $stmt->bindParam(':tipo', $this->tipo);
+        if ($stmt->execute()) {
+            return $this->conn->lastInsertId();
+        }
+        return false;
+    }
+
     public function buscarModelos()
     {
         $sql = "SELECT * FROM equipamentos";
@@ -190,6 +210,17 @@ class Imobilizados extends Conexao
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    public function buscarModelosPorId($idAtual) {
+    $sql = "SELECT descricaoEquipamento FROM equipamentos WHERE idEquipamento = :id";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':id', $idAtual, PDO::PARAM_INT);
+    $stmt->execute();
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+
+
 
     public function buscarSetores()
     {
