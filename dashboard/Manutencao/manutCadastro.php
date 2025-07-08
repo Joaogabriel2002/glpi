@@ -1,20 +1,42 @@
 <?php
-// require_once __DIR__.  '../../../php/Manutencao.php';
-require_once __DIR__.  '../../../php/Imobilizados.php';
-require_once __DIR__.  '../../../php/Fornecedor.php';
+require_once __DIR__ . '../../../php/Imobilizados.php';
+require_once __DIR__ . '../../../php/Fornecedor.php';
+require_once __DIR__ . '../../../php/Manutencao.php'; // Inclui a classe Manutencao
 session_start();
 
 $mensagemErro = "";
+$mensagemSucesso = "";
 $dataAtual = date('Y-m-d');
-// echo $dataAtual; 
 
-$itens= new Imobilizados();
+$itens = new Imobilizados();
 $imobilizados = $itens->listarImobilizados();
 
-$fornecedor= new Fornecedor();
+$fornecedor = new Fornecedor();
 $fornec = $fornecedor->listarFornecedores();
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
+    // Recebendo os dados do formulário
+    $idImb = $_POST['item_imobilizado'] ?? null;
+    $idForn = $_POST['item_fornecedor'] ?? null;
+    $dtEnvio = $_POST['data'] ?? null;
+    $descricao = $_POST['descricao'] ?? null;
+
+    if (!$idImb || !$idForn || !$dtEnvio || !$descricao) {
+        $mensagemErro = "Por favor, preencha todos os campos.";
+    } else {
+        $manutencao = new Manutencao();
+        $manutencao->setIdImb($idImb);
+        $manutencao->setIdForn($idForn);
+        $manutencao->setDtEnvio($dtEnvio);
+        $manutencao->setDescricao($descricao);
+        $manutencao->setStatus("Aberto"); // Status padrão
+
+        if ($manutencao->registrar()) {
+            $mensagemSucesso = "Manutenção cadastrada com sucesso!";
+        } else {
+            $mensagemErro = "Erro ao cadastrar a manutenção.";
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -38,28 +60,33 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 </div>
             <?php endif; ?>
 
-            <form class="space-y-5" action="indexCadastro.php" method="POST">
+            <?php if (!empty($mensagemSucesso)) : ?>
+                <div class="mb-4 p-4 bg-green-100 text-green-800 border border-green-300 rounded shadow">
+                    <?= htmlspecialchars($mensagemSucesso); ?>
+                </div>
+            <?php endif; ?>
+
+            <form class="space-y-5" action="" method="POST">
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-700">Equipamento</label>
-                    <select name="item" required
+                    <select name="item_imobilizado" required
                         class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600">
                         <option value="">Selecione o Equipamento</option>
                         <?php foreach ($imobilizados as $imb) : ?>
                             <option value="<?= htmlspecialchars($imb['id']) ?>">
-                                <?= htmlspecialchars($imb['patrimonio'] . " — " . $imb['modelo'])?>
+                                <?= htmlspecialchars($imb['patrimonio'] . " — " . $imb['modelo']) ?>
                             </option>
                         <?php endforeach; ?>
-
                     </select>
                 </div>
 
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-700">Prestador</label>
-                    <select name="item" required
+                    <select name="item_fornecedor" required
                         class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600">
                         <option value="">Selecione o Prestador:</option>
                         <?php foreach ($fornec as $forn) : ?>
-                            <option value="<?= htmlspecialchars($forn['nome']) ?>"><?= htmlspecialchars($forn['nome']) ?></option>
+                            <option value="<?= htmlspecialchars($forn['id']) ?>"><?= htmlspecialchars($forn['nome']) ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -69,7 +96,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     <input type="date" name="data" value="<?= $dataAtual ?>" required
                         class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600">
                 </div>
-
 
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-700">Descrição do Problema:</label>
@@ -82,11 +108,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     Cadastrar
                 </button>
             </form>
-
-            <!-- <a href="../index.php"
-                class="block text-center text-gray-700 hover:text-gray-900 font-medium mt-6 underline">
-                Voltar
-            </a> -->
         </div>
     </main>
 </body>
