@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     <meta charset="UTF-8" />
     <title>Cadastro de Fornecedor - ChesiQuímica</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" href="../../img/chesiquimica-logo-png.png" type="image/png" />
+    <link rel="icon" href="/sistemaglpi/img/chesiquimica-logo-png.png" type="image/png">
 </head>
 <body class="flex h-screen font-sans">
     <?php require_once __DIR__ . '/../../arealateral.php'; ?>

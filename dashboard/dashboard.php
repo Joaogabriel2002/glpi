@@ -1,14 +1,12 @@
 <?php
 session_start();
 
-// require_once 'arealateral.php';
-
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: ../../index.php');
     exit();
 }
 
-$usuario = $_SESSION['usuario'];
+$usuario = htmlspecialchars($_SESSION['usuario']);
 $setor = $_SESSION['setor'];
 ?>
 
@@ -16,39 +14,47 @@ $setor = $_SESSION['setor'];
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
+    <link rel="icon" href="/sistemaglpi/img/chesiquimica-logo-png.png" type="image/png" />
 </head>
 
 <body class="flex h-screen font-sans">
 
     <!-- Sidebar -->
     <?php require_once 'arealateral.php'; ?>
-    <!-- Conteúdo principal -->
-    <main class="flex-1 bg-gray-200 p-6">
-        <h1 class="text-2xl font-bold mb-4" id="titulo"></h1>
-        <p>Bem-vindo, <?php echo $usuario; ?>! Este é o seu painel de acesso.</p>
 
-        <div class="grid grid-cols-1 md:grid-cols-[auto,1fr] gap-6 mt-6 items-start">
-            <!-- Coluna da esquerda: Contadores -->
+    <!-- Conteúdo principal -->
+    <main class="flex-1 bg-gray-200 p-6 flex flex-col gap-6 overflow-auto">
+
+        <!-- Topo: título + contadores -->
+        <div class="flex items-center justify-between">
+            <h1 class="text-2xl font-bold" id="titulo"></h1>
+
             <?php if ($setor === 'TI'): ?>
-                <div class="flex flex-col space-y-4 w-64">
-                    <div class="bg-white p-6 rounded shadow">
-                        <h3 class="text-lg font-bold text-gray-800">Chamados Abertos</h3>
-                        <p id="chamadosAbertos" class="text-3xl font-semibold text-blue-600 mt-2">0</p>
+                <div class="flex space-x-6">
+                    <div class="bg-white p-4 rounded-full shadow text-center w-32 h-32 flex flex-col justify-center items-center">
+                        <h3 class="text-lg font-bold text-gray-800">Chamados</h3>
+                        <p id="chamadosAbertos" class="text-3xl font-semibold text-blue-600 mt-1">0</p>
+                        <span class="text-sm text-gray-600">Abertos</span>
                     </div>
-                    <div class="bg-white p-6 rounded shadow">
-                        <h3 class="text-lg font-bold text-gray-800">Solicitações Abertas</h3>
-                        <p id="tonnersAbertos" class="text-3xl font-semibold text-green-600 mt-2">0</p>
+                    <div class="bg-white p-4 rounded-full shadow text-center w-32 h-32 flex flex-col justify-center items-center">
+                        <h3 class="text-lg font-bold text-gray-800">Solicitações</h3>
+                        <p id="tonnersAbertos" class="text-3xl font-semibold text-green-600 mt-1">0</p>
+                        <span class="text-sm text-gray-600">Abertas</span>
                     </div>
                 </div>
             <?php endif; ?>
+        </div>
 
-            <!-- Coluna da direita: Cardápio e mural -->
-            <div class="flex flex-col space-y-6 w-full">
-                <div class="bg-white p-4 rounded shadow w-full">
+
+        <!-- Corpo principal: coluna esquerda fixa e coluna direita flexível -->
+        <div class="flex flex-1 gap-6 min-h-0">
+            <!-- Coluna esquerda fixa (largura 320px) -->
+            <div class="flex flex-col gap-6 w-80 flex-shrink-0">
+                <!-- Card Cardápio -->
+                <div class="bg-white p-4 rounded shadow h-[300px] flex flex-col">
                     <h2 class="text-xl font-bold mb-2">📅 Cardápio do Mês</h2>
                     <select id="selectData" class="w-full p-2 border rounded mb-4">
                         <?php
@@ -69,19 +75,24 @@ $setor = $_SESSION['setor'];
                         }
                         ?>
                     </select>
-                    <div id="descricaoCardapio" class="text-gray-700">
+                    <div id="descricaoCardapio" class="text-gray-700 flex-grow overflow-auto">
                         Arroz, feijão, salada, sobremesa e suco temos sempre!
                     </div>
                 </div>
 
-                <div class="bg-white p-4 rounded shadow w-full">
-                    <h2 class="text-xl font-bold mb-2">📢 Mural de Avisos</h2>
-                    <div id="avisoAtual" class="text-gray-700 min-h-[60px] transition-all duration-300">
-                        Carregando avisos...
-                    </div>
+                <!-- Card Clima abaixo do cardápio -->
+                <div id="clima-container"></div>
+            </div>
+
+            <!-- Coluna direita: mural ocupa todo espaço restante -->
+            <div class="flex-1 bg-white p-4 rounded shadow flex flex-col min-h-0">
+                <h2 class="text-xl font-bold mb-2">📢 Mural de Avisos</h2>
+                <div id="avisoAtual" class="text-gray-700 flex-grow min-h-[60px] overflow-auto transition-all duration-300">
+                    Carregando avisos...
                 </div>
             </div>
         </div>
+
     </main>
 
     <script>
@@ -116,21 +127,19 @@ $setor = $_SESSION['setor'];
             document.getElementById("descricaoCardapio").innerText = cardapios[value] || "Sem cardápio para esta data.";
         });
 
-
-
         let avisos = [];
         let index = 0;
 
         async function carregarAvisos() {
-            const res = await fetch("/sistemaglpi/php/get_avisos.php");
-            avisos = await res.json();
+            try {
+                const res = await fetch("/sistemaglpi/php/get_avisos.php");
+                avisos = await res.json();
 
-            const previsaoRes = await fetch("previsao.php");
-            const previsao = await previsaoRes.json();
-
-            avisos.push(previsao); // ou avisos.splice(1, 0, previsao); pra colocar sempre em 2º lugar
-
-            mostrarProximoAviso();
+                mostrarProximoAviso();
+            } catch (error) {
+                document.getElementById("avisoAtual").innerText = "Erro ao carregar avisos.";
+                console.error("Erro ao carregar avisos:", error);
+            }
         }
 
         function mostrarProximoAviso() {
@@ -142,11 +151,10 @@ $setor = $_SESSION['setor'];
             document.getElementById("avisoAtual").innerHTML =
                 `<strong>${aviso.titulo}</strong><br>${aviso.mensagem}`;
             index = (index + 1) % avisos.length;
-            setTimeout(mostrarProximoAviso, 2000);
+            setTimeout(mostrarProximoAviso, 4000);
         }
 
         carregarAvisos();
-
 
         async function carregarContadores() {
             try {
@@ -161,27 +169,28 @@ $setor = $_SESSION['setor'];
 
         carregarContadores();
 
-        const texto = "Bem-vindo ao sistema GLPI!";
+        const texto = "Bem-vindo ao sistema de gerenciamento de chamados!";
         const titulo = document.getElementById("titulo");
         let indexo = 0;
-
-
 
         function escreverTitulo() {
             if (indexo < texto.length) {
                 titulo.innerHTML += texto.charAt(indexo);
                 indexo++;
-                setTimeout(escreverTitulo, 100); // ajusta a velocidade aqui
+                setTimeout(escreverTitulo, 100);
             }
         }
 
-        escreverTitulo();
+        // Começa escrevendo o título animado
         window.addEventListener("DOMContentLoaded", () => {
+            escreverTitulo();
             const hoje = document.getElementById("selectData").value;
             document.getElementById("descricaoCardapio").innerText = cardapios[hoje] || "Sem cardápio para esta data.";
         });
     </script>
-    </script>
+
+    <script src="clima.js"></script>
+
 </body>
 
 </html>
