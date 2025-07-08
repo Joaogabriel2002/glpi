@@ -12,6 +12,10 @@ $usuario = $_SESSION['usuario'];
 $setor = $_SESSION['setor'];
 $imobilizados = new Imobilizados();
 $imobilizado = $imobilizados->listarImobilizados();
+$msg = $_SESSION['msg'] ?? '';
+unset($_SESSION['msg']);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -29,6 +33,13 @@ $imobilizado = $imobilizados->listarImobilizados();
    <?php require_once __DIR__.  '../../arealateral.php'; ?>
     <main class="flex-1 p-8 bg-gray-200 overflow-auto">
         <h1 class="text-2xl font-semibold mb-6">Imobilizados Cadastrados</h1>
+            <?php if (!empty($msg)) : ?>
+                <div class="mb-4 p-4 rounded 
+                    <?= strpos($msg, 'sucesso') !== false ? 'bg-green-100 border border-green-400 text-green-800' : 'bg-red-100 border border-red-400 text-red-800' ?>">
+                    <?= htmlspecialchars($msg) ?>
+            </div>
+<?php endif; ?>
+
 
         <!-- Tabela -->
         <div class="overflow-x-auto">
