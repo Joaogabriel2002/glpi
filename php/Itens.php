@@ -57,7 +57,7 @@ class Itens extends Conexao {
 
 
     public function listarItens() {
-        $sql = "SELECT * FROM itens ORDER by nome";
+        $sql = "SELECT * FROM itens ORDER by tipo";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         

@@ -14,7 +14,7 @@ if ($_SESSION['setor'] !== "TI") {
 
 $item = new Itens();
 $itens = $item->listarItens();
-// $itens = $item->listarEstoque();
+$itens = $item->listarEstoque();
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +39,8 @@ $itens = $item->listarItens();
                     <tr>
                         <th class="px-6 py-3 text-left text-sm font-medium">Nome</th>
                         <th class="px-6 py-3 text-left text-sm font-medium">Tipo</th>
-                        <!-- <th class="px-6 py-3 text-left text-sm font-medium">Opções</th> -->
+                        <th class="px-6 py-3 text-left text-sm font-medium">Saldo</th>
+                        <th class="px-6 py-3 text-left text-sm font-medium">Opções</th>
                         <th class="px-6 py-3 text-left text-sm font-medium">Vincular</th>
                     </tr>
                 </thead>
@@ -48,11 +49,11 @@ $itens = $item->listarItens();
                         <tr class="hover:bg-gray-100">
                             <td class="px-6 py-4"><?php echo $item['nome']; ?></td>
                             <td class="px-6 py-4"><?php echo $item['tipo']; ?></td>
-                        
+                            <td class="px-6 py-4"><?php echo $item['saldo']; ?></td>
 
-                            <!-- <td class="px-6 py-4 text-blue-600">
+                            <td class="px-6 py-4 text-blue-600">
                                 <a href="movimentacoesItens.php?id=<?= $item['id']; ?>">Movimentações</a>
-                            </td> -->
+                            </td>
                             <td class="px-6 py-4 text-blue-600">
                                 <a href="vincularItem.php?id=<?= $item['id']; ?>&nome=<?= urlencode($item['nome']); ?>">Vincular</a>
                             </td>
