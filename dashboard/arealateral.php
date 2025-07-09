@@ -117,9 +117,17 @@ $setor = $_SESSION['setor'];
                     <a href="/sistemaglpi/dashboard/Usuario/Fornecedores/listaFornecedores.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Fornecedor</a>
                 </div>
             </div>
-            
+            <div class="relative group">
+                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                    Avisos
+                </button>
+                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                    <a href="/sistemaglpi/dashboard/Aviso/cadastroAvisos.php" class="p-2 hover:bg-[#2E2E2E] text-white">Novo Aviso</a>
+                    <a href="/sistemaglpi/dashboard/Aviso/listarAvisos.php" class="p-2 hover:bg-[#2E2E2E] text-white">Lista de Avisos</a>
+                </div>
+            </div>
         <?php endif; ?>
-
+            
         <!-- Sair -->
         <a href="/sistemaglpi/login/logoff.php" class="bg-blue-500 hover:bg-red-700 text-black hover:text-white text-center p-2 rounded mt-4">Sair</a>
     </nav>
