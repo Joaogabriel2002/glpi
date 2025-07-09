@@ -50,7 +50,7 @@ $usuarios = $usuarios->listarUsuarios();
                             <td class="px-6 py-4"><?= htmlspecialchars($user['email']) ?></td>
                             <td class="px-6 py-4"><?= htmlspecialchars($user['setor']) ?></td>
                             <td class="px-6 py-4">
-                                <a href="detalhesUsuarios.php?id=<?= $user['id']; ?>" class="text-blue-600 hover:underline">Selecionar</a>
+                                <a href="editarUsuario.php?id=<?= $user['id']; ?>" class="text-blue-600 hover:underline">Selecionar</a>
                             </td>
                         </tr>
                     <?php } ?>
