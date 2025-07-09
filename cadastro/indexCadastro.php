@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.  'php/Usuario.php';
+require_once  '../php/Usuario.php';
 
 $usuarios = new Usuario();
 $setores = $usuarios->listarSetores();
