@@ -121,6 +121,6 @@ $setor = $_SESSION['setor'];
         <?php endif; ?>
 
         <!-- Sair -->
-        <a href="/sistemaglpi/login/logoff.php" class="bg-purple-600 hover:bg-red-700 text-black hover:text-white text-center p-2 rounded mt-4">Sair</a>
+        <a href="/sistemaglpi/login/logoff.php" class="bg-blue-500 hover:bg-red-700 text-black hover:text-white text-center p-2 rounded mt-4">Sair</a>
     </nav>
 </aside>

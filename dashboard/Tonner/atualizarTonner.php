@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__. '../../../php/Tonner.php';
-require_once __DIR__. '../../../php/Usuario.php';
-require_once __DIR__. '../../../php/Email.php';
+require_once  '../../php/Tonner.php';
+require_once  '../../php/Usuario.php';
+require_once  '../../php/Email.php';
 date_default_timezone_set('America/Sao_Paulo');
 
 session_start();
@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // Se status fechado e tem estoque, registra baixa no estoque
             if ($statusNovo === "Fechado" && $statusEstoque === "Em estoque" && $tonnerId) {
-                require_once '..\..\..\php/Estoque.php';
+                require_once '..\..\php/Estoque.php';
                 $estoque = new Estoque();
                 $estoque->setQuantidade(1); // Ajustar quantidade se necessário
                 $estoque->setTipo_Movimentacao("SAIDA");
