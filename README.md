@@ -1,6 +1,6 @@
 # 🧑‍💻 Sistema de Gerenciamento de Chamados - Chesiquimica
 
-![Dashboard](./caminho/para/sua-imagem.png)
+![Dashboard](img/chesiquimica-logo-png.png)
 
 Bem-vindo ao **sistema online de chamados da Chesiquimica**! Esta aplicação foi desenvolvida para facilitar o controle de chamados técnicos, solicitações de tonner, visualização de cardápio e previsão do tempo — tudo em uma única interface simples, moderna e intuitiva.
 
@@ -22,7 +22,7 @@ Bem-vindo ao **sistema online de chamados da Chesiquimica**! Esta aplicação fo
 
 ### 🎯 Tela Principal - Dashboard
 
-![Dashboard Screenshot](img/chesiquimica-logo-png.png)
+![Dashboard Screenshot](img/dashboard.png)
 
 O dashboard exibe os dados mais relevantes de forma clara e objetiva:
 
