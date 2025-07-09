@@ -53,7 +53,7 @@ $manutencoes = $manutencao->listarManutencoesAbertas();
                             <td class="px-6 py-4"><?php echo $manut['dt_envio']; ?></td>
                             <td class="px-6 py-4"><?php echo $manut['descricao_problema']; ?></td>
                             <td class="px-6 py-4 text-blue-600">
-                                <a href="vincularItem.php?id=<?= $item['id']; ?>&nome=<?= urlencode($item['nome']); ?>">Detalhes</a>
+                                <a href="detalhesManut.php?id=<?= $manut['id']; ?>">Detalhes</a>
                             </td>
                         </tr>
                     <?php } ?>

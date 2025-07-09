@@ -144,10 +144,35 @@ class Manutencao extends Conexao{
     }
 }
 
-public function listarManutencoesAbertas() {
+    public function listarManutencoesAbertas() {
+        $sql = "SELECT 
+                    m.id,
+                    m.dt_envio,
+                    m.status,
+                    m.descricao_problema,
+                    i.patrimonio,
+                    i.modelo,
+                    e.descricaoEquipamento AS descricao_equipamento,
+                    f.nome AS fornecedor
+                FROM manutencao m
+                INNER JOIN imobilizados i ON m.id_imobilizado = i.id
+                INNER JOIN equipamentos e ON i.modelo_id = e.idEquipamento
+                INNER JOIN fornecedor f ON m.id_fornecedor = f.id
+                WHERE m.status = 'Aberto'
+                ORDER BY m.dt_envio DESC";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+  public function listarPorId($idManut){
     $sql = "SELECT 
                 m.id,
                 m.dt_envio,
+                m.dt_retorno,
+                m.valor,
                 m.status,
                 m.descricao_problema,
                 i.patrimonio,
@@ -158,14 +183,17 @@ public function listarManutencoesAbertas() {
             INNER JOIN imobilizados i ON m.id_imobilizado = i.id
             INNER JOIN equipamentos e ON i.modelo_id = e.idEquipamento
             INNER JOIN fornecedor f ON m.id_fornecedor = f.id
-            WHERE m.status = 'Aberto'
-            ORDER BY m.dt_envio DESC";
+            WHERE m.id = :id
+            LIMIT 1";
 
     $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':id', $idManut, PDO::PARAM_INT);
     $stmt->execute();
 
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
 }
+
+
 
 
 
