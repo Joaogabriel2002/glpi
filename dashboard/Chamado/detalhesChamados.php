@@ -79,7 +79,7 @@ $setor = $_SESSION['setor'];
                    
 
                     <td class="px-6 py-4">
-                        <a href="detalhesUsuario.php?id=<?= $detalhesChamado['autorId']; ?>" class="text-blue-600 hover:underline">
+                        <a href="/sistemaglpi/dashboard/Usuario/detalhesUsuarios.php?id=<?= $detalhesChamado['autorId']; ?>" class="text-blue-600 hover:underline">
                             <?= $detalhesChamado['autorNome']; ?>
                         </a>
                     <!-- </td>

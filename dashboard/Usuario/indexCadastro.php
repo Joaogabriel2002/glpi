@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.  '../../../php/Usuario.php';
+require_once __DIR__ . '../../../php/Usuario.php';
 
 session_start();
 
@@ -7,6 +7,7 @@ $usuarios = new Usuario();
 $setores = $usuarios->listarSetores();
 
 $mensagemErro = "";
+$mensagemSucesso = "";
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $usuario = new Usuario();
@@ -30,7 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $senha1 = sha1($_POST['senha']);
         $senha2 = sha1($_POST['confirmacaoSenha']);
 
-        if ($senha1 == $senha2) {
+        if ($senha1 === $senha2) {
             $usuario->setSenha($senha1);
         } else {
             $erro["senha"] = 1;
@@ -47,8 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 $mensagemErro = "Erro no preenchimento, verifique os campos.";
             } else {
                 if ($usuario->cadastrar()) {
-                    header("Location: confirmacaoCadastro.php");
-                    exit;
+                    $mensagemSucesso = "Usuário cadastrado com sucesso!";
                 } else {
                     $mensagemErro = "Erro ao cadastrar o usuário!";
                 }
@@ -57,14 +57,17 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8" />
     <title>Cadastro - ChesiQuímica</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="/sistemaglpi/img/chesiquimica-logo-png.png" type="image/png">
 </head>
+
 <body class="flex h-screen font-sans">
     <?php require_once __DIR__ . '/../arealateral.php'; ?>
 
@@ -75,6 +78,12 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             <?php if (!empty($mensagemErro)) : ?>
                 <div class="mb-4 p-4 bg-red-100 text-red-800 border border-red-300 rounded shadow">
                     <?= htmlspecialchars($mensagemErro); ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($mensagemSucesso)) : ?>
+                <div class="mb-4 p-4 bg-green-100 text-green-800 border border-green-300 rounded shadow">
+                    <?= htmlspecialchars($mensagemSucesso); ?>
                 </div>
             <?php endif; ?>
 
@@ -119,12 +128,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     Cadastrar
                 </button>
             </form>
-
-            <!-- <a href="../index.php"
-                class="block text-center text-gray-700 hover:text-gray-900 font-medium mt-6 underline">
-                Voltar
-            </a> -->
         </div>
     </main>
 </body>
+
 </html>

@@ -86,7 +86,7 @@ $setor = $_SESSION['setor'];
                     <td class="px-6 py-4"><?= htmlspecialchars($detalhesTonner['dtFechamento']) ?></td>
                     <td class="px-6 py-4"><?= htmlspecialchars($detalhesTonner['nome']) ?></td>
                     <td class="px-6 py-4">
-                        <a href="detalhesUsuario.php?id=<?= urlencode($detalhesTonner['autorId']) ?>" class="text-blue-600 hover:underline">
+                        <a href="/sistemaglpi/dashboard/Usuario/detalhesUsuarios.php?id=<?= urlencode($detalhesTonner['autorId']) ?>" class="text-blue-600 hover:underline">
                             <?= htmlspecialchars($detalhesTonner['autorNome']) ?>
                         </a>
                     </td>
