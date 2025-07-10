@@ -39,6 +39,7 @@ $manutencoes = $manutencao->listarManutencoesAbertas();
                 <thead class="bg-[#4B5563] text-white">
                     <tr>
                         <th class="px-6 py-3 text-left text-sm font-medium">Nrº</th>
+                        <th class="px-6 py-3 text-left text-sm font-medium"> Status</th>
                         <th class="px-6 py-3 text-left text-sm font-medium">Equipamento</th>
                         <th class="px-6 py-3 text-left text-sm font-medium">Data de Inicio</th>
                         <th class="px-6 py-3 text-left text-sm font-medium">Problema Relatado</th>
@@ -49,6 +50,7 @@ $manutencoes = $manutencao->listarManutencoesAbertas();
                     <?php foreach ($manutencoes as $manut) { ?>
                         <tr class="hover:bg-gray-100">
                             <td class="px-6 py-4"><?php echo $manut['id']; ?></td>
+                            <td class="px-6 py-4"><?php echo $manut['status']; ?></td>
                             <td class="px-6 py-4"><?php echo $manut['descricao_equipamento']; ?></td>
                             <td class="px-6 py-4"><?php echo $manut['dt_envio']; ?></td>
                             <td class="px-6 py-4"><?php echo $manut['descricao_problema']; ?></td>

@@ -147,6 +147,7 @@ class Manutencao extends Conexao{
     public function listarManutencoesAbertas() {
         $sql = "SELECT 
                     m.id,
+                    m.id_imobilizado,
                     m.dt_envio,
                     m.status,
                     m.descricao_problema,
@@ -158,7 +159,6 @@ class Manutencao extends Conexao{
                 INNER JOIN imobilizados i ON m.id_imobilizado = i.id
                 INNER JOIN equipamentos e ON i.modelo_id = e.idEquipamento
                 INNER JOIN fornecedor f ON m.id_fornecedor = f.id
-                WHERE m.status = 'Aberto'
                 ORDER BY m.dt_envio DESC";
 
         $stmt = $this->conn->prepare($sql);
@@ -170,6 +170,7 @@ class Manutencao extends Conexao{
   public function listarPorId($idManut){
     $sql = "SELECT 
                 m.id,
+                m.id_imobilizado,
                 m.dt_envio,
                 m.dt_retorno,
                 m.valor,
@@ -193,8 +194,22 @@ class Manutencao extends Conexao{
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+   public function atualizarManutencao() {
+    $sql = "UPDATE manutencao
+            SET observacoes = :observacoes,
+                valor = :valor,
+                status = 'Finalizado',
+                dt_retorno = NOW()
+            WHERE id = :id";
+    
+    $stmt = $this->conn->prepare($sql);
 
+    $stmt->bindParam(':observacoes', $this->observacao);
+    $stmt->bindParam(':valor', $this->valor);
+    $stmt->bindParam(':id', $this->id);
 
+    return $stmt->execute();
+}
 
 
 
