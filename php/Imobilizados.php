@@ -115,13 +115,7 @@ class Imobilizados extends Conexao
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function listarModelos()
-    {
-        $sql = "SELECT * FROM equipamentos ORDER by tipo";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    
 
     // Cadastrar imobilizado
     public function cadastrar()
@@ -285,27 +279,8 @@ class Imobilizados extends Conexao
     return $stmt->execute();
 }
 
- public function listarImobilizados()
-{
-    $sql = "SELECT 
-            i.id,
-            i.patrimonio,
-            i.localizacao,
-            i.nota_fiscal,
-            i.status,
-            i.modelo AS tipo,         -- tipo do equipamento
-            e.descricaoEquipamento AS modelo,  -- nome do modelo
-            u.nome AS usuario
-        FROM imobilizados i
-        LEFT JOIN equipamentos e ON i.modelo_id = e.idEquipamento
-        LEFT JOIN usuarios u ON i.usuario_id = u.id
-        ORDER BY i.modelo ASC"; // <--- aqui está a mudança: ordenando por tipo
-    $stmt = $this->conn->prepare($sql);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-public function listarImobilizados2($filtros = [])
+// 
+public function listarImobilizados($filtros = [])
 {
     $sql = "SELECT 
                 i.id,
@@ -344,5 +319,28 @@ public function listarImobilizados2($filtros = [])
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+public function listarModelos($filtros = [])
+{
+    $sql = "SELECT * FROM equipamentos";
+    
+    // Se tiver filtro de modelo e não for 'Todos'
+    if (!empty($filtros['modelo']) && $filtros['modelo'] !== 'Todos') {
+        $sql .= " WHERE tipo = :modelo";
+    }
+
+    $sql .= " ORDER BY tipo ASC";
+
+    $stmt = $this->conn->prepare($sql);
+
+    // Bind se necessário
+    if (!empty($filtros['modelo']) && $filtros['modelo'] !== 'Todos') {
+        $stmt->bindValue(':modelo', $filtros['modelo']);
+    }
+
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
 }

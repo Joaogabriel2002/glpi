@@ -17,7 +17,7 @@ $filtros = [
 ];
 
 $imobilizados = new Imobilizados();
-$imobilizado = $imobilizados->listarImobilizados2($filtros);
+$imobilizado = $imobilizados->listarImobilizados($filtros);
 
 
 $msg = $_SESSION['msg'] ?? '';
