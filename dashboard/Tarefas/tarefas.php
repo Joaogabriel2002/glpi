@@ -29,30 +29,35 @@ $usuario = $_SESSION['usuario'];
 </head>
 
 <body class="flex h-screen font-sans">
-    <?php require_once __DIR__ .  '../../arealateral.php'; ?>
-    <!-- Conteúdo principal -->
+    <?php require_once __DIR__ . '../../arealateral.php'; ?>
+
     <main class="flex-1 p-8 bg-gray-200 overflow-auto">
         <h1 class="text-2xl font-semibold mb-6">
             <?= $setor === 'TI' ? 'Todas as Tarefas' : 'Minhas Tarefas de Hoje' ?>
         </h1>
 
-        <!-- Tabela -->
         <div class="overflow-x-auto">
-            <!-- Lista de Tarefas como Cards -->
             <div class="space-y-4">
                 <?php foreach ($tarefas as $t): ?>
                     <div class="flex items-start bg-white p-4 rounded-lg shadow-sm border gap-4">
-                        <input type="checkbox"
-                            <?= $t['status'] === 'finalizada' ? 'checked' : '' ?>
-                            disabled
-                            class="mt-1 h-5 w-5 text-green-600 focus:ring-green-500 rounded">
+                        
 
                         <div class="flex-1">
                             <div class="flex justify-between items-center">
-                                <h2 class="text-lg font-semibold 
-                        <?= $t['status'] === 'finalizada' ? 'line-through text-gray-500' : '' ?>">
+                                <a href="javascript:void(0);"
+                                    onclick='abrirModal(
+                                        <?= json_encode($t['titulo']) ?>,
+                                        <?= json_encode($t['descricao']) ?>,
+                                        "<?= date('d/m/Y', strtotime($t['data_prevista'])) ?>",
+                                        "<?= ucfirst($t['status']) ?>",
+                                        "<?= $t['hora_inicio'] ? date('H:i', strtotime($t['hora_inicio'])) : '-' ?>",
+                                        "<?= $t['hora_conclusao'] ? date('H:i', strtotime($t['hora_conclusao'])) : '-' ?>",
+                                        <?= json_encode($t['criado_por'] ?? 'Desconhecido') ?>
+                                    )'
+                                    class="text-left text-lg font-semibold text-blue-600 hover:underline <?= $t['status'] === 'finalizada' ? 'line-through text-gray-500' : '' ?>">
                                     <?= htmlspecialchars($t['titulo']) ?>
-                                </h2>
+                                </a>
+
                                 <div class="flex items-center space-x-2">
                                     <span class="text-sm text-gray-500 flex items-center">
                                         <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" stroke-width="2"
@@ -77,12 +82,11 @@ $usuario = $_SESSION['usuario'];
                                     </span>
                                 </div>
                             </div>
-                            <p class="mt-2 text-sm text-gray-600
-                    <?= $t['status'] === 'finalizada' ? 'line-through' : '' ?>">
+                            <p class="mt-2 text-sm text-gray-600 <?= $t['status'] === 'finalizada' ? 'line-through' : '' ?>">
                                 <?= htmlspecialchars($t['descricao']) ?>
                             </p>
                         </div>
-                                    
+
                         <?php if ($setor !== 'TI'): ?>
                             <div class="flex-shrink-0 ml-4 mt-2 space-y-2">
                                 <?php if ($t['status'] === 'nao_iniciada'): ?>
@@ -105,8 +109,15 @@ $usuario = $_SESSION['usuario'];
                                     <span class="block text-gray-500 text-sm">Finalizada</span>
                                 <?php endif; ?>
 
-                                <!-- Botão de Detalhes -->
-                                <a href="detalhes_tarefa.php?id=<?= $t['tarefa_id'] ?>"
+                                <a href="javascript:void(0);" onclick='abrirModal(
+                                        <?= json_encode($t['titulo']) ?>,
+                                        <?= json_encode($t['descricao']) ?>,
+                                        "<?= date('d/m/Y', strtotime($t['data_prevista'])) ?>",
+                                        "<?= ucfirst($t['status']) ?>",
+                                        "<?= $t['hora_inicio'] ? date('H:i', strtotime($t['hora_inicio'])) : '-' ?>",
+                                        "<?= $t['hora_conclusao'] ? date('H:i', strtotime($t['hora_conclusao'])) : '-' ?>",
+                                        <?= json_encode($t['criado_por'] ?? 'Desconhecido') ?>
+                                    )'
                                     class="w-full inline-block text-center bg-gray-500 hover:bg-gray-600 text-white py-1 px-3 rounded text-sm">
                                     Detalhes
                                 </a>
@@ -116,9 +127,41 @@ $usuario = $_SESSION['usuario'];
                     </div>
                 <?php endforeach; ?>
             </div>
-
         </div>
     </main>
+
+    <!-- MODAL -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center z-50">
+        <div class="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 relative">
+            <button onclick="fecharModal()" class="absolute top-2 right-2 text-gray-500 hover:text-black text-lg font-bold">&times;</button>
+            <h2 class="text-xl font-semibold mb-2" id="modalTitulo">Título</h2>
+            <p class="text-sm text-gray-700 mb-2" id="modalDescricao">Descrição</p>
+            <p class="text-sm text-gray-600"><strong>Data Prevista:</strong> <span id="modalData"></span></p>
+            <p class="text-sm text-gray-600"><strong>Status:</strong> <span id="modalStatus"></span></p>
+            <p class="text-sm text-gray-600"><strong>Início:</strong> <span id="modalInicio"></span></p>
+            <p class="text-sm text-gray-600"><strong>Conclusão:</strong> <span id="modalConclusao"></span></p>
+            <p class="text-sm text-gray-600"><strong>Criado por:</strong> <span id="modalCriador"></span></p>
+        </div>
+    </div>
+
+    <script>
+        function abrirModal(titulo, descricao, data, status, inicio, conclusao, criador) {
+            document.getElementById('modalTitulo').innerText = titulo;
+            document.getElementById('modalDescricao').innerText = descricao;
+            document.getElementById('modalData').innerText = data;
+            document.getElementById('modalStatus').innerText = status;
+            document.getElementById('modalInicio').innerText = inicio;
+            document.getElementById('modalConclusao').innerText = conclusao;
+            document.getElementById('modalCriador').innerText = criador;
+
+            document.getElementById('modal').classList.remove('hidden');
+            document.getElementById('modal').classList.add('flex');
+        }
+
+        function fecharModal() {
+            document.getElementById('modal').classList.add('hidden');
+        }
+    </script>
 </body>
 
 </html>
