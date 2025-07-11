@@ -239,25 +239,7 @@ class Imobilizados extends Conexao
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function listarImobilizados()
-{
-    $sql = "SELECT 
-            i.id,
-            i.patrimonio,
-            i.localizacao,
-            i.nota_fiscal,
-            i.status,
-            i.modelo AS tipo,         -- tipo do equipamento
-            e.descricaoEquipamento AS modelo,  -- nome do modelo
-            u.nome AS usuario
-        FROM imobilizados i
-        LEFT JOIN equipamentos e ON i.modelo_id = e.idEquipamento
-        LEFT JOIN usuarios u ON i.usuario_id = u.id
-        ORDER BY i.modelo ASC"; // <--- aqui está a mudança: ordenando por tipo
-    $stmt = $this->conn->prepare($sql);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+   
 
     public function listarImobilizadoPorId($id)
     {
@@ -301,6 +283,66 @@ class Imobilizados extends Conexao
     $stmt->bindParam(':id', $idImb, PDO::PARAM_INT);
 
     return $stmt->execute();
+}
+
+ public function listarImobilizados()
+{
+    $sql = "SELECT 
+            i.id,
+            i.patrimonio,
+            i.localizacao,
+            i.nota_fiscal,
+            i.status,
+            i.modelo AS tipo,         -- tipo do equipamento
+            e.descricaoEquipamento AS modelo,  -- nome do modelo
+            u.nome AS usuario
+        FROM imobilizados i
+        LEFT JOIN equipamentos e ON i.modelo_id = e.idEquipamento
+        LEFT JOIN usuarios u ON i.usuario_id = u.id
+        ORDER BY i.modelo ASC"; // <--- aqui está a mudança: ordenando por tipo
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+public function listarImobilizados2($filtros = [])
+{
+    $sql = "SELECT 
+                i.id,
+                i.patrimonio,
+                i.localizacao,
+                i.nota_fiscal,
+                i.status,
+                i.modelo AS tipo,
+                e.descricaoEquipamento AS modelo,
+                u.nome AS usuario
+            FROM imobilizados i
+            LEFT JOIN equipamentos e ON i.modelo_id = e.idEquipamento
+            LEFT JOIN usuarios u ON i.usuario_id = u.id
+            WHERE 1=1";
+
+    // Filtros dinâmicos
+    if (!empty($filtros['status']) && $filtros['status'] !== 'Todos') {
+        $sql .= " AND i.status = :status";
+    }
+    if (!empty($filtros['patrimonio'])) {
+        $sql .= " AND i.patrimonio LIKE :patrimonio";
+    }
+
+    $sql .= " ORDER BY i.modelo ASC";
+
+    $stmt = $this->conn->prepare($sql);
+
+    // Bind de parâmetros conforme filtro
+    if (!empty($filtros['status']) && $filtros['status'] !== 'Todos') {
+        $stmt->bindValue(':status', $filtros['status']);
+    }
+    if (!empty($filtros['patrimonio'])) {
+        $stmt->bindValue(':patrimonio', "%{$filtros['patrimonio']}%");
+    }
+
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 }

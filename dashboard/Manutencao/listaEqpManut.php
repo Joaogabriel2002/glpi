@@ -10,8 +10,16 @@ if ($_SESSION['setor'] !== "TI") {
 }
 $usuario = $_SESSION['usuario'];
 $setor = $_SESSION['setor'];
+
+$filtros = [
+    'status' => $_GET['status'] ?? '',
+    'patrimonio' => $_GET['patrimonio'] ?? ''
+];
+
 $imobilizados = new Imobilizados();
-$imobilizado = $imobilizados->listarImobilizados();
+$imobilizado = $imobilizados->listarImobilizados2($filtros);
+
+
 $msg = $_SESSION['msg'] ?? '';
 unset($_SESSION['msg']);
 
@@ -40,7 +48,29 @@ unset($_SESSION['msg']);
             </div>
 <?php endif; ?>
 
+        <div class="flex flex-wrap gap-6 mb-6">
+            <!-- Filtro por status -->
+            <form action="" method="GET" class="bg-white p-4 rounded shadow w-full sm:w-auto flex-1">
+                    <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Filtrar por Status:</label>
+                        <select name="status" id="status" class="w-full p-2 border rounded">
+                        <option value="">Selecione</option>
+                        <option value="Todos" <?= (isset($_GET['status']) && $_GET['status'] == 'Todos') ? 'selected' : '' ?>>Todos</option>
+                        <option value="Ativo" <?= (isset($_GET['status']) && $_GET['status'] == 'Ativo') ? 'selected' : '' ?>>Ativo</option>
+                        <!-- <option value="Inativo" <?= (isset($_GET['status']) && $_GET['status'] == 'Inativo') ? 'selected' : '' ?>>Inativo</option> -->
+                        <option value="Em Manutenção" <?= (isset($_GET['status']) && $_GET['status'] == 'Manutenção') ? 'selected' : '' ?>>Em Manutenção</option>
+                    </select>
+                    <button type="submit" class="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Filtrar</button>
+            </form>
 
+
+            <!-- Filtro por ticket -->
+            <form action="" method="GET" class="bg-white p-4 rounded shadow w-full sm:w-auto flex-1">
+                <label for="patrimonio" class="block text-sm font-medium text-gray-700 mb-2">Filtrar por Patrimônio:</label>
+                <input type="text" name="patrimonio" value="<?= htmlspecialchars($_GET['patrimonio'] ?? '') ?>" class="w-full p-2 border rounded mb-2">
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Filtrar</button>
+            </form>
+
+        </div>
         <!-- Tabela -->
         <div class="overflow-x-auto">
             <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
