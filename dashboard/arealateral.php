@@ -80,8 +80,7 @@ $setor = $_SESSION['setor'];
                 <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
                     <a href="/sistemaglpi/dashboard/Manutencao/manutCadastro.php" class="p-2 hover:bg-[#2E2E2E] text-white">Registrar Manuntenção</a>
                     <a href="/sistemaglpi/dashboard/Manutencao/listaManutencoes.php" class="p-2 hover:bg-[#2E2E2E] text-white"> Listar Manuntenções</a>
-                    <a href="" class="p-2 hover:bg-[#2E2E2E] text-white">Manuntenções Pendentes</a>
-                    <a href="" class="p-2 hover:bg-[#2E2E2E] text-white">Histórico Geral</a>
+                    <a href="/sistemaglpi/dashboard/Manutencao/listaEqpManut.php" class="p-2 hover:bg-[#2E2E2E] text-white">Histórico Geral</a>
                 </div></div>
 
             <!-- Itens -->

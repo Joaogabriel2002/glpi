@@ -1,12 +1,12 @@
 <?php
 require_once __DIR__ . '../../../php/Manutencao.php';
+require_once __DIR__ . '../../../php/Imobilizados.php';
 
 session_start();
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: ../../index.php');
     exit;
 }
-
 
 // Pegar o ID via POST ou GET
 $idAtual = null;
@@ -26,25 +26,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 $manutencao = new Manutencao();
 $detalhesManut = $manutencao->listarPorId($idAtual);
 
+// Verificar se o registro existe
+if (!$detalhesManut) {
+    die("Manutenção não encontrada.");
+}
+
 $usuario = $_SESSION['usuario'];
 $setor = $_SESSION['setor'];
 
-// Se enviou o POST, atualizar
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+// Se enviou o POST de atualização
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['observacao'])) {
+
+    $observacao = $_POST['observacao'] ?? '';
+    $valor = $_POST['valor'] ?? '0';
 
     $atualizacao = new Manutencao();
     $atualizacao->setId($idAtual);
-    $atualizacao->setIdImb($detalhesManut['id_imobilizado']);  // precisa disso
-    $atualizacao->setObservacao($_POST['observacao']);
-    $atualizacao->setValor($_POST['valor']);
+    $atualizacao->setObservacao($observacao);
+    $atualizacao->setValor($valor);
 
-    // var_dump($atualizacao);
-    $atualizacao->atualizarManutencao();
-    
+    if ($atualizacao->atualizarManutencao()) {
+        // Atualiza status do equipamento
+        $imobilizado = new Imobilizados();
+        if ($imobilizado->atualizarStatus($detalhesManut['id_imobilizado'], "Ativo")) {
+            $mensagemSucesso = "Processo atualizado e equipamento reativado!";
+        } else {
+            $mensagemErro = "Atualização feita, mas não consegui alterar o status do equipamento.";
+        }
 
-    // Redirecionar para evitar re-envio de formulário
-    header("Location: detalhesManut.php?id=$idAtual&msg=sucesso");
-    exit;
+        // Redirecionar após POST para evitar re-envio
+        header("Location: detalhesManut.php?id=$idAtual&msg=sucesso");
+        exit;
+    } else {
+        $mensagemErro = "Erro ao atualizar manutenção.";
+    }
 }
 ?>
 
@@ -57,11 +72,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="flex h-screen font-sans">
- <?php require_once __DIR__.  '../../arealateral.php'; ?>
+<?php require_once __DIR__.  '../../arealateral.php'; ?>
+
 <main class="flex-1 p-8 bg-gray-200 overflow-auto">
-    
-    <?php
-     if (isset($_GET['msg'])) : ?>
+
+    <?php if (isset($_GET['msg'])) : ?>
         <?php if ($_GET['msg'] === 'excluido') : ?>
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
                 Atualização excluída com sucesso!
@@ -77,8 +92,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
     <?php endif; ?>
 
-    <h1 class="text-2xl font-semibold mb-6"><strong>Manutenção Nrº:</strong> <?= $detalhesManut['id']; ?></h1>
-    <h1 class="text-2xl font-semibold mb-6"><strong>Problema:</strong> <?= $detalhesManut['descricao_problema']; ?></h1>
+    <h1 class="text-2xl font-semibold mb-6"><strong>Manutenção Nrº:</strong> <?= htmlspecialchars($detalhesManut['id']); ?></h1>
+    <h1 class="text-2xl font-semibold mb-6"><strong>Problema:</strong> <?= htmlspecialchars($detalhesManut['descricao_problema']); ?></h1>
 
     <div class="overflow-x-auto mb-8">
         <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
@@ -97,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <td class="px-6 py-4"><?= htmlspecialchars($detalhesManut['status']); ?></td>
                     <td class="px-6 py-4"><?= htmlspecialchars($detalhesManut['dt_envio']); ?></td>
                     <td class="px-6 py-4"><?= htmlspecialchars($detalhesManut['dt_retorno']); ?></td>
-                    <td class="px-6 py-4"><?= htmlspecialchars($detalhesManut['valor']); ?></td>
+                    <td class="px-6 py-4">R$ <?= number_format($detalhesManut['valor'], 2, ',', '.'); ?></td>
                 </tr>
             </tbody>
         </table>
@@ -105,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <div class="overflow-x-auto mb-8">
         <?php if ($detalhesManut['status'] === 'Aberto') : ?>
-            <form action="detalhesManut.php" method="POST">
+            <form action="detalhesManut.php?id=<?= $idAtual ?>" method="POST">
                 <input type="hidden" name="id" value="<?= $detalhesManut['id']; ?>">
 
                 <div>
@@ -129,6 +144,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </button>
                 </div>
             </form>
+
+            <div class="mt-6">
+                <a href="listaManutencoes.php"
+                    class="inline-block bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded">Voltar</a>
+            </div>
         <?php else : ?>
             <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
                 <thead class="bg-[#4B5563] text-white">
@@ -142,14 +162,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </tr>
                 </tbody>
             </table><br>
+
             <div class="mt-6">
                 <a href="listaManutencoes.php"
-                         class="inline-block bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded">Voltar</a>
+                    class="inline-block bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 rounded">Voltar</a>
             </div>
         <?php endif; ?>
     </div>
 
 </main>
-
 </body>
 </html>

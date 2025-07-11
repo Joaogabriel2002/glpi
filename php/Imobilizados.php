@@ -292,4 +292,15 @@ class Imobilizados extends Conexao
         $stmt->bindParam(':id', $this->id);
         return $stmt->execute();
     }
+
+    public function atualizarStatus($idImb, $novoStatus)
+{
+    $sql = "UPDATE imobilizados SET status = :status WHERE id = :id";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':status', $novoStatus);
+    $stmt->bindParam(':id', $idImb, PDO::PARAM_INT);
+
+    return $stmt->execute();
+}
+
 }

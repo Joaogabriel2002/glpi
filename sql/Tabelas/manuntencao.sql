@@ -20,3 +20,9 @@ CREATE TABLE manutencao (
     FOREIGN KEY (id_imobilizado) REFERENCES imobilizados(id),
     FOREIGN KEY (id_fornecedor) REFERENCES fornecedores(id)
 );
+
+
+ALTER TABLE imobilizados
+ADD COLUMN ultima_manutencao DATE,
+ADD COLUMN prox_manutencao DATE,
+ADD COLUMN intervalo_manutencao INT;

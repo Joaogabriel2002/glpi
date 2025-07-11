@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '../../../php/Imobilizados.php';
 require_once __DIR__ . '../../../php/Fornecedor.php';
-require_once __DIR__ . '../../../php/Manutencao.php'; // Inclui a classe Manutencao
+require_once __DIR__ . '../../../php/Manutencao.php';
 session_start();
 
 $mensagemErro = "";
@@ -15,7 +15,6 @@ $fornecedor = new Fornecedor();
 $fornec = $fornecedor->listarFornecedores();
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    // Recebendo os dados do formulário
     $idImb = $_POST['item_imobilizado'] ?? null;
     $idForn = $_POST['item_fornecedor'] ?? null;
     $dtEnvio = $_POST['data'] ?? null;
@@ -29,10 +28,14 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $manutencao->setIdForn($idForn);
         $manutencao->setDtEnvio($dtEnvio);
         $manutencao->setDescricao($descricao);
-        $manutencao->setStatus("Aberto"); // Status padrão
+        $manutencao->setStatus("Aberto");
 
         if ($manutencao->registrar()) {
-            $mensagemSucesso = "Manutenção cadastrada com sucesso!";
+            if ($itens->atualizarStatus($idImb, "Em Manutenção")) {
+                $mensagemSucesso = "Manutenção cadastrada e equipamento atualizado!";
+            } else {
+                $mensagemErro = "Manutenção cadastrada, mas falha ao atualizar o status do equipamento.";
+            }
         } else {
             $mensagemErro = "Erro ao cadastrar a manutenção.";
         }
@@ -52,20 +55,19 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
     <main class="flex-1 p-8 bg-gray-300 max-h-screen h-full overflow-auto">
         <?php if (!empty($mensagemErro)) : ?>
-                <div class="mb-4 p-4 bg-red-100 text-red-800 border border-red-300 rounded shadow">
-                    <?= htmlspecialchars($mensagemErro); ?>
-                </div>
-            <?php endif; ?>
+            <div class="mb-4 p-4 bg-red-100 text-red-800 border border-red-300 rounded shadow">
+                <?= htmlspecialchars($mensagemErro); ?>
+            </div>
+        <?php endif; ?>
 
-            <?php if (!empty($mensagemSucesso)) : ?>
-                <div class="mb-4 p-4 bg-green-100 text-green-800 border border-green-300 rounded shadow">
-                    <?= htmlspecialchars($mensagemSucesso); ?>
-                </div>
-            <?php endif; ?>
+        <?php if (!empty($mensagemSucesso)) : ?>
+            <div class="mb-4 p-4 bg-green-100 text-green-800 border border-green-300 rounded shadow">
+                <?= htmlspecialchars($mensagemSucesso); ?>
+            </div>
+        <?php endif; ?>
+
         <div class="w-full max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mb-6">
             <h2 class="text-xl font-semibold text-gray-800 mb-4">Registrar uma Manutenção</h2>
-
-            
 
             <form class="space-y-5" action="" method="POST">
                 <div>
