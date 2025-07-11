@@ -18,7 +18,7 @@ CREATE TABLE manutencao (
     observacoes TEXT,
     valor DECIMAL(10,2),
     FOREIGN KEY (id_imobilizado) REFERENCES imobilizados(id),
-    FOREIGN KEY (id_fornecedor) REFERENCES fornecedores(id)
+    FOREIGN KEY (id_fornecedor) REFERENCES fornecedor(id)
 );
 
 

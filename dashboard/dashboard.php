@@ -31,19 +31,13 @@ $setor = $_SESSION['setor'];
         <!-- Topo: título + contadores -->
         <div class="flex items-start justify-between w-full gap-4">
             <div class="flex-1 min-w-0">
-                
+
                 <h1 id="" class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight tracking-wide whitespace-pre-line">Bem-vindo ao<br>gerenciador online de<br>chamados da chesiquimica!</h1>
 
                 <p class="text-sm text-gray-600 mt-3">Gerencie solicitações, acompanhe avisos e consulte o cardápio do dia.</p>
             </div>
 
-            <?php if ($setor !== 'TI'): ?>
-                <div id="clima-container" class="w-72 h-32 flex-shrink-0"></div>
-            <?php endif; ?>
-
-
-
-
+           
             <?php if ($setor === 'TI'): ?>
                 <div class="flex space-x-6">
                     <div class="bg-white p-4 rounded-full shadow text-center w-32 h-32 flex flex-col justify-center items-center">
@@ -87,13 +81,14 @@ $setor = $_SESSION['setor'];
                         }
                         ?>
                     </select>
-                    <div id="descricaoCardapio" class="text-gray-700 flex-grow overflow-auto">
-                        Arroz, feijão, salada, sobremesa e suco temos sempre!
+                    <div id="descricaoCardapio" class="text-gray-700 flex-grow overflow-auto min-h-[80px]">
+                        Selecione o dia para ver o cardapio
                     </div>
+
                 </div>
 
                 <!-- Card Clima abaixo do cardápio -->
-                <div id="clima-container"></div>
+                <div id="clima-container" class="w-72 h-32 flex-shrink-0"></div>
                 <script src="clima.js"></script>
             </div>
 
@@ -201,8 +196,29 @@ $setor = $_SESSION['setor'];
 
         window.addEventListener("DOMContentLoaded", () => {
             escreverTitulo();
-            const hoje = document.getElementById("selectData").value;
-            document.getElementById("descricaoCardapio").innerText = cardapios[hoje] || "Sem cardápio para esta data.";
+
+            const hoje = new Date();
+            const yyyy = hoje.getFullYear();
+            const mm = String(hoje.getMonth() + 1).padStart(2, '0');
+            const dd = String(hoje.getDate()-1).padStart(2, '0');
+            const dataHoje = `${yyyy}-${mm}-${dd}`;
+
+            const select = document.getElementById("selectData");
+            const descricao = document.getElementById("descricaoCardapio");
+
+            console.log("Data de hoje:", dataHoje);
+            console.log("Cardápio do dia:", cardapios[dataHoje]);
+
+            // Define a opção do select como selecionada
+            for (let i = 0; i < select.options.length; i++) {
+                if (select.options[i].value === dataHoje) {
+                    select.selectedIndex = i;
+                    break;
+                }
+            }
+
+            // Atualiza o cardápio
+            descricao.innerText = cardapios[dataHoje] || "Sem cardápio para esta data.";
         });
     </script>
 

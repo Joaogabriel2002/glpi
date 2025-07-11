@@ -51,7 +51,7 @@ if (!isset($_GET['id'])) {
     
     <!-- Botão Voltar -->
     <div class="mb-4 flex justify-end">
-        <a href="/sistemaglpi/dashboard/Itens/listaItens.php"
+        <a href="/sistemaglpi/dashboard/Itens/visualizarEstoque.php"
            class="inline-block bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition duration-300">
             ← 
         </a>

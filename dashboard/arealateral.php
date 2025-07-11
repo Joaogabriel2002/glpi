@@ -73,7 +73,7 @@ $setor = $_SESSION['setor'];
                 </div>
             </div>
 
-                <div class="relative group">
+            <div class="relative group">
                 <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
                     Manunteção
                 </button>
@@ -81,10 +81,11 @@ $setor = $_SESSION['setor'];
                     <a href="/sistemaglpi/dashboard/Manutencao/manutCadastro.php" class="p-2 hover:bg-[#2E2E2E] text-white">Registrar Manuntenção</a>
                     <a href="/sistemaglpi/dashboard/Manutencao/listaManutencoes.php" class="p-2 hover:bg-[#2E2E2E] text-white"> Listar Manuntenções</a>
                     <a href="/sistemaglpi/dashboard/Manutencao/listaEqpManut.php" class="p-2 hover:bg-[#2E2E2E] text-white">Histórico Geral</a>
-                </div></div>
+                </div>
+            </div>
 
             <!-- Itens -->
-            
+
 
             <!-- Estoque -->
             <div class="relative group">
@@ -98,7 +99,7 @@ $setor = $_SESSION['setor'];
                     <a href="/sistemaglpi/dashboard/ControleMaterial/Itens/GerenciarEstoque/visualizarMovimentacao.php" class="p-2 hover:bg-[#2E2E2E] text-white">Visualizar Movimentações</a>
                     <a href="/sistemaglpi/dashboard/Itens/cadastrarItem.php" class="p-2 hover:bg-[#2E2E2E] text-white">Cadastrar Itens</a>
                     <a href="/sistemaglpi/dashboard/Itens/listaItens.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Itens</a>
-                    
+
                 </div>
             </div>
 
@@ -125,8 +126,17 @@ $setor = $_SESSION['setor'];
                     <a href="/sistemaglpi/dashboard/Aviso/listarAvisos.php" class="p-2 hover:bg-[#2E2E2E] text-white">Lista de Avisos</a>
                 </div>
             </div>
+            <div class="relative group">
+                <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                    Tarefas
+                </button>
+                <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                    <a href="/sistemaglpi/dashboard/tarefas/nova_tarefa.php" class="p-2 hover:bg-[#2E2E2E] text-white">Nova tarefa</a>
+                    <a href="/sistemaglpi/dashboard/tarefas/tarefas.php" class="p-2 hover:bg-[#2E2E2E] text-white">Lista de tarefas</a>
+                </div>
+            </div>
         <?php endif; ?>
-            
+
         <!-- Sair -->
         <a href="/sistemaglpi/login/logoff.php" class="bg-blue-500 hover:bg-red-700 text-black hover:text-white text-center p-2 rounded mt-4">Sair</a>
     </nav>

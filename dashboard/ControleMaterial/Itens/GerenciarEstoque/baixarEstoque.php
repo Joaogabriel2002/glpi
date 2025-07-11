@@ -142,6 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <select name="motivo" id="motivo" required class="w-full border border-gray-300 rounded px-4 py-2 text-sm text-gray-800 bg-white focus:outline-none focus:ring-2 focus:ring-[#4B5563]">
                         <option value="Perda">Perda</option>
                         <option value="Baixa Manual">Baixa Manual</option>
+                        <option value="Baixa Manual">Entrega de Suprimento</option>
                     </select>
                 </div>
 
