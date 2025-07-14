@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 $mensagemErro = "Erro no preenchimento, verifique os campos.";
             } else {
                 if ($usuario->cadastrar()) {
-                    header("Location: confirmacaoCadastro.php");
+                    header("Location: ../index.php");
                     exit;
                 } else {
                     $mensagemErro = "Erro ao cadastrar o usuário!";
@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     </select>
                 </div>
 
-                <button type="submit"
+                <button type="submit" 
                     class="w-full bg-purple-700 hover:bg-purple-800 text-white font-semibold py-3 rounded transition-colors">
                     Cadastrar-se
                 </button>

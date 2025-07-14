@@ -70,6 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                             <option value="">Selecione uma opção</option>
                             <option value="Aparelhos de Redes">Aparelhos de Redes</option>
                             <option value="Computador">Computador</option>
+                            <option value="Nobreak">Nobreak</option>
                             <option value="Monitor">Monitor</option>
                             <option value="Impressora">Impressora</option>
                             <option value="Impressora Térmica">Impressora Térmica</option>
