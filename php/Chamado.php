@@ -18,6 +18,18 @@ class Chamado extends Conexao
     private $comentario;
     private $tecnico;
     private $idAtualizacao;
+    private $imagemPath;
+
+    public function setImagemPath($imagemPath)
+    {
+        $this->imagemPath = $imagemPath;
+    }
+
+    public function getImagemPath()
+    {
+        return $this->imagemPath;
+    }
+
 
     public function setChamadoId($chamadoId)
     {
@@ -154,16 +166,13 @@ class Chamado extends Conexao
         $this->idAtualizacao = $idAtualizacao;
     }
 
-    public function getIdAtualizacao()
-    {
-        return $this->IdAtualizacao;
-    }
-
+    
 
     public function abrirChamado()
     {
-        $sql = "INSERT INTO chamados(status,tipoChamado,tituloChamado,descricaoChamado,autorId,autorNome,autorEmail,autorSetor)
-            VALUES (:status,:tipoChamado,:tituloChamado,:descricaoChamado,:autorId,:autorNome,:autorEmail,:autorSetor)";
+        $sql = "INSERT INTO chamados(status, tipoChamado, tituloChamado, descricaoChamado, autorId, autorNome, autorEmail, autorSetor, imagemPath)
+        VALUES (:status, :tipoChamado, :tituloChamado, :descricaoChamado, :autorId, :autorNome, :autorEmail, :autorSetor, :imagemPath)";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':status', $this->status);
         $stmt->bindParam(':tipoChamado', $this->tipoChamado);
@@ -173,6 +182,7 @@ class Chamado extends Conexao
         $stmt->bindParam(':autorNome', $this->autorNome);
         $stmt->bindParam(':autorEmail', $this->autorEmail);
         $stmt->bindParam(':autorSetor', $this->autorSetor);
+        $stmt->bindParam(':imagemPath', $this->imagemPath);
         if ($stmt->execute()) {
             return $this->conn->lastInsertId();
         } else {

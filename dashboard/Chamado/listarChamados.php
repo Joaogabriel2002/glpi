@@ -1,7 +1,7 @@
 <?php
 session_start();
-require_once __DIR__. '../../../php/Chamado.php';
-require_once __DIR__.  '../../arealateral.php';
+require_once __DIR__ . '../../../php/Chamado.php';
+require_once __DIR__ .  '../../arealateral.php';
 
 
 if (!isset($_SESSION['usuario_id'])) {
@@ -41,7 +41,7 @@ $setor = $_SESSION['setor'];
 <body class="flex h-screen font-sans">
 
     <!-- Sidebar -->
-    
+
 
     <!-- Conteúdo principal -->
     <main class="flex-1 p-8 bg-gray-200 overflow-auto">
@@ -100,6 +100,7 @@ $setor = $_SESSION['setor'];
                 </tbody>
             </table>
         </div>
+
     </main>
 
 </body>

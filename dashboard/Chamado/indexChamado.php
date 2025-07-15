@@ -2,8 +2,8 @@
 session_start();
 require_once __DIR__ . '/../arealateral.php';
 
-require_once __DIR__. '../../../php/Chamado.php';
-require_once __DIR__. '../../../php/Email.php';
+require_once __DIR__ . '../../../php/Chamado.php';
+require_once __DIR__ . '../../../php/Email.php';
 
 if (!isset($_SESSION['usuario_id'])) {
     header("Location: ../../index.php");
@@ -17,6 +17,20 @@ $mensagem_sucesso = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = new Email();
     $chamado = new Chamado();
+    // Upload da imagem, se existir
+    if (isset($_FILES['imagem']) && $_FILES['imagem']['error'] === 0) {
+        $nomeTemp = $_FILES['imagem']['tmp_name'];
+        $nomeFinal = uniqid() . "_" . basename($_FILES['imagem']['name']);
+        $caminho = 'uploads/' . $nomeFinal;
+
+        if (move_uploaded_file($nomeTemp, __DIR__ . '/' . $caminho)) {
+            $chamado->setImagemPath($caminho);
+        } else {
+            $chamado->setImagemPath(null);
+        }
+    } else {
+        $chamado->setImagemPath(null);
+    }
 
     $chamado->setStatus($_POST['status']);
     $chamado->setTituloChamado($_POST['assunto']);
@@ -49,27 +63,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <title>Abrir Chamado</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="/sistemaglpi/img/chesiquimica-logo-png.png" type="image/png">
 </head>
+
 <body class="flex h-screen font-sans">
 
     <!-- Sidebar -->
-    
+
 
     <!-- Conteúdo principal -->
     <main class="flex-1 p-8 bg-gray-300 max-h-screen h-full overflow-auto">
         <div class="w-full max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mb-6">
             <h2 class="text-xl font-semibold text-gray-800 mb-4">Abertura de Chamado</h2>
             <?php if (!empty($mensagem_sucesso)) : ?>
-    <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-800 rounded shadow">
-        ✅ <?php echo htmlspecialchars($mensagem_sucesso); ?>
-    </div>
-<?php endif; ?>
-            <form action="indexChamado.php" method="POST" class="space-y-5">
+                <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-800 rounded shadow">
+                    ✅ <?php echo htmlspecialchars($mensagem_sucesso); ?>
+                </div>
+            <?php endif; ?>
+            <form action="indexChamado.php" method="POST" enctype="multipart/form-data" class="space-y-5">
+
                 <input type="hidden" name="status" value="Aberto">
 
                 <!-- Assunto -->
@@ -85,6 +102,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <textarea name="descricao" placeholder="Descreva o problema"
                         class="w-full border border-gray-300 rounded px-4 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4B5563]" rows="4"></textarea>
                 </div>
+                <!-- Upload de imagem -->
+                <div>
+                    <label class="block mb-1 text-sm font-medium text-gray-700">Imagem do problema (opcional)</label>
+
+                    <input type="file" name="imagem" accept="image/*"
+                        class="w-full border border-gray-300 rounded px-4 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4B5563]">
+
+                    <p class="mt-1 text-xs text-gray-500 italic">Dica: pressione <kbd class="bg-gray-200 rounded px-1 py-0.5 font-mono">Windowns</kbd> + <kbd class="bg-gray-200 rounded px-1 py-0.5 font-mono">Shift</kbd>+<kbd class="bg-gray-200 rounded px-1 py-0.5 font-mono">S</kbd> para tirar um print</p>
+                </div>
+
 
                 <!-- Botão -->
                 <div>
@@ -97,4 +124,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </main>
 </body>
+
 </html>

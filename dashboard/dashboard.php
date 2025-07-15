@@ -37,7 +37,7 @@ $setor = $_SESSION['setor'];
                 <p class="text-sm text-gray-600 mt-3">Gerencie solicitações, acompanhe avisos e consulte o cardápio do dia.</p>
             </div>
 
-           
+
             <?php if ($setor === 'TI'): ?>
                 <div class="flex space-x-6">
                     <div class="bg-white p-4 rounded-full shadow text-center w-32 h-32 flex flex-col justify-center items-center">
@@ -82,8 +82,9 @@ $setor = $_SESSION['setor'];
                         ?>
                     </select>
                     <div id="descricaoCardapio" class="text-gray-700 flex-grow overflow-auto min-h-[80px]">
-                        Selecione o dia para ver o cardapio
+                        <p id="cardapioTexto" class="text-sm leading-relaxed"></p>
                     </div>
+
 
                 </div>
 
@@ -132,8 +133,11 @@ $setor = $_SESSION['setor'];
 
         document.getElementById("selectData").addEventListener("change", function() {
             const value = this.value;
-            document.getElementById("descricaoCardapio").innerText = cardapios[value] || "Sem cardápio para esta data.";
+            document.getElementById("cardapioTexto").innerHTML =
+                `<p>${cardapios[value] || "Sem cardápio para esta data."}</p>`;
         });
+
+
 
         let avisos = [];
         let index = 0;
@@ -159,7 +163,7 @@ $setor = $_SESSION['setor'];
             document.getElementById("avisoAtual").innerHTML =
                 `<strong>${aviso.titulo}</strong><br>${aviso.mensagem}`;
             index = (index + 1) % avisos.length;
-            setTimeout(mostrarProximoAviso, 4000);
+            setTimeout(mostrarProximoAviso, 10000);
         }
 
         carregarAvisos();
@@ -177,48 +181,25 @@ $setor = $_SESSION['setor'];
 
         carregarContadores();
 
-        const texto = "Bem-vindo ao\ngerenciador online de\nchamados da chesiquimica!";
-        const titulo = document.getElementById("titulo");
-        let indexos = 0;
-
-        function escreverTitulo() {
-            if (indexos < texto.length) {
-                const char = texto.charAt(indexos);
-                if (char === "\n") {
-                    titulo.innerHTML += "<br>";
-                } else {
-                    titulo.innerHTML += char;
-                }
-                indexos++;
-                setTimeout(escreverTitulo, 50);
-            }
-        }
+        
 
         window.addEventListener("DOMContentLoaded", () => {
-            escreverTitulo();
+           
 
             const hoje = new Date();
             const yyyy = hoje.getFullYear();
             const mm = String(hoje.getMonth() + 1).padStart(2, '0');
-            const dd = String(hoje.getDate()-1).padStart(2, '0');
+            const dd = String(hoje.getDate()).padStart(2, '0');
             const dataHoje = `${yyyy}-${mm}-${dd}`;
 
             const select = document.getElementById("selectData");
-            const descricao = document.getElementById("descricaoCardapio");
+            const descricao = document.getElementById("cardapioTexto");
 
-            console.log("Data de hoje:", dataHoje);
-            console.log("Cardápio do dia:", cardapios[dataHoje]);
+            // Define a data de hoje como selecionada
+            select.value = dataHoje;
 
-            // Define a opção do select como selecionada
-            for (let i = 0; i < select.options.length; i++) {
-                if (select.options[i].value === dataHoje) {
-                    select.selectedIndex = i;
-                    break;
-                }
-            }
-
-            // Atualiza o cardápio
-            descricao.innerText = cardapios[dataHoje] || "Sem cardápio para esta data.";
+            // Atualiza o conteúdo com o cardápio correspondente
+            descricao.innerHTML = `<p>${cardapios[dataHoje] || "Sem cardápio para esta data."}</p>`;
         });
     </script>
 

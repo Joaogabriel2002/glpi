@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
 
             <div class="mt-6">
-                <a href="listaItens.php"
+                <a href="visualizarEstoque.php"
                     class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded transition duration-300">Voltar</a>
             </div>
 
