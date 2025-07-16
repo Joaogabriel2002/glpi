@@ -199,7 +199,7 @@ class Imobilizados extends Conexao
 
     public function buscarModelos()
     {
-        $sql = "SELECT * FROM equipamentos";
+        $sql = "SELECT * FROM equipamentos ORDER BY descricaoEquipamento ASC";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
