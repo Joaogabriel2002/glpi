@@ -115,7 +115,7 @@ class Imobilizados extends Conexao
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    
+
 
     // Cadastrar imobilizado
     public function cadastrar()
@@ -139,8 +139,8 @@ class Imobilizados extends Conexao
     }
 
     public function atualizarImobilizado($id, $patrimonio, $modelo_id, $localizacao, $nota_fiscal, $usuario_id, $status)
-{
-    $sql = "UPDATE imobilizados SET 
+    {
+        $sql = "UPDATE imobilizados SET 
                 patrimonio   = :patrimonio,
                 modelo_id    = :modelo_id,
                 localizacao  = :localizacao,
@@ -149,17 +149,17 @@ class Imobilizados extends Conexao
                 status       = :status
             WHERE id = :id";
 
-    $stmt = $this->conn->prepare($sql);
-    $stmt->bindParam(':patrimonio', $patrimonio);
-    $stmt->bindParam(':modelo_id', $modelo_id);
-    $stmt->bindParam(':localizacao', $localizacao);
-    $stmt->bindParam(':nota_fiscal', $nota_fiscal);
-    $stmt->bindParam(':usuario_id', $usuario_id);
-    $stmt->bindParam(':status', $status);
-    $stmt->bindParam(':id', $id);
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':patrimonio', $patrimonio);
+        $stmt->bindParam(':modelo_id', $modelo_id);
+        $stmt->bindParam(':localizacao', $localizacao);
+        $stmt->bindParam(':nota_fiscal', $nota_fiscal);
+        $stmt->bindParam(':usuario_id', $usuario_id);
+        $stmt->bindParam(':status', $status);
+        $stmt->bindParam(':id', $id);
 
-    return $stmt->execute();
-}
+        return $stmt->execute();
+    }
 
 
 
@@ -205,13 +205,14 @@ class Imobilizados extends Conexao
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function buscarModelosPorId($idAtual) {
-    $sql = "SELECT descricaoEquipamento FROM equipamentos WHERE idEquipamento = :id";
-    $stmt = $this->conn->prepare($sql);
-    $stmt->bindParam(':id', $idAtual, PDO::PARAM_INT);
-    $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
+    public function buscarModelosPorId($idAtual)
+    {
+        $sql = "SELECT descricaoEquipamento FROM equipamentos WHERE idEquipamento = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':id', $idAtual, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
 
 
@@ -233,7 +234,7 @@ class Imobilizados extends Conexao
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-   
+
 
     public function listarImobilizadoPorId($id)
     {
@@ -270,77 +271,81 @@ class Imobilizados extends Conexao
     }
 
     public function atualizarStatus($idImb, $novoStatus)
-{
-    $sql = "UPDATE imobilizados SET status = :status WHERE id = :id";
-    $stmt = $this->conn->prepare($sql);
-    $stmt->bindParam(':status', $novoStatus);
-    $stmt->bindParam(':id', $idImb, PDO::PARAM_INT);
+    {
+        $sql = "UPDATE imobilizados SET status = :status WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':status', $novoStatus);
+        $stmt->bindParam(':id', $idImb, PDO::PARAM_INT);
 
-    return $stmt->execute();
-}
-
-// 
-public function listarImobilizados($filtros = [])
-{
-    $sql = "SELECT 
-                i.id,
-                i.patrimonio,
-                i.localizacao,
-                i.nota_fiscal,
-                i.status,
-                i.modelo AS tipo,
-                e.descricaoEquipamento AS modelo,
-                u.nome AS usuario
-            FROM imobilizados i
-            LEFT JOIN equipamentos e ON i.modelo_id = e.idEquipamento
-            LEFT JOIN usuarios u ON i.usuario_id = u.id
-            WHERE 1=1";
-
-    // Filtros dinâmicos
-    if (!empty($filtros['status']) && $filtros['status'] !== 'Todos') {
-        $sql .= " AND i.status = :status";
-    }
-    if (!empty($filtros['patrimonio'])) {
-        $sql .= " AND i.patrimonio LIKE :patrimonio";
+        return $stmt->execute();
     }
 
-    $sql .= " ORDER BY i.modelo ASC";
+    // 
+    public function listarImobilizados($filtros = [])
+    {
+        $sql = "SELECT 
+                    i.id,
+                    i.patrimonio,
+                    i.localizacao,
+                    i.nota_fiscal,
+                    i.status,
+                    i.modelo AS tipo,
+                    e.descricaoEquipamento AS modelo,
+                    u.id AS usuario_id,
+                    u.nome AS usuario
+                FROM imobilizados i
+                LEFT JOIN equipamentos e ON i.modelo_id = e.idEquipamento
+                LEFT JOIN usuarios u ON i.usuario_id = u.id
+                WHERE 1=1";
 
-    $stmt = $this->conn->prepare($sql);
+        // Filtros dinâmicos
+        if (!empty($filtros['status']) && $filtros['status'] !== 'Todos') {
+            $sql .= " AND i.status = :status";
+        }
+        if (!empty($filtros['patrimonio'])) {
+            $sql .= " AND i.patrimonio LIKE :patrimonio";
+        }
+        if (!empty($filtros['busca'])) {
+            $sql .= " AND (e.descricaoEquipamento LIKE :busca OR u.nome LIKE :busca)";
+        }
 
-    // Bind de parâmetros conforme filtro
-    if (!empty($filtros['status']) && $filtros['status'] !== 'Todos') {
-        $stmt->bindValue(':status', $filtros['status']);
+        $sql .= " ORDER BY i.modelo ASC";
+
+        $stmt = $this->conn->prepare($sql);
+
+        if (!empty($filtros['status']) && $filtros['status'] !== 'Todos') {
+            $stmt->bindValue(':status', $filtros['status']);
+        }
+        if (!empty($filtros['patrimonio'])) {
+            $stmt->bindValue(':patrimonio', "%{$filtros['patrimonio']}%");
+        }
+        if (!empty($filtros['busca'])) {
+            $stmt->bindValue(':busca', "%{$filtros['busca']}%");
+        }
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    if (!empty($filtros['patrimonio'])) {
-        $stmt->bindValue(':patrimonio', "%{$filtros['patrimonio']}%");
+
+    public function listarModelos($filtros = [])
+    {
+        $sql = "SELECT * FROM equipamentos";
+
+        // Se tiver filtro de modelo e não for 'Todos'
+        if (!empty($filtros['modelo']) && $filtros['modelo'] !== 'Todos') {
+            $sql .= " WHERE tipo = :modelo";
+        }
+
+        $sql .= " ORDER BY tipo ASC";
+
+        $stmt = $this->conn->prepare($sql);
+
+        // Bind se necessário
+        if (!empty($filtros['modelo']) && $filtros['modelo'] !== 'Todos') {
+            $stmt->bindValue(':modelo', $filtros['modelo']);
+        }
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-public function listarModelos($filtros = [])
-{
-    $sql = "SELECT * FROM equipamentos";
-    
-    // Se tiver filtro de modelo e não for 'Todos'
-    if (!empty($filtros['modelo']) && $filtros['modelo'] !== 'Todos') {
-        $sql .= " WHERE tipo = :modelo";
-    }
-
-    $sql .= " ORDER BY tipo ASC";
-
-    $stmt = $this->conn->prepare($sql);
-
-    // Bind se necessário
-    if (!empty($filtros['modelo']) && $filtros['modelo'] !== 'Todos') {
-        $stmt->bindValue(':modelo', $filtros['modelo']);
-    }
-
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
-
 }
