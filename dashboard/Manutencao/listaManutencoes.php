@@ -42,6 +42,7 @@ $manutencoes = $manutencao->listarManutencoesAbertas();
                         <th class="px-6 py-3 text-left text-sm font-medium"> Status</th>
                         <th class="px-6 py-3 text-left text-sm font-medium">Equipamento</th>
                         <th class="px-6 py-3 text-left text-sm font-medium">Data de Inicio</th>
+                        <th class="px-6 py-3 text-left text-sm font-medium">Data de Retorno</th>
                         <th class="px-6 py-3 text-left text-sm font-medium">Problema Relatado</th>
                         <th class="px-6 py-3 text-left text-sm font-medium"></th>
                     </tr>
@@ -53,6 +54,7 @@ $manutencoes = $manutencao->listarManutencoesAbertas();
                             <td class="px-6 py-4"><?php echo $manut['status']; ?></td>
                             <td class="px-6 py-4"><?php echo $manut['descricao_equipamento']; ?></td>
                             <td class="px-6 py-4"><?php echo $manut['dt_envio']; ?></td>
+                            <td class="px-6 py-4"><?php echo $manut['dt_retorno']; ?></td>
                             <td class="px-6 py-4"><?php echo $manut['descricao_problema']; ?></td>
                             <td class="px-6 py-4 text-blue-600">
                                 <a href="detalhesManut.php?id=<?= $manut['id']; ?>">Detalhes</a>

@@ -158,7 +158,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['observacao'])) {
                 </thead>
                 <tbody>
                     <tr class="hover:bg-gray-100">
-                        <td class="px-6 py-4 whitespace-pre-line"><?= nl2br(htmlspecialchars($detalhesManut['descricao_problema'])); ?></td>
+                        <td class="px-6 py-4 whitespace-pre-line"><?= nl2br(htmlspecialchars($detalhesManut['observacoes'])); ?></td>
                     </tr>
                 </tbody>
             </table><br>
