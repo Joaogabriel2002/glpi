@@ -106,28 +106,35 @@ class Usuario extends Conexao
 
 
     public function listarUsuarios($filtro = '', $ordenar = false)
-{
-    $sql = "SELECT * FROM usuarios WHERE 1=1";
+    {
+        $sql = "SELECT * FROM usuarios WHERE 1=1";
 
-    if (!empty($filtro)) {
-        $sql .= " AND (nome LIKE :filtro OR setor LIKE :filtro)";
+        if (!empty($filtro)) {
+            $sql .= " AND (nome LIKE :filtro OR setor LIKE :filtro)";
+        }
+
+        if ($ordenar) {
+            $sql .= " ORDER BY setor ASC, nome ASC";
+        }
+
+        $stmt = $this->conn->prepare($sql);
+
+        if (!empty($filtro)) {
+            $param = "%{$filtro}%";
+            $stmt->bindParam(':filtro', $param, PDO::PARAM_STR);
+        }
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    if ($ordenar) {
-        $sql .= " ORDER BY setor ASC, nome ASC";
+    public function buscarUsuarios()
+    {
+        $sql = "SELECT * FROM usuarios ORDER BY nome ASC";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    $stmt = $this->conn->prepare($sql);
-
-    if (!empty($filtro)) {
-        $param = "%{$filtro}%";
-        $stmt->bindParam(':filtro', $param, PDO::PARAM_STR);
-    }
-
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
-
 
 
 

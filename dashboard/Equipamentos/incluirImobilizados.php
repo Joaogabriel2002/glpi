@@ -20,7 +20,7 @@ if ($_SESSION['setor'] !== "TI") {
 }
 $imobilizado = new Imobilizados();
 $usuarioModel = new Usuario();
-$usuarios = $usuarioModel->listarUsuarios();
+$usuarios = $usuarioModel->buscarUsuarios();
 
 $modelos = $imobilizado->buscarModelos();
 $setorModel = $imobilizado->buscarSetores();
