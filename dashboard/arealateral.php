@@ -141,5 +141,8 @@ $setor = $_SESSION['setor'];
 
         <!-- Sair -->
         <a href="/sistemaglpi/login/logoff.php" class="bg-blue-500 hover:bg-red-700 text-black hover:text-white text-center p-2 rounded mt-4">Sair</a>
+        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-xs text-gray-400 opacity-70">
+            © 2025 Chesiquímica
+        </div>
     </nav>
 </aside>

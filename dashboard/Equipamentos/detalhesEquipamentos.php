@@ -26,7 +26,9 @@ $setor = $_SESSION['setor'];
 $modelos = new Imobilizados();
 
 // Busca o modelo atual pelo id
-$modeloSelecionado = $modelos->buscarModelosPorId($idAtual);
+$imobilizado = $modelos->listarImobilizadoPorId($idAtual);
+$modeloSelecionado = $modelos->buscarModelosPorId($imobilizado['modelo_id']);
+
 
 // Busca todos os modelos para popular o select
 $listaModelos = $modelos->buscarModelos();
@@ -50,6 +52,10 @@ $listaModelos = $modelos->buscarModelos();
     <main class="flex-1 p-8 bg-gray-300 max-h-screen h-full overflow-auto">
         <div class="w-full max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mb-6">
             <h2 class="text-xl font-semibold text-gray-800 mb-4">Atualizar Cadastro</h2>
+            <a href="javascript:history.back()"
+                class="inline-block bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700 transition duration-300">
+                ←
+            </a>
 
             <?php if ($msg) : ?>
                 <div class="mb-4 p-4 bg-green-100 text-green-800 border border-green-300 rounded">
@@ -62,22 +68,23 @@ $listaModelos = $modelos->buscarModelos();
 
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-700">Descrição do Modelo:</label>
-                    <input type="text" id="tipo" name="tipo" 
+                    <input type="text" id="tipo" name="tipo"
                         value="<?= htmlspecialchars($modeloSelecionado['descricaoEquipamento'] ?? '') ?>"
                         class="w-full px-4 py-2 border border-gray-300 rounded bg-gray-100 text-gray-600 cursor-not-allowed">
                 </div>
 
                 <div>
                     <label for="modelo_id" class="block text-sm font-medium text-gray-700 mb-1">Modelo:</label>
-                    <select id="modelo_id" name="modelo_id" required
-                        class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#4B5563]">
-                        <?php
-                        foreach ($listaModelos as $mdl) {
-                            $selected = ($mdl['idEquipamento'] == ($modeloSelecionado['idEquipamento'] ?? null)) ? 'selected' : '';
-                            echo "<option value='{$mdl['idEquipamento']}' {$selected}>" . htmlspecialchars($mdl['tipo']) . "</option>";
-                        }
-                        ?>
+                    <select name="tipo" id="tipo" class="w-full p-2 border rounded" required>
+                        <option value="">Selecione</option>
+                        <option value="Computador" <?= ($imobilizado['tipo'] ?? '') == 'Computador' ? 'selected' : '' ?>>Computador</option>
+                        <option value="Monitor" <?= ($imobilizado['tipo'] ?? '') == 'Monitor' ? 'selected' : '' ?>>Monitor</option>
+                        <option value="Notebook" <?= ($imobilizado['tipo'] ?? '') == 'Notebook' ? 'selected' : '' ?>>Notebook</option>
+                        <option value="Disp. Móvel" <?= ($imobilizado['tipo'] ?? '') == 'Disp. Móvel' ? 'selected' : '' ?>>Disp. Móvel</option>
+                        <option value="Impressora" <?= ($imobilizado['tipo'] ?? '') == 'Impressora' ? 'selected' : '' ?>>Impressora</option>
+                        <option value="Outros" <?= ($imobilizado['tipo'] ?? '') == 'Outros' ? 'selected' : '' ?>>Outros</option>
                     </select>
+
                 </div>
 
                 <div>

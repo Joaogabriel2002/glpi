@@ -207,12 +207,13 @@ class Imobilizados extends Conexao
 
     public function buscarModelosPorId($idAtual)
     {
-        $sql = "SELECT descricaoEquipamento FROM equipamentos WHERE idEquipamento = :id";
+        $sql = "SELECT * FROM equipamentos WHERE idEquipamento = :id";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':id', $idAtual, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+
 
 
 
@@ -284,23 +285,26 @@ class Imobilizados extends Conexao
     public function listarImobilizados($filtros = [])
     {
         $sql = "SELECT 
-                    i.id,
-                    i.patrimonio,
-                    i.localizacao,
-                    i.nota_fiscal,
-                    i.status,
-                    i.modelo AS tipo,
-                    e.descricaoEquipamento AS modelo,
-                    u.id AS usuario_id,
-                    u.nome AS usuario
-                FROM imobilizados i
-                LEFT JOIN equipamentos e ON i.modelo_id = e.idEquipamento
-                LEFT JOIN usuarios u ON i.usuario_id = u.id
-                WHERE 1=1";
+                i.id,
+                i.patrimonio,
+                i.localizacao,
+                i.nota_fiscal,
+                i.status,
+                i.modelo AS tipo,
+                e.descricaoEquipamento AS modelo,
+                u.id AS usuario_id,
+                u.nome AS usuario
+            FROM imobilizados i
+            LEFT JOIN equipamentos e ON i.modelo_id = e.idEquipamento
+            LEFT JOIN usuarios u ON i.usuario_id = u.id
+            WHERE 1=1";
 
         // Filtros dinâmicos
         if (!empty($filtros['status']) && $filtros['status'] !== 'Todos') {
             $sql .= " AND i.status = :status";
+        }
+        if (!empty($filtros['modelo'])) {
+            $sql .= " AND e.descricaoEquipamento LIKE :modelo";
         }
         if (!empty($filtros['patrimonio'])) {
             $sql .= " AND i.patrimonio LIKE :patrimonio";
@@ -308,13 +312,23 @@ class Imobilizados extends Conexao
         if (!empty($filtros['busca'])) {
             $sql .= " AND (e.descricaoEquipamento LIKE :busca OR u.nome LIKE :busca)";
         }
+        if (!empty($filtros['tipo'])) {
+            $sql .= " AND e.tipo = :tipo";
+        }
+        if (!empty($filtros['descricao'])) {
+            $sql .= " AND e.descricaoEquipamento LIKE :descricao";
+        }
 
-        $sql .= " ORDER BY i.modelo ASC";
+
+        $sql .= " ORDER BY e.descricaoEquipamento ASC";
 
         $stmt = $this->conn->prepare($sql);
 
         if (!empty($filtros['status']) && $filtros['status'] !== 'Todos') {
             $stmt->bindValue(':status', $filtros['status']);
+        }
+        if (!empty($filtros['modelo'])) {
+            $stmt->bindValue(':modelo', '%' . $filtros['modelo'] . '%');
         }
         if (!empty($filtros['patrimonio'])) {
             $stmt->bindValue(':patrimonio', "%{$filtros['patrimonio']}%");
@@ -323,9 +337,17 @@ class Imobilizados extends Conexao
             $stmt->bindValue(':busca', "%{$filtros['busca']}%");
         }
 
+        if (!empty($filtros['tipo'])) {
+            $stmt->bindValue(':tipo', $filtros['tipo']);
+        }
+        if (!empty($filtros['descricao'])) {
+            $stmt->bindValue(':descricao', '%' . $filtros['descricao'] . '%');
+        }
+
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function listarModelos($filtros = [])
     {
