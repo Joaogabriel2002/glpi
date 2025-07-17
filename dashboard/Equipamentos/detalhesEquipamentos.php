@@ -15,7 +15,7 @@ if ($_SESSION['setor'] !== "TI") {
 }
 
 if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-    $idAtual = $_GET['id'];
+    $idAtual = (int)$_GET['id'];
 } else {
     die('ID do Equipamento inválido ou não fornecido.');
 }
@@ -25,13 +25,28 @@ $setor = $_SESSION['setor'];
 
 $modelos = new Imobilizados();
 
-// Busca o modelo atual pelo id
-$imobilizado = $modelos->listarImobilizadoPorId($idAtual);
-$modeloSelecionado = $modelos->buscarModelosPorId($imobilizado['modelo_id']);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $imobilizados = new Imobilizados();
+
+    $imobilizados->setId((int)$_POST['id']);
+    $imobilizados->setDescricaoEquipamento($_POST['descricaoEquipamento']);
+    $imobilizados->setTipo($_POST['tipo']);
 
 
-// Busca todos os modelos para popular o select
-$listaModelos = $modelos->buscarModelos();
+    if ($imobilizados->atualizarEquipamentos()) {
+        $msg = "Equipamento atualizado com sucesso!";
+        // Atualiza o modelo selecionado após update para mostrar os dados atualizados no form
+        $modeloSelecionado = $modelos->buscarModelosPorId($imobilizados->getId());
+
+    } else {
+        $msg = "Erro ao atualizar equipamento.";
+        // Recarrega os dados para manter o form consistente
+        $modeloSelecionado = $modelos->buscarModelosPorId($idAtual);
+    }
+} else {
+    // Se não for POST, busca o modelo para preencher o form
+    $modeloSelecionado = $modelos->buscarModelosPorId($idAtual);
+}
 
 ?>
 
@@ -63,28 +78,28 @@ $listaModelos = $modelos->buscarModelos();
                 </div>
             <?php endif; ?>
 
-            <form class="space-y-5" action="cadastroImobilizados.php" method="POST" id="form-estoque">
+            <form class="space-y-5" action="detalhesEquipamentos.php?id=<?= $idAtual ?>" method="POST" id="form-estoque">
+                <input type="hidden" name="id" value="<?= htmlspecialchars($idAtual) ?>">
                 <input type="hidden" name="status" value="Aberto">
 
                 <div>
-                    <label class="block mb-1 text-sm font-medium text-gray-700">Descrição do Modelo:</label>
-                    <input type="text" id="tipo" name="tipo"
+                    <label for="descricaoEquipamento" class="block mb-1 text-sm font-medium text-gray-700">Descrição do Modelo:</label>
+                    <input type="text" id="descricaoEquipamento" name="descricaoEquipamento"
                         value="<?= htmlspecialchars($modeloSelecionado['descricaoEquipamento'] ?? '') ?>"
-                        class="w-full px-4 py-2 border border-gray-300 rounded bg-gray-100 text-gray-600 cursor-not-allowed">
+                        class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800" required>
                 </div>
 
                 <div>
-                    <label for="modelo_id" class="block text-sm font-medium text-gray-700 mb-1">Modelo:</label>
+                    <label for="tipo" class="block text-sm font-medium text-gray-700 mb-1">Modelo:</label>
                     <select name="tipo" id="tipo" class="w-full p-2 border rounded" required>
                         <option value="">Selecione</option>
-                        <option value="Computador" <?= ($imobilizado['tipo'] ?? '') == 'Computador' ? 'selected' : '' ?>>Computador</option>
-                        <option value="Monitor" <?= ($imobilizado['tipo'] ?? '') == 'Monitor' ? 'selected' : '' ?>>Monitor</option>
-                        <option value="Notebook" <?= ($imobilizado['tipo'] ?? '') == 'Notebook' ? 'selected' : '' ?>>Notebook</option>
-                        <option value="Disp. Móvel" <?= ($imobilizado['tipo'] ?? '') == 'Disp. Móvel' ? 'selected' : '' ?>>Disp. Móvel</option>
-                        <option value="Impressora" <?= ($imobilizado['tipo'] ?? '') == 'Impressora' ? 'selected' : '' ?>>Impressora</option>
-                        <option value="Outros" <?= ($imobilizado['tipo'] ?? '') == 'Outros' ? 'selected' : '' ?>>Outros</option>
+                        <option value="Computador" <?= ($modeloSelecionado['tipo'] ?? '') == 'Computador' ? 'selected' : '' ?>>Computador</option>
+                        <option value="Monitor" <?= ($modeloSelecionado['tipo'] ?? '') == 'Monitor' ? 'selected' : '' ?>>Monitor</option>
+                        <option value="Notebook" <?= ($modeloSelecionado['tipo'] ?? '') == 'Notebook' ? 'selected' : '' ?>>Notebook</option>
+                        <option value="Disp. Móvel" <?= ($modeloSelecionado['tipo'] ?? '') == 'Disp. Móvel' ? 'selected' : '' ?>>Disp. Móvel</option>
+                        <option value="Impressora" <?= ($modeloSelecionado['tipo'] ?? '') == 'Impressora' ? 'selected' : '' ?>>Impressora</option>
+                        <option value="Outros" <?= ($modeloSelecionado['tipo'] ?? '') == 'Outros' ? 'selected' : '' ?>>Outros</option>
                     </select>
-
                 </div>
 
                 <div>

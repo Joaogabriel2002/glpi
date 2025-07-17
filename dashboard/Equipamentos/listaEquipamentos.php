@@ -16,7 +16,7 @@ $filtros = [
     'descricao' => $_GET['descricao'] ?? ''
 ];
 $imobilizados = new Imobilizados();
-$imobilizado = $imobilizados->listarImobilizados($filtros);
+$imobilizado = $imobilizados->listarModelos($filtros);
 
 
 
@@ -96,11 +96,11 @@ $imobilizado = $imobilizados->listarImobilizados($filtros);
                 <tbody class="divide-y divide-gray-200 text-sm">
                     <?php foreach ($imobilizado as $imb) { ?>
                         <tr class="hover:bg-gray-100">
-                            <td class="px-6 py-4"><?= htmlspecialchars($imb['id']) ?></td>
+                            <td class="px-6 py-4"><?= htmlspecialchars($imb['idEquipamento']) ?></td>
                             <td class="px-6 py-4"><?= htmlspecialchars($imb['tipo']) ?></td>
-                            <td class="px-6 py-4"><?= htmlspecialchars($imb['modelo']) ?></td>
+                            <td class="px-6 py-4"><?= htmlspecialchars($imb['descricaoEquipamento']) ?></td>
                             <td class="px-6 py-4">
-                                <a href="detalhesEquipamentos.php?id=<?= $imb['id']; ?>" class="text-blue-600 hover:underline">Selecionar</a>
+                                <a href="detalhesEquipamentos.php?id=<?= $imb['idEquipamento']; ?>" class="text-blue-600 hover:underline">Selecionar</a>
 
                             </td>
                         </tr>

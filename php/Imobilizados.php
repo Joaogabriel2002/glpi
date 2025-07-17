@@ -13,7 +13,19 @@ class Imobilizados extends Conexao
     private $usuario_id;
     private $status;
 
+    private $descricaoEquipamento;
+
+
     // SETTERS e GETTERS
+
+    public function setDescricaoEquipamento($descricaoEquipamento)
+    {
+        $this->descricaoEquipamento = $descricaoEquipamento;
+    }
+    public function getDescricaoEquipamento()
+    {
+        return $this->descricaoEquipamento;
+    }
     public function setId($id)
     {
         $this->id = $id;
@@ -186,16 +198,19 @@ class Imobilizados extends Conexao
     }
 
     public function atualizarEquipamentos()
-    {
-        $sql = "INSERT INTO equipamentos (descricaoEquipamento, tipo) VALUES (:modelo,:tipo)";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':modelo', $this->modelo);
-        $stmt->bindParam(':tipo', $this->tipo);
-        if ($stmt->execute()) {
-            return $this->conn->lastInsertId();
-        }
-        return false;
-    }
+{
+    $sql = "UPDATE equipamentos 
+            SET descricaoEquipamento = :descricao, tipo = :tipo
+            WHERE idEquipamento = :id";
+    
+    $stmt = $this->conn->prepare($sql);
+    $stmt->bindParam(':descricao', $this->descricaoEquipamento);
+    $stmt->bindParam(':tipo', $this->tipo);
+    $stmt->bindParam(':id', $this->id);
+    
+    return $stmt->execute();
+}
+
 
     public function buscarModelos()
     {
@@ -350,24 +365,38 @@ class Imobilizados extends Conexao
 
 
     public function listarModelos($filtros = [])
-    {
-        $sql = "SELECT * FROM equipamentos";
+{
+    $sql = "SELECT * FROM equipamentos WHERE 1=1";
 
-        // Se tiver filtro de modelo e não for 'Todos'
-        if (!empty($filtros['modelo']) && $filtros['modelo'] !== 'Todos') {
-            $sql .= " WHERE tipo = :modelo";
-        }
-
-        $sql .= " ORDER BY tipo ASC";
-
-        $stmt = $this->conn->prepare($sql);
-
-        // Bind se necessário
-        if (!empty($filtros['modelo']) && $filtros['modelo'] !== 'Todos') {
-            $stmt->bindValue(':modelo', $filtros['modelo']);
-        }
-
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    // filtros dinâmicos iguais à função listarImobilizados
+    if (!empty($filtros['tipo']) && $filtros['tipo'] !== 'Todos') {
+        $sql .= " AND tipo = :tipo";
     }
+    if (!empty($filtros['descricao'])) {
+        $sql .= " AND descricaoEquipamento LIKE :descricao";
+    }
+    if (!empty($filtros['modelo'])) {
+        // Supondo que 'modelo' filtre pela descrição também, se quiser pode remover este filtro para evitar duplicidade
+        $sql .= " AND descricaoEquipamento LIKE :modelo";
+    }
+
+    $sql .= " ORDER BY tipo ASC, descricaoEquipamento ASC";
+
+    $stmt = $this->conn->prepare($sql);
+
+    if (!empty($filtros['tipo']) && $filtros['tipo'] !== 'Todos') {
+        $stmt->bindValue(':tipo', $filtros['tipo']);
+    }
+    if (!empty($filtros['descricao'])) {
+        $stmt->bindValue(':descricao', '%' . $filtros['descricao'] . '%');
+    }
+    if (!empty($filtros['modelo'])) {
+        $stmt->bindValue(':modelo', '%' . $filtros['modelo'] . '%');
+    }
+
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
 }

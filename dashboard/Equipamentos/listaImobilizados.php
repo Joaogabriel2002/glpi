@@ -75,7 +75,7 @@ unset($_SESSION['msg']);
                 <thead class="bg-[#4B5563] text-white">
                     <tr>
                         <th class="px-6 py-3 text-left text-sm font-medium">Patrimônio</th>
-                        <th class="px-6 py-3 text-left text-sm font-medium">Tipo</th>
+                        <!-- <th class="px-6 py-3 text-left text-sm font-medium">Tipo</th> -->
                         <th class="px-6 py-3 text-left text-sm font-medium">Modelo</th>
                         <th class="px-6 py-3 text-left text-sm font-medium">Usuário</th>
                         <th class="px-6 py-3 text-left text-sm font-medium">Status</th>
@@ -86,7 +86,7 @@ unset($_SESSION['msg']);
                     <?php foreach ($imobilizado as $imb) { ?>
                         <tr class="hover:bg-gray-100">
                             <td class="px-6 py-4"><?= htmlspecialchars($imb['patrimonio']) ?></td>
-                            <td class="px-6 py-4"><?= htmlspecialchars($imb['tipo']) ?></td>
+                            <!-- <td class="px-6 py-4"><?= htmlspecialchars($imb['tipo']) ?></td> -->
                             <td class="px-6 py-4"><?= htmlspecialchars($imb['modelo']) ?></td>
                             <td class="px-6 py-4">
                                 <a href="/sistemaglpi/dashboard/Usuario/detalhesUsuarios.php?id=<?= htmlspecialchars($imb['usuario_id']); ?>"
