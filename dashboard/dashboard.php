@@ -26,18 +26,21 @@ $setor = $_SESSION['setor'];
     <?php require_once 'arealateral.php'; ?>
 
     <!-- Conteúdo principal -->
-    <main class="flex-1 bg-gray-200 p-6 flex flex-col gap-6 overflow-auto">
+    <main class="flex-1 bg-gray-100 p-8 overflow-auto flex flex-col gap-8">
 
-        <!-- Topo: título + contadores -->
-        <div class="flex items-start justify-between w-full gap-4">
-            <div class="flex-1 min-w-0">
-
-                <h1 id="" class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight tracking-wide whitespace-pre-line">Bem-vindo ao<br>gerenciador online de<br>chamados da chesiquimica!</h1>
-
-                <p class="text-sm text-gray-600 mt-3">Gerencie solicitações, acompanhe avisos e consulte o cardápio do dia.</p>
+        <!-- Título à esquerda e contadores à direita -->
+        <div class="flex items-start justify-between flex-wrap gap-6">
+            <!-- Título -->
+            <div class="flex flex-col">
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
+                    Bem vindo ao <br>portal chesiquimica!
+                </h1>
+                <p class="text-gray-600 mt-2 border-b border-gray-300 pb-1">
+                    Gerencie solicitações, acompanhe avisos e consulte o cardápio do dia.
+                </p>
             </div>
 
-
+            <!-- Contadores (direita) -->
             <?php if ($setor === 'TI'): ?>
                 <div class="flex space-x-6">
                     <div class="bg-white p-4 rounded-full shadow text-center w-32 h-32 flex flex-col justify-center items-center">
@@ -54,12 +57,22 @@ $setor = $_SESSION['setor'];
             <?php endif; ?>
         </div>
 
+        <!-- Botões centralizados -->
+        <div class="flex justify-center gap-8">
+            <a href="/sistemaglpi/dashboard/Chamado/indexChamado.php" class="bg-[#2E2E2E] hover:bg-[#2E2E2E] text-white px-6 py-2 rounded-lg shadow hover:bg-gray-800 transition">
+                Novo chamado
+            </a>
+            <a href="/sistemaglpi/dashboard/Tonner/indexChamadoTonner.php" class="bg-[#2E2E2E] hover:bg-[#2E2E2E] text-white px-6 py-2 rounded-lg shadow hover:bg-gray-800 transition">
+                Pedir um tonner
+            </a>
+        </div>
 
-        <!-- Corpo principal: coluna esquerda fixa e coluna direita flexível -->
+        <!-- Cards parte inferior -->
+        <!-- Parte inferior com cardápio fixo à esquerda e mural ocupando o restante -->
         <div class="flex flex-1 gap-6 min-h-0">
-            <!-- Coluna esquerda fixa (largura 320px) -->
+
+            <!-- Cardápio com largura fixa -->
             <div class="flex flex-col gap-6 w-80 flex-shrink-0">
-                <!-- Card Cardápio -->
                 <div class="bg-white p-4 rounded shadow h-[200px] flex flex-col">
                     <h2 class="text-xl font-bold mb-2">📅 Cardápio do Mês</h2>
                     <select id="selectData" class="w-full p-2 border rounded mb-4">
@@ -84,16 +97,10 @@ $setor = $_SESSION['setor'];
                     <div id="descricaoCardapio" class="text-gray-700 flex-grow overflow-auto min-h-[80px]">
                         <p id="cardapioTexto" class="text-sm leading-relaxed"></p>
                     </div>
-
-
                 </div>
-
-                <!-- Card Clima abaixo do cardápio -->
-                <div id="clima-container" class="w-72 h-32 flex-shrink-0"></div>
-                <script src="clima.js"></script>
             </div>
 
-            <!-- Coluna direita: mural ocupa todo espaço restante -->
+            <!-- Mural de Avisos ocupa o restante -->
             <div class="flex-1 bg-white p-4 rounded shadow flex flex-col h-[200px]">
                 <h2 class="text-xl font-bold mb-2">📢 Mural de Avisos</h2>
                 <div id="avisoAtual" class="text-gray-700 flex-grow min-h-[60px] overflow-auto transition-all duration-300">
@@ -103,6 +110,7 @@ $setor = $_SESSION['setor'];
         </div>
 
     </main>
+
 
     <script>
         const cardapios = {
@@ -181,10 +189,10 @@ $setor = $_SESSION['setor'];
 
         carregarContadores();
 
-        
+
 
         window.addEventListener("DOMContentLoaded", () => {
-           
+
 
             const hoje = new Date();
             const yyyy = hoje.getFullYear();

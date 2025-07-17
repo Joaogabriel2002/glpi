@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 09/06/2025 às 03:10
+-- Tempo de geração: 17/07/2025 às 19:58
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -35,24 +35,18 @@ CREATE TABLE `atualizacoes` (
   `comentario` varchar(300) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Despejando dados para a tabela `atualizacoes`
+-- Estrutura para tabela `avisos`
 --
 
-INSERT INTO `atualizacoes` (`id_atualizacao`, `chamadoId`, `dt_atualizacao`, `tecnico`, `comentario`) VALUES
-(68, 1027, '2025-06-04 19:38:20', 'João', 'OI'),
-(69, 1028, '2025-06-05 19:23:23', 'João', 'Estou verificando...'),
-(72, 1029, '2025-06-05 20:13:04', 'João', 'teste'),
-(73, 1031, '2025-06-05 21:22:11', 'João', '.'),
-(74, 1031, '2025-06-05 21:22:14', 'João', '..'),
-(75, 1031, '2025-06-05 21:22:17', 'João', 'a'),
-(76, 1031, '2025-06-05 21:22:21', 'João', 'a'),
-(77, 1031, '2025-06-05 21:22:27', 'João', 'aaa'),
-(78, 1031, '2025-06-05 21:22:31', 'João', 'aaaa'),
-(79, 1031, '2025-06-05 21:22:35', 'João', 'aaaa'),
-(80, 1033, '2025-06-05 21:42:02', 'João', 'n'),
-(83, 1034, '2025-06-07 14:56:15', 'João', 'teste'),
-(84, 1035, '2025-06-07 15:06:13', 'João', 'a');
+CREATE TABLE `avisos` (
+  `id` int(11) NOT NULL,
+  `titulo` varchar(255) DEFAULT NULL,
+  `mensagem` text DEFAULT NULL,
+  `data_postagem` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -71,27 +65,9 @@ CREATE TABLE `chamados` (
   `autorId` int(11) DEFAULT NULL,
   `autorNome` varchar(40) NOT NULL,
   `autorEmail` varchar(60) NOT NULL,
-  `autorSetor` varchar(40) NOT NULL
+  `autorSetor` varchar(40) NOT NULL,
+  `imagemPath` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `chamados`
---
-
-INSERT INTO `chamados` (`chamadoId`, `status`, `tipoChamado`, `tituloChamado`, `descricaoChamado`, `dtAbertura`, `dtFechamento`, `autorId`, `autorNome`, `autorEmail`, `autorSetor`) VALUES
-(1027, 'Cancelado', NULL, 'Teste', 'teste', '2025-06-04 19:38:07', NULL, 20, 'João', 'joao.gabriel@chesiquimica.com.br', 'TI'),
-(1028, 'Fechado', 'Baixa', 'Problema impressora', 'Estou com problema na minha impressora', '2025-06-05 19:22:20', '2025-06-05 19:23:55', 22, 'Willian', 'willian@gmail.com', 'Comercial'),
-(1029, 'Fechado', 'Média', 'teste', 'teste', '2025-06-05 19:24:52', '2025-06-05 21:14:55', 22, 'Willian', 'willian@gmail.com', 'Comercial'),
-(1030, 'Fechado', 'Alta', 'Chamado Teste', 'teste', '2025-06-05 19:31:51', '2025-06-05 19:32:29', 20, 'João', 'joao.gabriel@chesiquimica.com.br', 'TI'),
-(1031, 'Fechado', 'Baixa', 'Teste', 'teste', '2025-06-05 19:39:27', '2025-06-05 21:22:41', 24, 'Ryan', 'ryan@gmail.com', 'Saneantes'),
-(1032, 'Cancelado', NULL, 'tete', 'aa', '2025-06-05 21:25:38', NULL, 20, 'João', 'joao.gabriel@chesiquimica.com.br', 'TI'),
-(1033, 'Fechado', 'Baixa', 'teste', 'Este é um chamado teste', '2025-06-05 21:34:19', '2025-06-05 21:42:08', 20, 'João', 'joao.gabriel@chesiquimica.com.br', 'TI'),
-(1034, 'Fechado', 'Baixa', 'Teste ', 'Erro ao buscar descrição.', '2025-06-05 21:43:35', '2025-06-07 15:05:45', 20, 'João', 'joao.gabriel@chesiquimica.com.br', 'TI'),
-(1035, 'Em Andamento', 'Baixa', 'Teste', 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa testando limite de caracteres aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa ainda testando aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa viva o FLamengo aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', '2025-06-05 21:47:31', NULL, 20, 'João', 'joao.gabriel@chesiquimica.com.br', 'TI'),
-(1036, 'Aberto', NULL, 'teste', 'aaaaa', '2025-06-07 13:38:20', NULL, 25, 'Usuario', 'usuario@gmail.com', 'Qualidade'),
-(1037, 'Aberto', NULL, 'Teste', 'teste', '2025-06-07 14:36:41', NULL, 27, 'Teste', 'teste@teste.com', 'Logistica'),
-(1038, 'Aberto', NULL, 'Teste', 'Este é um chamado teste', '2025-06-07 14:47:37', NULL, 20, 'João', 'joao.gabriel@chesiquimica.com.br', 'TI'),
-(1039, 'Aberto', NULL, 'Chamado Teste', 'ESPESSANTE ACRILICO TINTA 8110', '2025-06-07 15:17:09', NULL, 29, 'Teste', 'testeeeeeeeeee@teste.com', 'Formulacao');
 
 --
 -- Acionadores `chamados`
@@ -116,14 +92,6 @@ CREATE TABLE `equipamentos` (
   `tipo` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `equipamentos`
---
-
-INSERT INTO `equipamentos` (`idEquipamento`, `descricaoEquipamento`, `tipo`) VALUES
-(1, 'HP Laser MPF 135w', 'Impressora'),
-(4, 'Impressora Teste', 'Impressora');
-
 -- --------------------------------------------------------
 
 --
@@ -137,34 +105,10 @@ CREATE TABLE `estoque` (
   `fornecedor` varchar(100) DEFAULT NULL,
   `quantidade` int(11) DEFAULT NULL,
   `tipo_movimentacao` varchar(20) NOT NULL,
-  `data_movimentacao` timestamp NOT NULL DEFAULT current_timestamp()
+  `data_movimentacao` timestamp NOT NULL DEFAULT current_timestamp(),
+  `motivo` varchar(100) DEFAULT NULL,
+  `usuario_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `estoque`
---
-
-INSERT INTO `estoque` (`id`, `item_id`, `nota_fiscal`, `fornecedor`, `quantidade`, `tipo_movimentacao`, `data_movimentacao`) VALUES
-(43, 1, '000', 'Fornecedor Teste', 5, 'ENTRADA', '2025-06-08 18:25:34'),
-(44, 2, '000', 'Fornecedor Teste', 2, 'ENTRADA', '2025-06-08 18:25:34'),
-(45, 1, '22', 'Fornecedor Teste', 5, 'ENTRADA', '2025-06-08 18:29:11'),
-(46, 4, '22', 'Fornecedor Teste', 222, 'ENTRADA', '2025-06-08 18:40:25'),
-(47, 3, '22', 'Fornecedor Teste', 1, 'ENTRADA', '2025-06-08 18:40:25'),
-(49, 3, NULL, NULL, 200, 'ENTRADA', '2025-06-08 18:50:13'),
-(50, 3, NULL, NULL, 200, 'ENTRADA', '2025-06-08 18:53:07'),
-(51, 3, NULL, NULL, 200, 'ENTRADA', '2025-06-08 18:53:20'),
-(52, 3, NULL, NULL, 200, 'ENTRADA', '2025-06-08 18:56:10'),
-(53, 3, '', '', 200, 'SAIDA', '2025-06-08 18:56:37'),
-(54, 3, '', '', 200, 'SAIDA', '2025-06-08 18:57:45'),
-(55, 3, '', '', 401, 'SAIDA', '2025-06-08 18:58:10'),
-(56, 3, '', '', 400, 'SAIDA', '2025-06-08 18:58:22'),
-(57, 3, '22', 'Fornecedor Teste', 400, 'ENTRADA', '2025-06-08 19:01:17'),
-(58, 4, '', '', 222, 'SAIDA', '2025-06-08 19:02:49'),
-(59, 1, '', '', 1, 'SAIDA', '2025-06-08 19:03:54'),
-(60, 3, '11111', 'Fornecedor Teste', 1, 'ENTRADA', '2025-06-08 23:20:15'),
-(61, 3, '', '', 1, 'SAIDA', '2025-06-08 23:20:34'),
-(62, 3, '00000', 'Fornecedor Teste', 5, 'ENTRADA', '2025-06-08 23:22:25'),
-(63, 3, '', '', 4, 'SAIDA', '2025-06-08 23:23:13');
 
 -- --------------------------------------------------------
 
@@ -181,15 +125,6 @@ CREATE TABLE `fornecedor` (
   `endereco` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Despejando dados para a tabela `fornecedor`
---
-
-INSERT INTO `fornecedor` (`id`, `nome`, `cnpj`, `telefone`, `email`, `endereco`) VALUES
-(1, 'João Gabriel', '02.125.191/0001-43', '(42) 3225-0537', 'joaoogbriel3meia@gmail.com', '221 Rua Navajo'),
-(2, 'Fornecedor Teste', '02.125.191/0001-42', '(42) 3225-0537', 'joaoogbriel3meia@gmail.com', '221 Rua Navajo'),
-(3, 'Teste', '12345678912345', '42991424466', 'joao@joao.com.br', 'Rua tal, numero tal, bairro tal');
-
 -- --------------------------------------------------------
 
 --
@@ -198,22 +133,31 @@ INSERT INTO `fornecedor` (`id`, `nome`, `cnpj`, `telefone`, `email`, `endereco`)
 
 CREATE TABLE `imobilizados` (
   `id` int(11) NOT NULL,
-  `tipo` varchar(50) NOT NULL,
   `patrimonio` varchar(50) DEFAULT NULL,
-  `modelo` varchar(100) DEFAULT NULL,
+  `modelo_id` int(11) NOT NULL,
   `localizacao` varchar(100) DEFAULT NULL,
   `nota_fiscal` varchar(50) DEFAULT NULL,
   `usuario_id` int(11) DEFAULT NULL,
-  `status` varchar(20) DEFAULT 'Ativo'
+  `status` varchar(20) DEFAULT 'Ativo',
+  `modelo` varchar(100) DEFAULT NULL,
+  `ultima_manutencao` date DEFAULT NULL,
+  `prox_manutencao` date DEFAULT NULL,
+  `intervalo_manutencao` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Acionadores `imobilizados`
 --
 DELIMITER $$
-CREATE TRIGGER `trg_preencher_tipo_before_insert` BEFORE INSERT ON `imobilizados` FOR EACH ROW SET NEW.tipo = (
-  SELECT tipo FROM equipamentos WHERE descricaoEquipamento = NEW.modelo LIMIT 1
-)
+CREATE TRIGGER `before_insert_imobilizados` BEFORE INSERT ON `imobilizados` FOR EACH ROW BEGIN
+  DECLARE v_descricao VARCHAR(100);
+
+  SELECT tipo INTO v_descricao
+  FROM equipamentos
+  WHERE idEquipamento = NEW.modelo_id;
+
+  SET NEW.modelo = v_descricao;
+END
 $$
 DELIMITER ;
 
@@ -226,7 +170,8 @@ DELIMITER ;
 CREATE TABLE `impressora_tonner` (
   `id` int(11) NOT NULL,
   `impressoraId` int(11) NOT NULL,
-  `modeloTonnerId` int(11) NOT NULL
+  `modeloTonnerId` int(11) NOT NULL,
+  `cor` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -241,16 +186,23 @@ CREATE TABLE `itens` (
   `tipo` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Despejando dados para a tabela `itens`
+-- Estrutura para tabela `manutencao`
 --
 
-INSERT INTO `itens` (`id`, `nome`, `tipo`) VALUES
-(1, 'Tonner 01', 'Tonner'),
-(2, 'Tonner 02', 'Tonner'),
-(3, 'item 01', 'Tonner'),
-(4, 'item 02', 'Tonner'),
-(5, 'Item 03', 'Tonner');
+CREATE TABLE `manutencao` (
+  `id` int(11) NOT NULL,
+  `id_imobilizado` int(11) NOT NULL,
+  `id_fornecedor` int(11) DEFAULT NULL,
+  `dt_envio` date NOT NULL,
+  `dt_retorno` date DEFAULT NULL,
+  `status` varchar(20) DEFAULT NULL,
+  `descricao_problema` text DEFAULT NULL,
+  `observacoes` text DEFAULT NULL,
+  `valor` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -277,27 +229,37 @@ CREATE TABLE `setores_locais` (
   `local` varchar(40) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Despejando dados para a tabela `setores_locais`
+-- Estrutura para tabela `tarefas`
 --
 
-INSERT INTO `setores_locais` (`setor`, `local`) VALUES
-('Almoxarifado', 'Barracão 2'),
-('Apontamento', 'Barracão 2'),
-('Comercial', 'Barracão 3'),
-('Compras', 'Barracão 2'),
-('Contabilidade', 'Barracão 4'),
-('Cosmético', 'Barracão 4'),
-('Expedição', 'Barracão 3'),
-('Financeiro', 'Barracão 4'),
-('Formulação', 'Barracão 2'),
-('Laboratório', 'Barracão 4'),
-('Logistica', 'Barracão 3'),
-('Marketing', 'Barracão 1'),
-('Qualidade', 'Barracão 2'),
-('RH', 'Barracão 4'),
-('Saneantes', 'Barracão 4'),
-('TI', 'Barracão 2');
+CREATE TABLE `tarefas` (
+  `id` int(11) NOT NULL,
+  `titulo` varchar(100) NOT NULL,
+  `descricao` text DEFAULT NULL,
+  `prioridade` enum('baixa','media','alta') DEFAULT 'media',
+  `data_prevista` date NOT NULL,
+  `status` enum('pendente','em_andamento','concluida') DEFAULT 'pendente',
+  `criado_por` int(11) NOT NULL,
+  `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `tarefas_usuarios`
+--
+
+CREATE TABLE `tarefas_usuarios` (
+  `id` int(11) NOT NULL,
+  `id_tarefa` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
+  `status` enum('nao_iniciada','em_andamento','concluida') DEFAULT 'nao_iniciada',
+  `hora_inicio` datetime DEFAULT NULL,
+  `hora_conclusao` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -373,15 +335,6 @@ CREATE TABLE `usuarios` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `usuarios`
---
-
-INSERT INTO `usuarios` (`id`, `nome`, `email`, `senha`, `setor`, `local`) VALUES
-(20, 'João Gabriel dos Anjos', 'joao.gabriel@chesiquimica.com.br', '03a6b5a43cfe2e2315e141182e6b3e47f1f61c6f', 'TI', 'Barracão 2'),
-(28, 'João Gabriel', 'joaoogbriel3meia@gmail.com', 'c510cd8607f92e1e09fd0b0d0d035c16d2428fa4', 'Marketing', 'Barracão 1'),
-(29, 'Teste da Silva', 'testeeeeeeeeee@teste.com', '40bd001563085fc35165329ea1ff5c5ecbdbbeef', 'Formulacao', 'Barracão 2');
-
---
 -- Acionadores `usuarios`
 --
 DELIMITER $$
@@ -416,6 +369,12 @@ ALTER TABLE `atualizacoes`
   ADD KEY `chamadoId` (`chamadoId`);
 
 --
+-- Índices de tabela `avisos`
+--
+ALTER TABLE `avisos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices de tabela `chamados`
 --
 ALTER TABLE `chamados`
@@ -432,7 +391,8 @@ ALTER TABLE `equipamentos`
 --
 ALTER TABLE `estoque`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `item_id` (`item_id`);
+  ADD KEY `item_id` (`item_id`),
+  ADD KEY `fk_usuario_id` (`usuario_id`);
 
 --
 -- Índices de tabela `fornecedor`
@@ -446,13 +406,15 @@ ALTER TABLE `fornecedor`
 --
 ALTER TABLE `imobilizados`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `usuario_id` (`usuario_id`);
+  ADD KEY `usuario_id` (`usuario_id`),
+  ADD KEY `modelo_id` (`modelo_id`);
 
 --
 -- Índices de tabela `impressora_tonner`
 --
 ALTER TABLE `impressora_tonner`
   ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unq_impressora_cor` (`impressoraId`,`cor`),
   ADD KEY `impressoraId` (`impressoraId`),
   ADD KEY `modeloTonnerId` (`modeloTonnerId`);
 
@@ -461,6 +423,14 @@ ALTER TABLE `impressora_tonner`
 --
 ALTER TABLE `itens`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Índices de tabela `manutencao`
+--
+ALTER TABLE `manutencao`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_imobilizado` (`id_imobilizado`),
+  ADD KEY `id_fornecedor` (`id_fornecedor`);
 
 --
 -- Índices de tabela `movimentacao`
@@ -474,6 +444,21 @@ ALTER TABLE `movimentacao`
 --
 ALTER TABLE `setores_locais`
   ADD PRIMARY KEY (`setor`);
+
+--
+-- Índices de tabela `tarefas`
+--
+ALTER TABLE `tarefas`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `criado_por` (`criado_por`);
+
+--
+-- Índices de tabela `tarefas_usuarios`
+--
+ALTER TABLE `tarefas_usuarios`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `id_tarefa` (`id_tarefa`,`id_usuario`),
+  ADD KEY `id_usuario` (`id_usuario`);
 
 --
 -- Índices de tabela `tonneratualizacao`
@@ -504,49 +489,61 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `atualizacoes`
 --
 ALTER TABLE `atualizacoes`
-  MODIFY `id_atualizacao` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id_atualizacao` int(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `avisos`
+--
+ALTER TABLE `avisos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `chamados`
 --
 ALTER TABLE `chamados`
-  MODIFY `chamadoId` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1040;
+  MODIFY `chamadoId` int(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `equipamentos`
 --
 ALTER TABLE `equipamentos`
-  MODIFY `idEquipamento` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `idEquipamento` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `estoque`
 --
 ALTER TABLE `estoque`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `fornecedor`
 --
 ALTER TABLE `fornecedor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `imobilizados`
 --
 ALTER TABLE `imobilizados`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `impressora_tonner`
 --
 ALTER TABLE `impressora_tonner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `itens`
 --
 ALTER TABLE `itens`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `manutencao`
+--
+ALTER TABLE `manutencao`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `movimentacao`
@@ -555,22 +552,34 @@ ALTER TABLE `movimentacao`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de tabela `tarefas`
+--
+ALTER TABLE `tarefas`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `tarefas_usuarios`
+--
+ALTER TABLE `tarefas_usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `tonneratualizacao`
 --
 ALTER TABLE `tonneratualizacao`
-  MODIFY `id_atualizacao` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id_atualizacao` int(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `tonnersolicitacao`
 --
 ALTER TABLE `tonnersolicitacao`
-  MODIFY `solicitacaoId` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1050;
+  MODIFY `solicitacaoId` int(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restrições para tabelas despejadas
@@ -586,26 +595,48 @@ ALTER TABLE `atualizacoes`
 -- Restrições para tabelas `estoque`
 --
 ALTER TABLE `estoque`
-  ADD CONSTRAINT `estoque_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `itens` (`id`);
+  ADD CONSTRAINT `estoque_ibfk_1` FOREIGN KEY (`item_id`) REFERENCES `itens` (`id`),
+  ADD CONSTRAINT `fk_usuario_id` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`);
 
 --
 -- Restrições para tabelas `imobilizados`
 --
 ALTER TABLE `imobilizados`
-  ADD CONSTRAINT `imobilizados_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`);
+  ADD CONSTRAINT `imobilizados_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`),
+  ADD CONSTRAINT `imobilizados_ibfk_2` FOREIGN KEY (`modelo_id`) REFERENCES `equipamentos` (`idEquipamento`);
 
 --
 -- Restrições para tabelas `impressora_tonner`
 --
 ALTER TABLE `impressora_tonner`
-  ADD CONSTRAINT `impressora_tonner_ibfk_1` FOREIGN KEY (`impressoraId`) REFERENCES `imobilizados` (`id`),
+  ADD CONSTRAINT `impressora_tonner_ibfk_1` FOREIGN KEY (`impressoraId`) REFERENCES `equipamentos` (`idEquipamento`),
   ADD CONSTRAINT `impressora_tonner_ibfk_2` FOREIGN KEY (`modeloTonnerId`) REFERENCES `itens` (`id`);
+
+--
+-- Restrições para tabelas `manutencao`
+--
+ALTER TABLE `manutencao`
+  ADD CONSTRAINT `manutencao_ibfk_1` FOREIGN KEY (`id_imobilizado`) REFERENCES `imobilizados` (`id`),
+  ADD CONSTRAINT `manutencao_ibfk_2` FOREIGN KEY (`id_fornecedor`) REFERENCES `fornecedor` (`id`);
 
 --
 -- Restrições para tabelas `movimentacao`
 --
 ALTER TABLE `movimentacao`
   ADD CONSTRAINT `movimentacao_ibfk_1` FOREIGN KEY (`estoque_id`) REFERENCES `estoque` (`id`);
+
+--
+-- Restrições para tabelas `tarefas`
+--
+ALTER TABLE `tarefas`
+  ADD CONSTRAINT `tarefas_ibfk_1` FOREIGN KEY (`criado_por`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
+
+--
+-- Restrições para tabelas `tarefas_usuarios`
+--
+ALTER TABLE `tarefas_usuarios`
+  ADD CONSTRAINT `tarefas_usuarios_ibfk_1` FOREIGN KEY (`id_tarefa`) REFERENCES `tarefas` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `tarefas_usuarios_ibfk_2` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
 
 --
 -- Restrições para tabelas `tonneratualizacao`
@@ -618,7 +649,7 @@ ALTER TABLE `tonneratualizacao`
 -- Restrições para tabelas `tonnersolicitacao`
 --
 ALTER TABLE `tonnersolicitacao`
-  ADD CONSTRAINT `fk_tonner_impressora` FOREIGN KEY (`impressoraId`) REFERENCES `imobilizados` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_tonner_impressora` FOREIGN KEY (`impressoraId`) REFERENCES `equipamentos` (`idEquipamento`) ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_tonner_item` FOREIGN KEY (`tonnerId`) REFERENCES `itens` (`id`) ON UPDATE CASCADE;
 COMMIT;
 
