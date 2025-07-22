@@ -15,8 +15,11 @@ $setor = $_SESSION['setor'];
 $usuario = $_SESSION['usuario'];
 $setor = $_SESSION['setor'];
 ?>
+
 <link rel="icon" href="/sistemaglpi/img/chesiquimica-logo-png.png" type="image/png">
-<aside class="w-64 bg-black text-gray-800 p-6 flex flex-col relative z-10">
+<!-- Overlay escuro -->
+<div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
+<aside id="sidebar" class="w-64 bg-black text-gray-800 p-6 flex flex-col relative z-10">
     <!-- Logo e nome -->
     <div class="flex items-center mb-8 space-x-3">
         <a href="/sistemaglpi/dashboard/dashboard.php">
@@ -138,7 +141,17 @@ $setor = $_SESSION['setor'];
             -->
 
         <?php endif; ?>
-
+        <div class="relative group">
+            <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
+                Sugestões
+            </button>
+            <div class="hidden group-hover:flex flex-col absolute top-0 left-full bg-[#4B5563] border border-[#4B5563] rounded w-48 shadow-lg z-20">
+                <a href="/sistemaglpi/dashboard/Sugestoes/NovasSugestoes.php" class="p-2 hover:bg-[#2E2E2E] text-white">Nova Sugestão</a>
+                <?php if ($setor === 'TI'): ?>
+                    <a href="/sistemaglpi/dashboard/Sugestoes/listarSugestoes.php" class="p-2 hover:bg-[#2E2E2E] text-white">Lista de Sugestões</a>
+                <?php endif; ?>
+            </div>
+        </div>
         <!-- Sair -->
         <a href="/sistemaglpi/login/logoff.php" class="bg-blue-500 hover:bg-red-700 text-black hover:text-white text-center p-2 rounded mt-4">Sair</a>
         <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-xs text-gray-400 opacity-70">
@@ -146,3 +159,18 @@ $setor = $_SESSION['setor'];
         </div>
     </nav>
 </aside>
+<script>
+    const btn = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('overlay');
+
+    btn.addEventListener('click', () => {
+        sidebar.classList.toggle('-translate-x-full');
+        overlay.classList.toggle('hidden');
+    });
+
+    overlay.addEventListener('click', () => {
+        sidebar.classList.add('-translate-x-full');
+        overlay.classList.add('hidden');
+    });
+</script>

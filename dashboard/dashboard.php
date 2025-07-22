@@ -20,7 +20,8 @@ $setor = $_SESSION['setor'];
     <link rel="icon" href="/sistemaglpi/img/chesiquimica-logo-png.png" type="image/png" />
 </head>
 
-<body class="flex h-screen font-sans">
+<body class="h-screen font-sans flex flex-col md:flex-row">
+
 
     <!-- Sidebar -->
     <?php require_once 'arealateral.php'; ?>
