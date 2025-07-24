@@ -308,42 +308,36 @@ class Chamado extends Conexao
     }
 
     public function listarTodosChamadosPorId3($status = '', $chamadoId = '')
-    {
+{
+    $sql = "SELECT * FROM chamados WHERE 1=1";
 
-        $sql = "SELECT * FROM chamados WHERE 1=1"; // Usamos "WHERE 1=1" como base para todos os filtros
-
-
-        if (!empty($status) && $status !== 'Todos') {
-            $sql .= " AND status = :status";
-        } elseif (empty($status)) {
-
-            $sql .= " AND (status = 'Aberto' OR status = 'Em andamento')";
-        }
-
-
-        if (!empty($chamadoId)) {
-            $sql .= " AND chamadoId = :chamadoId";
-        }
-
-
-        $stmt = $this->conn->prepare($sql);
-
-
-        if (!empty($status) && $status !== 'Todos') {
-            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
-        }
-
-        // Vinculando o parâmetro de chamadoId
-        if (!empty($chamadoId)) {
-            $stmt->bindParam(':chamadoId', $chamadoId, PDO::PARAM_INT);
-        }
-
-        // Executando a consulta
-        $stmt->execute();
-
-        // Retornando os resultados como um array associativo
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (!empty($status) && $status !== 'Todos') {
+        $sql .= " AND status = :status";
+    } elseif (empty($status)) {
+        $sql .= " AND (status = 'Aberto' OR status = 'Em andamento')";
     }
+
+    if (!empty($chamadoId)) {
+        $sql .= " AND chamadoId = :chamadoId";
+    }
+
+    $sql .= " ORDER BY FIELD(tipoChamado, 'Alta', 'Média', 'Baixa')DESC, tipoChamado IS NULL ASC";
+
+    $stmt = $this->conn->prepare($sql);
+
+    if (!empty($status) && $status !== 'Todos') {
+        $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+    }
+
+    if (!empty($chamadoId)) {
+        $stmt->bindParam(':chamadoId', $chamadoId, PDO::PARAM_INT);
+    }
+
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
 
 
     public function atualizarPrioridade($tipoChamado, $chamadoId)

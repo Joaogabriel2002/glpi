@@ -15,11 +15,28 @@ $setor = $_SESSION['setor'];
 $usuario = $_SESSION['usuario'];
 $setor = $_SESSION['setor'];
 ?>
-
+<div class="bg-black text-white p-4 flex justify-between items-center sm:hidden">
+    <div class="flex items-center space-x-3">
+        <a href="/sistemaglpi/dashboard/dashboard.php">
+            <img src="/sistemaglpi/img/chesi-logo-branca.png" class="h-10 w-10" alt="Logo">
+        </a>
+        <div>
+            <h2 class="text-base font-semibold"><?php echo $usuario; ?></h2>
+            <p class="text-sm text-gray-400"><?php echo $setor; ?></p>
+        </div>
+    </div>
+    <button id="menuToggle" class="focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+    </button>
+</div>
 <link rel="icon" href="/sistemaglpi/img/chesiquimica-logo-png.png" type="image/png">
 <!-- Overlay escuro -->
 <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden md:hidden"></div>
-<aside id="sidebar" class="w-64 bg-black text-gray-800 p-6 flex flex-col relative z-10">
+<aside id="sidebar" class="fixed md:static z-50 bg-black text-gray-800 w-64 h-full p-6 flex flex-col transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out">
     <!-- Logo e nome -->
     <div class="flex items-center mb-8 space-x-3">
         <a href="/sistemaglpi/dashboard/dashboard.php">

@@ -18,6 +18,9 @@ $setor = $_SESSION['setor'];
     <title>Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="/sistemaglpi/img/chesiquimica-logo-png.png" type="image/png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
 </head>
 
 <body class="h-screen font-sans flex flex-col md:flex-row">
@@ -27,8 +30,7 @@ $setor = $_SESSION['setor'];
     <?php require_once 'arealateral.php'; ?>
 
     <!-- Conteúdo principal -->
-    <main class="flex-1 bg-gray-100 p-8 overflow-auto flex flex-col gap-8">
-
+    <main class="flex-1 bg-gray-100 p-4 md:p-8 overflow-auto flex flex-col gap-8 mt-4 md:mt-0">
         <!-- Título à esquerda e contadores à direita -->
         <div class="flex items-start justify-between flex-wrap gap-6">
             <!-- Título -->
@@ -70,12 +72,15 @@ $setor = $_SESSION['setor'];
 
         <!-- Cards parte inferior -->
         <!-- Parte inferior com cardápio fixo à esquerda e mural ocupando o restante -->
-        <div class="flex flex-1 gap-6 min-h-0">
+        <div class="flex flex-col lg:flex-row flex-1 gap-6 min-h-0">
+
 
             <!-- Cardápio com largura fixa -->
             <div class="flex flex-col gap-6 w-80 flex-shrink-0">
                 <div class="bg-white p-4 rounded shadow h-[200px] flex flex-col">
-                    <h2 class="text-xl font-bold mb-2">📅 Cardápio do Mês</h2>
+                    <h2 class="text-xl font-bold mb-2 flex items-center gap-2">
+                        <i data-lucide="utensils" class="w-6 h-6 text-yellow-600"></i>Cardápio do Mês
+                    </h2>
                     <select id="selectData" class="w-full p-2 border rounded mb-4">
                         <?php
                         date_default_timezone_set('America/Sao_Paulo');
@@ -103,7 +108,11 @@ $setor = $_SESSION['setor'];
 
             <!-- Mural de Avisos ocupa o restante -->
             <div class="flex-1 bg-white p-4 rounded shadow flex flex-col h-[200px]">
-                <h2 class="text-xl font-bold mb-2">📢 Mural de Avisos</h2>
+
+                <h2 class="text-xl font-bold mb-2 flex items-center gap-2">
+                    <i data-lucide="message-square" class="w-6 h-6 text-blue-600"></i>
+                    Mural de Avisos
+                </h2>
                 <div id="avisoAtual" class="text-gray-700 flex-grow min-h-[60px] overflow-auto transition-all duration-300">
                     Carregando avisos...
                 </div>
@@ -210,6 +219,7 @@ $setor = $_SESSION['setor'];
             // Atualiza o conteúdo com o cardápio correspondente
             descricao.innerHTML = `<p>${cardapios[dataHoje] || "Sem cardápio para esta data."}</p>`;
         });
+        lucide.createIcons();
     </script>
 
 

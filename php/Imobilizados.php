@@ -305,6 +305,8 @@ class Imobilizados extends Conexao
                 i.localizacao,
                 i.nota_fiscal,
                 i.status,
+                i.ultima_manutencao,
+                i.prox_manutencao,
                 i.modelo AS tipo,
                 e.descricaoEquipamento AS modelo,
                 u.id AS usuario_id,

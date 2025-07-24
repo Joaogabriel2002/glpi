@@ -81,6 +81,8 @@ unset($_SESSION['msg']);
                         <th class="px-6 py-3 text-left text-sm font-medium">Modelo</th>
                        
                         <th class="px-6 py-3 text-left text-sm font-medium">Status</th>
+                        <!-- <th class="px-6 py-3 text-left text-sm font-medium">Última Manutenção</th> -->
+                        <th class="px-6 py-3 text-left text-sm font-medium">Próxima Manutenção</th>
                         <th class="px-6 py-3 text-left text-sm font-medium">Ações</th>
                     </tr>
                 </thead>
@@ -91,6 +93,8 @@ unset($_SESSION['msg']);
                             <td class="px-6 py-4"><?= htmlspecialchars($imb['tipo']) ?></td>
                             <td class="px-6 py-4"><?= htmlspecialchars($imb['modelo']) ?></td>
                             <td class="px-6 py-4"><?= htmlspecialchars($imb['status']) ?></td>
+                            <!-- <td class="px-6 py-4"><?= htmlspecialchars($imb['ultima_manutencao']) ?></td> -->
+                            <td class="px-6 py-4"><?= htmlspecialchars($imb['prox_manutencao']) ?></td>
                             <td class="px-6 py-4">
                                 <a href="detalhesImobilizados.php?id=<?= $imb['id']; ?>" class="text-blue-600 hover:underline">Selecionar</a>
                             </td>
