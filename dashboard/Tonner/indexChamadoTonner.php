@@ -102,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
             <?php endif; ?>
 
-            <form method="POST" enctype="multipart/form-data" class="space-y-5">
+            <form method="POST" enctype="multipart/form-data" class="space-y-5" onsubmit="desativarBotao()">
                 <input type="hidden" name="status" value="Aberto">
 
                 <!-- Impressora -->
@@ -124,6 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <!-- Botão -->
                 <div>
                     <button type="submit"
+                    id="btnEnviar"
                         class="w-full bg-[#4B5563] hover:bg-[#2E2E2E] text-white font-semibold py-2 px-4 rounded shadow transition duration-300">
                         Solicitar Tonner
                     </button>
@@ -131,6 +132,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </form>
         </div>
     </main>
+    <script>
+        function desativarBotao() {
+            const botao = document.getElementById('btnEnviar');
+            botao.disabled = true;
+            botao.innerText = 'Enviando...'; // opcional
+        }
+    </script>
 </body>
 
 </html>

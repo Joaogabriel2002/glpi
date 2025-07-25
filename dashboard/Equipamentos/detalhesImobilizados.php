@@ -1,6 +1,6 @@
 <?php
-require_once __DIR__. '../../../php/Imobilizados.php';
-require_once __DIR__. '../../../php/Usuario.php';
+require_once __DIR__ . '../../../php/Imobilizados.php';
+require_once __DIR__ . '../../../php/Usuario.php';
 
 session_start();
 if (!isset($_SESSION['usuario_id'])) {
@@ -11,6 +11,7 @@ if (!isset($_SESSION['usuario_id'])) {
 $imobilizado = new Imobilizados();
 $usuarioModel = new Usuario();
 $usuarios = $usuarioModel->listarUsuarios();
+$mensagem_sucesso = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['AlterarDados'])) {
     $id = $_POST['id'];
@@ -22,9 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['AlterarDados'])) {
     $status = $_POST['status'];
 
     if ($imobilizado->atualizarImobilizado($id, $patrimonio, $modelo_id, $localizacao, $nota_fiscal, $usuario_id, $status)) {
-        echo '<div style="color: green; font-weight: bold; margin-top: 10px;">Dados atualizados com sucesso!</div>';
+       $mensagem_sucesso = "Imobilizado atualizado com sucesso! ";
     } else {
-        echo '<div style="color: red; font-weight: bold; margin-top: 10px;">Erro ao atualizar dados.</div>';
+        $mensagem_sucesso = "Erro ao atualizar";
     }
 }
 
@@ -39,20 +40,26 @@ $detalhesImobilizado = $imobilizado->listarImobilizadoPorId($idAtual);
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <title>Editar Imobilizado</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="..\..\..\..\..\img/chesiquimica-logo-png.png" type="image/png">
 </head>
+
 <body class="flex h-screen font-sans bg-gray-100">
 
-    <?php require_once __DIR__.  '../../arealateral.php'; ?>
+    <?php require_once __DIR__ .  '../../arealateral.php'; ?>
 
     <main class="flex-1 p-8 bg-gray-300 max-h-screen h-full overflow-auto">
         <div class="w-full max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-md">
             <h2 class="text-2xl font-semibold text-gray-800 mb-6">Editar Imobilizado</h2>
-
+            <?php if (!empty($mensagem_sucesso)) : ?>
+                <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-800 rounded shadow">
+                     <?php echo htmlspecialchars($mensagem_sucesso); ?>
+                </div>
+            <?php endif; ?>
             <form method="post" class="space-y-5">
                 <input type="hidden" name="id" value="<?= htmlspecialchars($detalhesImobilizado['id']) ?>">
 
@@ -138,4 +145,5 @@ $detalhesImobilizado = $imobilizado->listarImobilizadoPorId($idAtual);
     </main>
 
 </body>
+
 </html>

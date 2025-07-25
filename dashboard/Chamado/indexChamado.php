@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <?php if (!empty($mensagem_sucesso)) : ?>
                 <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-800 rounded shadow">
-                    ✅ <?php echo htmlspecialchars($mensagem_sucesso); ?>
+                    <?php echo htmlspecialchars($mensagem_sucesso); ?>
                 </div>
             <?php endif; ?>
 
