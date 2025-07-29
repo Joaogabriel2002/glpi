@@ -1,27 +1,32 @@
 <?php
-    require_once 'Conexao.php';
-    require_once __DIR__ . '/../phpmailer/src/PHPMailer.php';
-    require_once __DIR__ . '/../phpmailer/src/SMTP.php';
-    require_once __DIR__ . '/../phpmailer/src/Exception.php';
+require_once 'Conexao.php';
+require_once __DIR__ . '/../vendor/autoload.php'; // carrega o autoloader do composer
+require_once __DIR__ . '/../phpmailer/src/PHPMailer.php';
+require_once __DIR__ . '/../phpmailer/src/SMTP.php';
+require_once __DIR__ . '/../phpmailer/src/Exception.php';
 
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use Dotenv\Dotenv;
 
+class Email extends Conexao {
+    private $mail;
 
-    class Email extends Conexao{
-        private $email; 
+    public function __construct() {
+        // Carrega variáveis do .env
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+        $dotenv->load();
 
-        public function __construct() {
         $this->mail = new PHPMailer(true);
 
         $this->mail->isSMTP();
         $this->mail->Host       = 'smtp.skymail.net.br';
         $this->mail->SMTPAuth   = true;
-        $this->mail->Username   = 'ti@chesiquimica.com.br';
-        $this->mail->Password   = '$v4[j9?x@';
+        $this->mail->Username   = $_ENV['EMAIL_USER'];
+        $this->mail->Password   = $_ENV['EMAIL_PASS'];
         $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $this->mail->Port       = 465;
-        $this->mail->setFrom('ti@chesiquimica.com.br', 'TI Chesiquimica');
+        $this->mail->setFrom($_ENV['EMAIL_USER'], 'TI Chesiquimica');
     }
 
     public function enviarEmail($para, $assunto, $corpoHtml) {
