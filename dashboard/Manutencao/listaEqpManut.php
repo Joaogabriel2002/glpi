@@ -87,10 +87,10 @@ unset($_SESSION['msg']);
                             <td class="px-6 py-4"><?= htmlspecialchars($imb['tipo']) ?></td>
                             <td class="px-6 py-4"><?= htmlspecialchars($imb['modelo']) ?></td>
                             <td class="px-6 py-4"><?= htmlspecialchars($imb['status']) ?></td>
-                            <!-- <td class="px-6 py-4"><?= date('d-m-y', strtotime($imb['ultima_manutencao'])) ?></td> -->
-                            <td class="px-6 py-4"><?= date('d-m-y', strtotime($imb['prox_manutencao'])) ?></td>
+                            <!-- <td class="px-6 py-4"><?= date('d-m-Y', strtotime($imb['ultima_manutencao'])) ?></td> -->
+                            <td class="px-6 py-4"><?= date('d-m-Y', strtotime($imb['prox_manutencao'])) ?></td>
                             <td class="px-6 py-4">
-                                <a href="detalhesImobilizados.php?id=<?= $imb['id']; ?>" class="text-blue-600 hover:underline">Selecionar</a>
+                                <a href="detalhesEqp.php?id=<?= $imb['id']; ?>" class="text-blue-600 hover:underline">Selecionar</a>
                             </td>
                         </tr>
                     <?php } ?>

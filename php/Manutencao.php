@@ -196,6 +196,14 @@ class Manutencao extends Conexao{
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+public function listarTodas() {
+    $sql = "SELECT * FROM manutencao";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+
    public function atualizarManutencao() {
     $sql = "UPDATE manutencao
             SET observacoes = :observacoes,

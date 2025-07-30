@@ -25,6 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Buscar detalhes da manutenção
 $manutencao = new Manutencao();
 $detalhesManut = $manutencao->listarPorId($idAtual);
+$imb = $manutencao->listarPorId($idAtual);
 
 // Verificar se o registro existe
 if (!$detalhesManut) {
@@ -68,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['observacao'])) {
 <head>
     <meta charset="UTF-8">
     <title>Detalhes do Chamado</title>
-    <link rel="icon" href="../../../img/chesiquimica-logo-png.png" type="image/png">
+    <link rel="icon" href="../../../../../img/chesiquimica-logo-png.png" type="image/png">
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="flex h-screen font-sans">
@@ -99,6 +100,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['observacao'])) {
         <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
             <thead class="bg-[#4B5563] text-white">
                 <tr>
+                    <th class="px-6 py-3 text-left text-sm font-medium">Patrimônio</th>
+                    <th class="px-6 py-3 text-left text-sm font-medium">Item</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 text-sm">
+                <tr class="hover:bg-gray-100">
+                    <td class="px-6 py-4"><?= htmlspecialchars($imb['patrimonio']); ?></td>
+                    <td class="px-6 py-4"><?= htmlspecialchars($imb['descricao_equipamento']); ?></td>
+                </tr>
+            </tbody>
+        </table><br>
+        <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead class="bg-[#4B5563] text-white">
+                <tr>
                     <th class="px-6 py-3 text-left text-sm font-medium">Prestador</th>
                     <th class="px-6 py-3 text-left text-sm font-medium">Status</th>
                     <th class="px-6 py-3 text-left text-sm font-medium">Data de Início</th>
@@ -115,6 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['observacao'])) {
                     <td class="px-6 py-4">R$ <?= number_format($detalhesManut['valor'], 2, ',', '.'); ?></td>
                 </tr>
             </tbody>
+        </table>
         </table>
     </div>
 
