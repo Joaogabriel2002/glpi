@@ -1,8 +1,7 @@
 <?php
 session_start();
 require_once __DIR__ . '../../../php/Chamado.php';
-require_once __DIR__ .  '../../arealateral.php';
-
+require_once __DIR__ . '../../arealateral.php';
 
 if (!isset($_SESSION['usuario_id'])) {
     header('Location:../../index.php');
@@ -11,18 +10,17 @@ if (!isset($_SESSION['usuario_id'])) {
 
 $chamado = new Chamado();
 
-// Captura os filtros da URL
-$statusFiltro = isset($_GET['status']) ? $_GET['status'] : '';
-$idFiltro = isset($_GET['chamadoId']) ? $_GET['chamadoId'] : '';
+// Filtros da URL
+$statusFiltro = $_GET['status'] ?? '';
+$idFiltro = $_GET['chamadoId'] ?? '';
+$filtroNome = $_GET['filtro'] ?? '';
 
-// Busca chamados aplicando filtros
-
-if (empty($idFiltro)) {
-    $chamados = $chamado->listarTodosChamadosPorId3($statusFiltro, $idFiltro);
-} else {
+// Chamada correta da função com todos os filtros
+if (!empty($idFiltro)) {
     $chamados = $chamado->listarChamadoPorTicket($idFiltro);
+} else {
+    $chamados = $chamado->listarTodosChamadosPorId3($statusFiltro, '', $filtroNome);
 }
-
 
 $usuario = $_SESSION['usuario'];
 $setor = $_SESSION['setor'];
@@ -39,24 +37,20 @@ $setor = $_SESSION['setor'];
 </head>
 
 <body class="flex h-screen font-sans">
-
-    <!-- Sidebar -->
-
-
-    <!-- Conteúdo principal -->
     <main class="flex-1 p-8 bg-gray-200 overflow-auto">
         <h1 class="text-2xl font-semibold mb-6">Lista de Chamados</h1>
         <div class="flex flex-wrap gap-6 mb-6">
+
             <!-- Filtro por status -->
             <form action="listarChamados.php" method="GET" class="bg-white p-4 rounded shadow w-full sm:w-auto flex-1">
                 <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Filtrar por Status:</label>
                 <select name="status" id="status" class="w-full p-2 border rounded">
                     <option value="">Pendentes</option>
-                    <option value="Todos">Todos</option>
-                    <option value="Aberto">Abertos</option>
-                    <option value="Fechado">Fechados</option>
-                    <option value="Em Andamento">Em andamento</option>
-                    <option value="Cancelado">Cancelados</option>
+                    <option value="Todos" <?= $statusFiltro === 'Todos' ? 'selected' : '' ?>>Todos</option>
+                    <option value="Aberto" <?= $statusFiltro === 'Aberto' ? 'selected' : '' ?>>Abertos</option>
+                    <option value="Fechado" <?= $statusFiltro === 'Fechado' ? 'selected' : '' ?>>Fechados</option>
+                    <option value="Em Andamento" <?= $statusFiltro === 'Em Andamento' ? 'selected' : '' ?>>Em andamento</option>
+                    <option value="Cancelado" <?= $statusFiltro === 'Cancelado' ? 'selected' : '' ?>>Cancelados</option>
                 </select>
                 <button type="submit" class="mt-2 w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Filtrar</button>
             </form>
@@ -64,8 +58,16 @@ $setor = $_SESSION['setor'];
             <!-- Filtro por ticket -->
             <form action="listarChamados.php" method="GET" class="bg-white p-4 rounded shadow w-full sm:w-auto flex-1">
                 <label for="chamadoId" class="block text-sm font-medium text-gray-700 mb-2">Filtrar por Ticket:</label>
-                <input type="number" name="chamadoId" class="w-full p-2 border rounded mb-2">
+                <input type="number" name="chamadoId" value="<?= htmlspecialchars($idFiltro) ?>" class="w-full p-2 border rounded mb-2">
                 <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Filtrar</button>
+            </form>
+
+            <!-- Filtro por nome -->
+            <form method="GET" class="bg-white p-4 rounded shadow w-full sm:w-auto flex-1">
+                <label class="block text-sm font-medium text-gray-700 mb-2">Buscar por Nome</label>
+                <input type="text" name="filtro" value="<?= htmlspecialchars($filtroNome) ?>" placeholder="Ex: Joao, TI..." class="w-full p-2 border rounded mb-2">
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded">Filtrar</button>
+                <a href="listarChamados.php" class="mt-2 w-full inline-block text-center bg-gray-400 hover:bg-gray-600 text-white py-2 px-4 rounded">Limpar</a>
             </form>
         </div>
 
@@ -84,25 +86,26 @@ $setor = $_SESSION['setor'];
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 text-sm">
-                    <?php foreach ($chamados as $chm): ?>
-                        <tr class="hover:bg-gray-100">
-                            <td class="px-6 py-4"><?php echo $chm['chamadoId']; ?></td>
-                            <td class="px-6 py-4"><?php echo $chm['status']; ?></td>
-                            <td class="px-6 py-4"><?php echo $chm['dtAbertura']; ?></td>
-                            <td class="px-6 py-4"><?php echo $chm['tipoChamado']; ?></td>
-                            <td class="px-6 py-4"><?php echo $chm['tituloChamado']; ?></td>
-                            <td class="px-6 py-4"><?php echo $chm['autorNome']; ?></td>
-                            <td class="px-6 py-4">
-                                <a href="detalhesChamados.php?id=<?= $chm['chamadoId']; ?>" class="text-blue-600 hover:underline">Selecionar</a>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
+                    <?php if (!empty($chamados)): ?>
+                        <?php foreach ($chamados as $chm): ?>
+                            <tr class="hover:bg-gray-100">
+                                <td class="px-6 py-4"><?= $chm['chamadoId']; ?></td>
+                                <td class="px-6 py-4"><?= $chm['status']; ?></td>
+                                <td class="px-6 py-4"><?= $chm['dtAbertura']; ?></td>
+                                <td class="px-6 py-4"><?= $chm['tipoChamado']; ?></td>
+                                <td class="px-6 py-4"><?= $chm['tituloChamado']; ?></td>
+                                <td class="px-6 py-4"><?= $chm['autorNome']; ?></td>
+                                <td class="px-6 py-4">
+                                    <a href="detalhesChamados.php?id=<?= $chm['chamadoId']; ?>" class="text-blue-600 hover:underline">Selecionar</a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr><td colspan="7" class="px-6 py-4 text-center text-gray-500">Nenhum chamado encontrado.</td></tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
-
     </main>
-
 </body>
-
 </html>

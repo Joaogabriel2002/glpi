@@ -104,7 +104,6 @@ class Usuario extends Conexao
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-
     public function listarUsuarios($filtro = '', $ordenar = false)
     {
         $sql = "SELECT * FROM usuarios WHERE 1=1";
@@ -135,8 +134,6 @@ class Usuario extends Conexao
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-
 
     public function excluir()
     {
