@@ -166,7 +166,7 @@ class Chamado extends Conexao
         $this->idAtualizacao = $idAtualizacao;
     }
 
-    
+
 
     public function abrirChamado()
     {
@@ -307,37 +307,48 @@ class Chamado extends Conexao
         }
     }
 
-public function listarTodosChamadosPorId3($status = '', $chamadoId = '')
-{
-    $sql = "SELECT * FROM chamados WHERE 1=1";
+    public function listarTodosChamadosPorId3($status = '', $chamadoId = '', $filtro = '')
+    {
+        $sql = "SELECT * FROM chamados WHERE 1=1";
 
-    if (!empty($status) && $status !== 'Todos') {
-        $sql .= " AND status = :status";
-    } elseif (empty($status)) {
-        $sql .= " AND (status = 'Aberto' OR status = 'Em andamento')";
+        // Aplica o filtro padrão de status se nenhum filtro for informado
+        if (empty($status) && empty($filtro)) {
+            $sql .= " AND (status = 'Aberto' OR status = 'Em andamento')";
+        }
+        // Caso status seja especificado e diferente de "Todos"
+        elseif (!empty($status) && $status !== 'Todos') {
+            $sql .= " AND status = :status";
+        }
+
+        if (!empty($chamadoId)) {
+            $sql .= " AND chamadoId = :chamadoId";
+        }
+
+        if (!empty($filtro)) {
+            $sql .= " AND (autorNome LIKE :filtro OR autorSetor LIKE :filtro)";
+        }
+
+        $sql .= " ORDER BY dtAbertura DESC";
+
+        $stmt = $this->conn->prepare($sql);
+
+        if (!empty($status) && $status !== 'Todos') {
+            $stmt->bindParam(':status', $status, PDO::PARAM_STR);
+        }
+
+        if (!empty($chamadoId)) {
+            $stmt->bindParam(':chamadoId', $chamadoId, PDO::PARAM_INT);
+        }
+
+        if (!empty($filtro)) {
+            $termo = '%' . $filtro . '%';
+            $stmt->bindParam(':filtro', $termo, PDO::PARAM_STR);
+        }
+
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    if (!empty($chamadoId)) {
-        $sql .= " AND chamadoId = :chamadoId";
-    }
-
-    // Ordenar pela data mais recente
-    $sql .= " ORDER BY dtAbertura ASC";
-
-    $stmt = $this->conn->prepare($sql);
-
-    if (!empty($status) && $status !== 'Todos') {
-        $stmt->bindParam(':status', $status, PDO::PARAM_STR);
-    }
-
-    if (!empty($chamadoId)) {
-        $stmt->bindParam(':chamadoId', $chamadoId, PDO::PARAM_INT);
-    }
-
-    $stmt->execute();
-
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
 
 
 
@@ -394,5 +405,22 @@ public function listarTodosChamadosPorId3($status = '', $chamadoId = '')
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':idAtualizacao', $this->idAtualizacao);
         return $stmt->execute();
+    }
+
+
+    public function buscarUsuarioEChamados($filtroUsuario)
+    {
+        $sql = "SELECT * FROM chamados 
+            WHERE autorNome LIKE :filtro 
+               OR autorEmail LIKE :filtro 
+               OR autorSetor LIKE :filtro
+            ORDER BY dtAbertura DESC";
+
+        $stmt = $this->conn->prepare($sql);
+        $param = "%{$filtroUsuario}%";
+        $stmt->bindParam(':filtro', $param, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
