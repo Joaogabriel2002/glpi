@@ -84,16 +84,16 @@ $setor = $_SESSION['setor'];
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-200 text-sm">
-                    <?php foreach ($chamados as $chamados): ?>
+                    <?php foreach ($chamados as $chm): ?>
                         <tr class="hover:bg-gray-100">
-                            <td class="px-6 py-4"><?php echo $chamados['chamadoId']; ?></td>
-                            <td class="px-6 py-4"><?php echo $chamados['status']; ?></td>
-                            <td class="px-6 py-4"><?php echo $chamados['dtAbertura']; ?></td>
-                            <td class="px-6 py-4"><?php echo $chamados['tipoChamado']; ?></td>
-                            <td class="px-6 py-4"><?php echo $chamados['tituloChamado']; ?></td>
-                            <td class="px-6 py-4"><?php echo $chamados['autorNome']; ?></td>
+                            <td class="px-6 py-4"><?php echo $chm['chamadoId']; ?></td>
+                            <td class="px-6 py-4"><?php echo $chm['status']; ?></td>
+                            <td class="px-6 py-4"><?php echo $chm['dtAbertura']; ?></td>
+                            <td class="px-6 py-4"><?php echo $chm['tipoChamado']; ?></td>
+                            <td class="px-6 py-4"><?php echo $chm['tituloChamado']; ?></td>
+                            <td class="px-6 py-4"><?php echo $chm['autorNome']; ?></td>
                             <td class="px-6 py-4">
-                                <a href="detalhesChamados.php?id=<?= $chamados['chamadoId']; ?>" class="text-blue-600 hover:underline">Selecionar</a>
+                                <a href="detalhesChamados.php?id=<?= $chm['chamadoId']; ?>" class="text-blue-600 hover:underline">Selecionar</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

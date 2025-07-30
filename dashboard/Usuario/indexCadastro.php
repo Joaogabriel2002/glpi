@@ -24,6 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $nome = $_POST['nome'];
         if (strlen($nome) < 3) {
             $erro['nome'] = 1;
+            
         } else {
             $usuario->setNome($nome);
         }
@@ -40,9 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $setorEscolhido = $_POST['setor'];
 
         if ($setorEscolhido === "TI") {
-            $mensagemErro = "Você não tem permissão para cadastrar no setor TI.";
-        } else {
-            $usuario->setSetor($setorEscolhido);
+             $usuario->setSetor($setorEscolhido);
 
             if (in_array(1, $erro)) {
                 $mensagemErro = "Erro no preenchimento, verifique os campos.";
@@ -53,6 +52,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     $mensagemErro = "Erro ao cadastrar o usuário!";
                 }
             }
+            
+        } else {
+            
         }
     }
 }

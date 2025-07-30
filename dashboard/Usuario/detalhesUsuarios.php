@@ -76,14 +76,14 @@ $detalhesUsuario = $usuario->listarUsuariosPorId($idAtual);
 
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-700">Nome:</label>
-                    <input type="text" name="nome" value="<?= htmlspecialchars($detalhesUsuario['nome']); ?>" required
-                        class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600">
+                    <input type="text" name="nome" value="<?= htmlspecialchars($detalhesUsuario['nome']); ?>" readonly
+                        class="w-full px-4 py-2 border border-gray-300 rounded bg-gray-100 text-gray-600 cursor-not-allowed">
                 </div>
 
                 <div>
                     <label class="block mb-1 text-sm font-medium text-gray-700">Email:</label>
-                    <input type="email" name="email" value="<?= htmlspecialchars($detalhesUsuario['email']); ?>" required
-                        class="w-full px-4 py-2 border border-gray-300 rounded bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-600">
+                    <input type="email" name="email" value="<?= htmlspecialchars($detalhesUsuario['email']); ?>" readonly
+                        class="w-full px-4 py-2 border border-gray-300 rounded bg-gray-100 text-gray-600 cursor-not-allowed">
                 </div>
 
                 <div>

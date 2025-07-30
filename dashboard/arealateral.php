@@ -117,13 +117,10 @@ $setor = $_SESSION['setor'];
                     <a href="/sistemaglpi/dashboard/ControleMaterial/Itens/GerenciarEstoque/incluirEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Entrada Item</a>
                     <a href="/sistemaglpi/dashboard/ControleMaterial/Itens/GerenciarEstoque/baixarEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Baixa Item</a>
                     <a href="/sistemaglpi/dashboard/Itens/visualizarEstoque.php" class="p-2 hover:bg-[#2E2E2E] text-white">Visualizar Estoque</a>
-                    <a href="/sistemaglpi/dashboard/ControleMaterial/Itens/GerenciarEstoque/visualizarMovimentacao.php" class="p-2 hover:bg-[#2E2E2E] text-white">Visualizar Movimentações</a>
-                    <!--<a href="/sistemaglpi/dashboard/Itens/listaItens.php" class="p-2 hover:bg-[#2E2E2E] text-white">Listar Itens</a>-->
-
+                    <!--<a href="/sistemaglpi/dashboard/ControleMaterial/Itens/GerenciarEstoque/visualizarMovimentacao.php" class="p-2 hover:bg-[#2E2E2E] text-white">Visualizar Movimentações</a>-->
                 </div>
             </div>
 
-            <!-- Cadastro -->
             <div class="relative group">
                 <button class="bg-[#2E2E2E] hover:bg-[#4B5563] text-white text-left p-2 rounded w-full">
                     Cadastro

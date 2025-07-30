@@ -174,8 +174,6 @@ class Imobilizados extends Conexao
     }
 
 
-
-    // Buscar imobilizado pelo id
     public function buscarPorId($id)
     {
         $sql = "SELECT * FROM imobilizados WHERE id = :id LIMIT 1";

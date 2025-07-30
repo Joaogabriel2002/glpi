@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__. '../../../php/Imobilizados.php';
+require_once __DIR__ . '../../../php/Imobilizados.php';
 $msg = "";
 
 session_start();
@@ -43,17 +43,21 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 </head>
 
 <body class="flex h-screen font-sans">
- <?php require_once __DIR__.  '../../arealateral.php'; ?>
+    <?php require_once __DIR__ .  '../../arealateral.php'; ?>
 
     <main class="flex-1 p-8 bg-gray-300 max-h-screen h-full overflow-auto">
         <div class="w-full max-w-3xl mx-auto bg-white p-6 rounded-lg shadow-md mb-6">
             <h2 class="text-xl font-semibold text-gray-800 mb-4">Cadastro de Equipamentos</h2>
-
-
             <?php if ($msg) : ?>
-                <div class="mensagem-feedback"><?= htmlspecialchars($msg) ?></div>
+                <?php
+                $isErro = str_contains($msg, 'Erro');
+                $corClasse = $isErro ? 'bg-red-100 text-red-700 border-red-400' : 'bg-green-100 text-green-700 border-green-400';
+                ?>
+                <div class="mb-4 border-l-4 p-4 rounded <?= $corClasse ?>">
+                    <?= htmlspecialchars($msg) ?>
+                </div>
             <?php endif; ?>
-            <h2 class="form-title">Cadastro de Modelo de Equipamentos</h2>
+
 
             <form class="space-y-5" action="cadastroImobilizados.php" method="POST" id="form-estoque">
                 <input type="hidden" name="status" value="Aberto">
@@ -75,6 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                             <option value="Impressora">Impressora</option>
                             <option value="Impressora Térmica">Impressora Térmica</option>
                             <option value="Notebook">Notebook</option>
+                            <option value="Disp. Móvel">Disp. Móvel</option>
                             <option value="Outros">Outros</option>
                         </select>
                         <br><br>

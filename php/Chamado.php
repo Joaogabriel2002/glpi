@@ -307,7 +307,7 @@ class Chamado extends Conexao
         }
     }
 
-    public function listarTodosChamadosPorId3($status = '', $chamadoId = '')
+public function listarTodosChamadosPorId3($status = '', $chamadoId = '')
 {
     $sql = "SELECT * FROM chamados WHERE 1=1";
 
@@ -321,7 +321,8 @@ class Chamado extends Conexao
         $sql .= " AND chamadoId = :chamadoId";
     }
 
-    $sql .= " ORDER BY FIELD(tipoChamado, 'Alta', 'Média', 'Baixa')DESC, tipoChamado IS NULL ASC";
+    // Ordenar pela data mais recente
+    $sql .= " ORDER BY dtAbertura ASC";
 
     $stmt = $this->conn->prepare($sql);
 
