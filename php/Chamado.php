@@ -328,7 +328,7 @@ class Chamado extends Conexao
             $sql .= " AND (autorNome LIKE :filtro OR autorSetor LIKE :filtro)";
         }
 
-        $sql .= " ORDER BY dtAbertura DESC";
+        $sql .= " ORDER BY dtAbertura ASC";
 
         $stmt = $this->conn->prepare($sql);
 
