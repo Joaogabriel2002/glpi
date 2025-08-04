@@ -1,40 +1,52 @@
-# 🧑‍💻 Sistema de Gerenciamento de Chamados - Chesiquimica
+# Sistema de Gerenciamento Interno da parte de TI
 
-![Dashboard](img/chesiquimica-logo-png.png)
 
-Bem-vindo ao **sistema online de chamados da Chesiquimica**! Esta aplicação foi desenvolvida para facilitar o controle de chamados técnicos, solicitações de tonner, visualização de cardápio e previsão do tempo — tudo em uma única interface simples, moderna e intuitiva.
-
----
-
-## ✨ Funcionalidades
-
-- 📌 **Dashboard Interativo** com resumo dos chamados e solicitações.
-- 📝 **Abertura e listagem de chamados técnicos**.
-- 🖨️ **Solicitação de Tonner** com envio automático de e-mail para o setor responsável.
-- 🍛 **Cardápio diário** da empresa, integrado ao frontend.
-- 🌤️ **Previsão do tempo em tempo real**, integrada com a API da OpenWeatherMap.
-- 🔐 **Autenticação de usuário** com controle de sessão.
-- ⚙️ Painéis personalizados por **setor** (ex: TI, Administrativo, etc).
+Esta aplicação foi desenvolvida para facilitar e organizar processos internos da empresa — incluindo controle de estoque, equipamentos, chamados em uma única interface simples e intuitiva.
 
 ---
 
-## 💻 Print do Sistema
+## Funcionalidades
 
-### 🎯 Tela Principal - Dashboard
+-  **Controle de Estoque** com consulta e gerenciamento de itens.
+-  **Controle de Equipamentos de Valor**, com vinculação e rastreamento.
+-  **Gerenciamento de Usuários** com níveis de acesso.
+-  **Abertura e Acompanhamento de Chamados Técnicos**.
+-  **Solicitação e Acompanhamento de Tonner** com envio automático de e-mail.
+-  **Mural de Avisos** para comunicação interna.
+-  **Cardápio Diário** da empresa exibido diretamente na interface.
+-  **Autenticação de Usuário** com controle de sessão.
+-  **Envio de E-mails Automatizados** para notificações e confirmações.
+-  **[Em construção] Controle de Manutenção de Equipamentos**.
+
+---
+
+##  Demonstração em Vídeo
+
+> Assista a um simples vídeo demonstrativo das principais funções do sistema no YouTube:
+
+[Link do vídeo](https://www.youtube.com/watch?v=nlk0t9LmPww)
+
+
+---
+
+##  Print do Sistema
+
+###  Tela Principal - Dashboard
 
 ![Dashboard Screenshot](img/dashboard.png)
 
-O dashboard exibe os dados mais relevantes de forma clara e objetiva:
+O dashboard exibe as informações mais relevantes de forma clara e objetiva:
 
-- Quantidade de chamados abertos
-- Quantidade de solicitações pendentes
-- Cardápio da empresa para o dia atual
-- Mural de avisos personalizável
-- Previsão do tempo para a cidade da empresa (ex: Ponta Grossa)
+- Quantidade de chamados abertos ( para usuarios com setor=TI )
+- Solicitações de tonner pendentes ( para usuarios com setor=TI )
+- Equipamentos registrados ( para usuarios com setor=TI )
+- Itens em estoque ( para usuarios com setor=TI )
+- Mural de avisos atualizado
+- Cardápio do dia
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+##  Tecnologias Utilizadas
 
 | Tecnologia | Função |
 |------------|--------|
@@ -42,5 +54,18 @@ O dashboard exibe os dados mais relevantes de forma clara e objetiva:
 | `MySQL` | Banco de dados relacional |
 | `Tailwind CSS` | Estilização moderna e responsiva |
 | `JavaScript` | Interatividade no frontend |
-| `OpenWeatherMap API` | Dados de clima em tempo real |
-| `Google Sheets API` (opcional) | Integração com dados externos |
+| `PHPMailer` | Envio de e-mails |
+
+---
+
+
+---
+
+##  Contribuição
+
+Este projeto foi desenvolvido por [Joao Gabriel](https://github.com/Joaogabriel2002) em colaboração com [Bernardo](https://github.com/bernardobernardo23), mas ideias e melhorias são sempre bem-vindas.  
+Caso queira sugerir algo, entre em contato com o administrador do sistema.
+
+---
+
+
